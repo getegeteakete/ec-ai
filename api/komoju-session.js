@@ -1,8 +1,9 @@
 // ============================================================
 // Vercel Function: /api/komoju-session
-// 対応決済: クレジットカード / コンビニ / PayPay / 銀行振込
+// 対応決済: クレカ / コンビニ / PayPay / 銀行振込
 //
-// 【Vercel環境変数】KOMOJU_SECRET_KEY = sk_live_xxxxx
+// 【Vercel環境変数】
+//   KOMOJU_SECRET_KEY = [非公開鍵をVercel環境変数に設定]
 // ============================================================
 
 export default async function handler(req, res) {
@@ -24,7 +25,7 @@ export default async function handler(req, res) {
     konbini:       ['konbini'],
     paypay:        ['paypay'],
     bank_transfer: ['bank_transfer'],
-    all:           ['credit_card','konbini','paypay','bank_transfer'],
+    all:           ['credit_card', 'konbini', 'paypay', 'bank_transfer'],
   };
   const paymentTypes = PAYMENT_MAP[paymentType] || PAYMENT_MAP['all'];
 
@@ -37,9 +38,13 @@ export default async function handler(req, res) {
       default_locale:     'ja',
       payment_types:      paymentTypes,
       email:              email || undefined,
-      metadata: { order_number: orderNo, shop_name: '米粉バウムクーヘン工房 未来図' },
+      metadata: {
+        order_number: orderNo,
+        shop_name:   '米粉バウムクーヘン工房 未来図',
+      },
     };
 
+    // 商品明細
     if (items && items.length > 0) {
       body.line_items = items.map(i => ({
         description: i.description,
@@ -49,6 +54,7 @@ export default async function handler(req, res) {
       }));
     }
 
+    // 顧客情報（不正検出向上・コンビニ/PayPay等で推奨）
     if (customer) {
       body.customer = {
         given_name:  customer.first || '',
@@ -58,10 +64,10 @@ export default async function handler(req, res) {
       };
       if (customer.addr1) {
         body.shipping_address = {
-          postal_code: (customer.zip || '').replace('-',''),
-          region:       customer.pref  || '',
+          postal_code: (customer.zip || '').replace('-', ''),
+          region:       customer.pref || '',
           locality:    '',
-          street:       customer.addr1 + (customer.addr2 ? ' '+customer.addr2 : ''),
+          street:       customer.addr1 + (customer.addr2 ? ' ' + customer.addr2 : ''),
           country:     'JP',
         };
       }
@@ -84,7 +90,10 @@ export default async function handler(req, res) {
       return res.status(response.status).json({ error: data.error?.message || 'KOMOJU APIエラー' });
     }
 
-    return res.status(200).json({ session_id: data.id, session_url: data.session_url });
+    return res.status(200).json({
+      session_id:  data.id,
+      session_url: data.session_url,
+    });
 
   } catch (err) {
     console.error('Server error:', err);

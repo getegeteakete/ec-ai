@@ -1,6 +1,6 @@
 // ============================================================
 // Vercel Function: /api/komoju-verify
-// KOMOJUのセッションステータスを確認して決済完了を検証
+// 決済完了確認（return_url から戻ってきた時に呼ぶ）
 // ============================================================
 
 export default async function handler(req, res) {
@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).json({ error: 'Method not allowed' });
 
   const secretKey = process.env.KOMOJU_SECRET_KEY;
-  if (!secretKey) return res.status(500).json({ error: '非公開鍵未設定' });
+  if (!secretKey) return res.status(500).json({ error: 'KOMOJU_SECRET_KEY 未設定' });
 
   const { session_id } = req.query;
   if (!session_id) return res.status(400).json({ error: 'session_id が必要です' });
@@ -24,13 +24,10 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-
-    if (!response.ok) {
-      return res.status(response.status).json({ error: 'セッション取得失敗', details: data });
-    }
+    if (!response.ok) return res.status(response.status).json({ error: 'セッション取得失敗' });
 
     return res.status(200).json({
-      status:     data.status,        // 'pending' / 'completed' / 'expired'
+      status:     data.status,
       payment_id: data.payment?.id,
       amount:     data.amount,
       order_num:  data.external_order_num,
