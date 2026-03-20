@@ -398,7 +398,25 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 .fade-a{animation:fadeUp .55s ease forwards}.fade-b{animation:fadeUp .55s .14s ease both}.fade-c{animation:fadeUp .55s .28s ease both}
 
-/* ── KOMOJU / CARD FORM ── */
+/* ── 決済方法選択UI ── */
+.pay-select-wrap{display:flex;flex-direction:column;gap:10px;margin-bottom:4px}
+.pay-sel-card{border:2px solid var(--border);border-radius:14px;padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:all .22s;background:#fff}
+.pay-sel-card:hover{border-color:var(--honey-lt);background:rgba(212,145,58,.03)}
+.pay-sel-card.act{border-color:var(--honey);background:rgba(212,145,58,.06);box-shadow:0 2px 14px rgba(212,145,58,.15)}
+.pay-sel-radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.pay-sel-card.act .pay-sel-radio{border-color:var(--honey);background:var(--honey)}
+.pay-sel-card.act .pay-sel-radio::after{content:'';width:8px;height:8px;background:#fff;border-radius:50%}
+.pay-sel-ico{font-size:1.8rem;flex-shrink:0;width:36px;text-align:center}
+.pay-sel-info{flex:1}
+.pay-sel-name{font-weight:700;font-size:.95rem;color:var(--text);margin-bottom:3px}
+.pay-sel-desc{font-size:.76rem;color:var(--text-l);line-height:1.5}
+.pay-sel-logos{display:flex;align-items:center;gap:6px;margin-top:6px}
+.pay-logo-img{height:22px;object-fit:contain;border:1px solid var(--border);border-radius:3px;padding:2px 5px;background:#fff}
+.pay-logo-txt{font-size:.68rem;font-weight:800;color:#016FCA;border:1px solid var(--border);border-radius:3px;padding:3px 6px;background:#fff}
+.pay-sel-note{font-size:.72rem;color:var(--text-l);white-space:nowrap;flex-shrink:0;background:var(--cream);border-radius:5px;padding:4px 8px}
+.pay-sel-card.act .pay-sel-note{background:rgba(212,145,58,.12);color:var(--honey-dk);font-weight:600}
+
+/* ── 決済方法CSS既存分の整理 ── */
 .komoju-wrap{background:#fff;border-radius:var(--rl);padding:26px;box-shadow:0 4px 22px var(--shadow);margin-bottom:22px;border:1px solid var(--border)}
 .card-brand-row{display:flex;align-items:center;gap:10px;margin-bottom:20px}
 .card-brand-img{height:26px;object-fit:contain;border:1px solid var(--border);border-radius:4px;padding:2px 6px;background:#fff}
@@ -874,74 +892,80 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
         </div>
       </div>
 
-      <!-- KOMOJU クレジットカード入力 -->
-      <h3 class="co-sec-title" style="margin-top:32px">💳 クレジットカード情報</h3>
+      <!-- お支払い方法選択 -->
+      <h3 class="co-sec-title" style="margin-top:32px">💳 お支払い方法を選択</h3>
 
-      <div class="komoju-wrap">
-        <div class="card-brand-row">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="VISA" class="card-brand-img">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="MC" class="card-brand-img">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/JCB_logo.svg" alt="JCB" class="card-brand-img">
-          <span class="card-brand-amex">AMEX</span>
-        </div>
-
-        <!-- KOMOJU Fields SDK埋め込み点 -->
-        <!-- ★ 本番実装時: komoju-fields Web Component を使用 -->
-        <!-- <script src="https://komoju.com/sdk/v1/fields.js" data-komoju-publishable-key="YOUR_PK"></script> -->
-        <!-- <komoju-fields id="komoju-fields" session="SESSION_TOKEN"></komoju-fields> -->
-
-        <!-- フロント側カード入力UI（KOMOJU設定前の動作確認用） -->
-        <div class="card-form" id="cardForm">
-          <div class="form-group" style="margin-bottom:14px">
-            <label style="font-size:.83rem;font-weight:600;color:var(--text)">カード番号<span class="req">*必須</span></label>
-            <div class="card-input-wrap">
-              <input class="form-input card-num-input" type="text" id="cardNumber" placeholder="1234 5678 9012 3456"
-                maxlength="19" oninput="fmtCardNum(this)" inputmode="numeric" autocomplete="cc-number">
-              <span class="card-type-ico" id="cardTypeIco"></span>
+      <div class="pay-select-wrap">
+        <!-- クレジットカード -->
+        <div class="pay-sel-card act" data-method="credit_card" onclick="selectPayMethod(this)">
+          <div class="pay-sel-radio"></div>
+          <div class="pay-sel-ico">💳</div>
+          <div class="pay-sel-info">
+            <div class="pay-sel-name">クレジット・デビットカード</div>
+            <div class="pay-sel-desc">VISA / Mastercard / JCB / AMEX</div>
+            <div class="pay-sel-logos">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="VISA" class="pay-logo-img">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="MC" class="pay-logo-img">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/JCB_logo.svg" alt="JCB" class="pay-logo-img">
+              <span class="pay-logo-txt">AMEX</span>
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label style="font-size:.83rem;font-weight:600;color:var(--text)">有効期限<span class="req">*必須</span></label>
-              <input class="form-input" type="text" id="cardExpiry" placeholder="MM / YY"
-                maxlength="7" oninput="fmtExpiry(this)" inputmode="numeric" autocomplete="cc-exp">
-            </div>
-            <div class="form-group">
-              <label style="font-size:.83rem;font-weight:600;color:var(--text)">セキュリティコード<span class="req">*必須</span></label>
-              <div style="position:relative">
-                <input class="form-input" type="text" id="cardCvc" placeholder="CVV"
-                  maxlength="4" oninput="this.value=this.value.replace(/\D/g,'')" inputmode="numeric" autocomplete="cc-csc">
-                <span class="cvc-tip" title="カード裏面の3桁（AMEXは表面4桁）">?</span>
-              </div>
-            </div>
-          </div>
-          <div class="form-group" style="margin-top:4px">
-            <label style="font-size:.83rem;font-weight:600;color:var(--text)">カード名義（半角ローマ字）<span class="req">*必須</span></label>
-            <input class="form-input" type="text" id="cardName" placeholder="HANAKO YAMADA"
-              style="text-transform:uppercase" autocomplete="cc-name">
-          </div>
+          <div class="pay-sel-note">即時決済</div>
         </div>
 
-        <div class="ssl-row">
-          <span class="ssl-badge">🔒 SSL暗号化通信</span>
-          <span class="ssl-badge">🛡️ PCI DSS準拠</span>
-          <span class="ssl-badge">✅ 3Dセキュア対応</span>
+        <!-- コンビニ決済 -->
+        <div class="pay-sel-card" data-method="konbini" onclick="selectPayMethod(this)">
+          <div class="pay-sel-radio"></div>
+          <div class="pay-sel-ico">🏪</div>
+          <div class="pay-sel-info">
+            <div class="pay-sel-name">コンビニ決済</div>
+            <div class="pay-sel-desc">セブン-イレブン / ローソン / ファミリーマート / デイリーヤマザキ</div>
+          </div>
+          <div class="pay-sel-note">翌日確認</div>
         </div>
-        <div class="komoju-note">
-          カード情報はKOMOJU（Degica Co., Ltd.）の安全なサーバーで処理されます。当店ではカード情報を保持しません。
+
+        <!-- PayPay -->
+        <div class="pay-sel-card" data-method="paypay" onclick="selectPayMethod(this)">
+          <div class="pay-sel-radio"></div>
+          <div class="pay-sel-ico" style="font-size:1.6rem">🔴</div>
+          <div class="pay-sel-info">
+            <div class="pay-sel-name">PayPay</div>
+            <div class="pay-sel-desc">PayPayアプリでかんたんお支払い</div>
+          </div>
+          <div class="pay-sel-note">即時決済</div>
+        </div>
+
+        <!-- 銀行振込 -->
+        <div class="pay-sel-card" data-method="bank_transfer" onclick="selectPayMethod(this)">
+          <div class="pay-sel-radio"></div>
+          <div class="pay-sel-ico">🏦</div>
+          <div class="pay-sel-info">
+            <div class="pay-sel-name">銀行振込（Pay-easy）</div>
+            <div class="pay-sel-desc">各種ネットバンキング対応。入金確認後に発送。</div>
+          </div>
+          <div class="pay-sel-note">要入金確認</div>
         </div>
       </div>
 
-      <label class="agree-check">
+      <div class="ssl-row" style="margin-top:16px">
+        <span class="ssl-badge">🔒 SSL暗号化</span>
+        <span class="ssl-badge">🛡️ PCI DSS準拠</span>
+        <span class="ssl-badge">✅ KOMOJU決済</span>
+      </div>
+      <div class="komoju-note">
+        「注文を確定する」を押すとKOMOJUの安全な決済ページに移動します。カード情報は当店のサーバーを経由しません。
+      </div>
+
+      <label class="agree-check" style="margin-top:20px">
         <input type="checkbox" id="agreeChk">
         <span><a href="#" style="color:var(--honey)">利用規約</a>および<a href="#" style="color:var(--honey)">プライバシーポリシー</a>に同意します</span>
       </label>
 
       <button class="place-btn" id="placeBtn" onclick="placeOrder()">
-        🔒 注文を確定して決済する
+        🔒 注文を確定して決済ページへ
       </button>
       <p style="text-align:center;font-size:.75rem;color:var(--text-l);margin-top:8px">
-        ※ KOMOJUの決済完了後、自動的に完了画面に移動します
+        ※ KOMOJUの決済ページで支払い情報を入力します
       </p>
 
       <div class="form-nav" style="margin-top:22px">
@@ -1789,6 +1813,15 @@ function fmtExpiry(el){
   el.value = v;
 }
 
+// 選択中の決済方法
+let selectedPayMethod = 'credit_card';
+
+function selectPayMethod(el){
+  document.querySelectorAll('.pay-sel-card').forEach(c => c.classList.remove('act'));
+  el.classList.add('act');
+  selectedPayMethod = el.dataset.method;
+}
+
 // ══════════════════════════════════════════════
 // ① 注文確定 → KOMOJU決済セッション作成 → リダイレクト
 // ══════════════════════════════════════════════
@@ -1796,26 +1829,15 @@ async function placeOrder(){
   if(!document.getElementById('agreeChk').checked){
     showToast('⚠️ 利用規約に同意してください'); return;
   }
-  // カードバリデーション
-  const cardNum  = document.getElementById('cardNumber')?.value.replace(/\s/g,'') || '';
-  const cardExp  = document.getElementById('cardExpiry')?.value || '';
-  const cardCvc  = document.getElementById('cardCvc')?.value || '';
-  const cardName = document.getElementById('cardName')?.value.trim() || '';
-  if(cardNum.length < 13){ showToast('⚠️ カード番号を正しく入力してください'); return; }
-  if(cardExp.length < 7){  showToast('⚠️ 有効期限を入力してください'); return; }
-  if(cardCvc.length < 3){  showToast('⚠️ セキュリティコードを入力してください'); return; }
-  if(!cardName){           showToast('⚠️ カード名義を入力してください'); return; }
 
   const btn = document.getElementById('placeBtn');
   btn.disabled = true;
   btn.textContent = '⏳ 決済ページへ移動中...';
 
-  // 金額計算
   const sub   = cart.reduce((s,c) => s + c.price * c.qty, 0);
   const ship  = sub >= 5000 ? 0 : 660;
   const total = sub + ship - discountAmt;
 
-  // お届け先
   const customer = {
     last:  document.getElementById('f-last')?.value  || '',
     first: document.getElementById('f-first')?.value || '',
@@ -1828,83 +1850,70 @@ async function placeOrder(){
     note:  document.getElementById('f-note')?.value  || '',
   };
 
-  // 注文番号を事前生成（KOMOJUのexternal_order_numに使用）
   const orderNo  = '#MIRAIS-' + Math.random().toString(36).substr(2,8).toUpperCase();
   const orderDate = new Date().toLocaleString('ja-JP',{
     year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'
   });
 
-  // 注文を保存（決済前に保存しておく）
   const newOrder = {
     id: orderNo, date: orderDate, customer,
     items: [...cart], sub, ship, discount: discountAmt, total,
     status: 'pending', trackingNo:'', trackingUrl:'', receiptSent: false,
+    paymentMethod: selectedPayMethod,
   };
   orders.unshift(newOrder);
   localStorage.setItem('mirais_orders', JSON.stringify(orders));
-  // 現在の注文IDをセッションストレージに保存（決済後に参照）
   sessionStorage.setItem('mirais_pending_order', orderNo);
 
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  // ★ 本番：Vercel Function経由でKOMOJUセッション作成
-  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // ── Vercel Function経由でKOMOJUセッション作成 ──
   try {
     const res = await fetch(KOMOJU_CONFIG.sessionEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        amount:    total,
-        currency:  'JPY',
+        amount:      total,
+        currency:    'JPY',
         orderNo,
-        email:     customer.email,
-        returnUrl: KOMOJU_CONFIG.returnUrl,
+        email:       customer.email,
+        paymentType: selectedPayMethod,   // ← 選択した決済方法を送信
+        returnUrl:   KOMOJU_CONFIG.returnUrl,
         items: cart.map(c => ({
           description: `${c.name}（${c.size}）`,
           quantity:    c.qty,
           amount:      c.price,
           currency:    'JPY',
         })),
-        shipping: {
-          address: `〒${customer.zip} ${customer.pref}${customer.addr1}${customer.addr2 ? ' '+customer.addr2 : ''}`,
-          name:    `${customer.last} ${customer.first}`,
-          phone:   customer.tel,
-        },
+        customer,
       }),
     });
 
     if(!res.ok){
       const err = await res.json().catch(()=>({}));
-      throw new Error(err.message || `サーバーエラー (${res.status})`);
+      throw new Error(err.error || `サーバーエラー (${res.status})`);
     }
 
     const { session_url } = await res.json();
-    // KOMOJUの決済ページへリダイレクト
-    window.location.href = session_url;
+    window.location.href = session_url;   // KOMOJUの決済ページへ！
     return;
 
   } catch(e) {
     console.error('KOMOJU session error:', e);
 
-    // ─── Vercel Function未設定時のフォールバック（デモ完了） ───
-    if(e.message && (e.message.includes('Failed to fetch') || e.message.includes('404') || e.message.includes('NetworkError'))){
-      // Vercel Functionがまだデプロイされていない場合はデモ完了
-      await new Promise(r => setTimeout(r, 1000));
+    // Vercel Function未デプロイ時はデモ完了フロー
+    if(e.message.includes('Failed to fetch') || e.message.includes('404')){
+      await new Promise(r => setTimeout(r, 1200));
       await sendReceiptEmail(newOrder);
       cart = []; discountAmt = 0; saveCart();
       document.getElementById('orderNum').textContent = orderNo;
       showPage('complete');
       window.scrollTo(0,0);
-      btn.disabled = false;
-      btn.textContent = '🔒 注文を確定して決済する';
-      return;
+    } else {
+      showToast(`❌ ${e.message}`);
+      orders.shift();
+      localStorage.setItem('mirais_orders', JSON.stringify(orders));
     }
-
-    showToast(`❌ ${e.message}`);
     btn.disabled = false;
-    btn.textContent = '🔒 注文を確定して決済する';
-    // 注文保存をロールバック
-    orders.shift();
-    localStorage.setItem('mirais_orders', JSON.stringify(orders));
+    btn.textContent = '🔒 注文を確定して決済ページへ';
   }
 }
 
