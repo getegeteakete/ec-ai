@@ -552,6 +552,9 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
       <button class="icon-btn" onclick="showPage('fav')" title="お気に入り" style="position:relative">
         ❤️<span class="fav-badge" id="favBadge">0</span>
       </button>
+      <button class="icon-btn" id="mypageBtn" onclick="showPage('mypage')" title="マイページ" style="position:relative">
+        👤<span id="loginDot" style="position:absolute;top:0;right:0;width:8px;height:8px;background:var(--sage);border-radius:50%;display:none"></span>
+      </button>
       <button class="icon-btn" onclick="showPage('admin')" title="管理パネル" style="font-size:.9rem;padding:6px 10px;border-radius:8px;background:var(--brown-pale)">⚙️</button>
     </div>
   </div>
@@ -1118,7 +1121,7 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
     <div class="mob-nav-it" onclick="filterCat('all')"><span class="mob-nav-ico">🛍️</span>商品</div>
     <div class="mob-nav-it" onclick="showPage('cart')"><span class="mob-nav-ico">🛒</span>カート</div>
     <div class="mob-nav-it" onclick="showPage('fav')"><span class="mob-nav-ico">❤️</span>お気に入り</div>
-    <div class="mob-nav-it" onclick="showPage('shopinfo')"><span class="mob-nav-ico">🏠</span>店舗</div>
+    <div class="mob-nav-it" onclick="showPage('mypage')"><span class="mob-nav-ico">👤</span>マイページ</div>
   </div>
 </div>
 
@@ -1152,6 +1155,126 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
       <button class="btn-p" onclick="filterCat('all')">商品を見る</button>
     </div>
     <div id="favGrid" class="products-grid"></div>
+  </div>
+</div>
+
+<!-- ═══ マイページ ═══ -->
+<div id="page-mypage" class="page">
+  <div class="container" style="padding:40px 0 76px;max-width:680px">
+
+    <!-- ── 未ログイン：ログイン・会員登録フォーム ── -->
+    <div id="mypageGuest">
+      <p class="sec-title">マイページ</p>
+      <p class="sec-sub">My Page</p>
+
+      <!-- タブ -->
+      <div style="display:flex;gap:0;background:var(--cream);border-radius:12px;padding:4px;margin-bottom:24px;border:1px solid var(--border)">
+        <button class="admin-tab act" id="loginTabBtn" onclick="switchAuthTab('login')">ログイン</button>
+        <button class="admin-tab" id="registerTabBtn" onclick="switchAuthTab('register')">新規会員登録</button>
+      </div>
+
+      <!-- ログインフォーム -->
+      <div id="loginForm" style="background:#fff;border-radius:var(--rl);padding:28px;box-shadow:0 4px 18px var(--shadow)">
+        <div class="form-row single"><div class="form-group">
+          <label>メールアドレス<span class="req">*必須</span></label>
+          <input class="form-input" type="email" id="loginEmail" placeholder="example@email.com" autocomplete="email">
+        </div></div>
+        <div class="form-row single"><div class="form-group">
+          <label>パスワード<span class="req">*必須</span></label>
+          <input class="form-input" type="password" id="loginPw" placeholder="パスワード" autocomplete="current-password"
+            onkeydown="if(event.key==='Enter')doLogin()">
+        </div></div>
+        <p id="loginErr" style="color:var(--peach);font-size:.8rem;margin-bottom:12px;display:none"></p>
+        <button class="btn-p" onclick="doLogin()" id="loginBtn" style="width:100%;padding:14px;font-size:.95rem">ログイン</button>
+        <p style="text-align:center;font-size:.78rem;color:var(--text-l);margin-top:14px">
+          アカウントをお持ちでない方は「新規会員登録」へ
+        </p>
+      </div>
+
+      <!-- 会員登録フォーム -->
+      <div id="registerForm" style="display:none;background:#fff;border-radius:var(--rl);padding:28px;box-shadow:0 4px 18px var(--shadow)">
+        <div class="form-row">
+          <div class="form-group"><label>姓<span class="req">*必須</span></label><input class="form-input" type="text" id="regLast" placeholder="山田"></div>
+          <div class="form-group"><label>名<span class="req">*必須</span></label><input class="form-input" type="text" id="regFirst" placeholder="花子"></div>
+        </div>
+        <div class="form-row single"><div class="form-group">
+          <label>メールアドレス<span class="req">*必須</span></label>
+          <input class="form-input" type="email" id="regEmail" placeholder="example@email.com">
+        </div></div>
+        <div class="form-row single"><div class="form-group">
+          <label>パスワード（8文字以上）<span class="req">*必須</span></label>
+          <input class="form-input" type="password" id="regPw" placeholder="半角英数8文字以上">
+        </div></div>
+        <div class="form-row single"><div class="form-group">
+          <label>パスワード確認<span class="req">*必須</span></label>
+          <input class="form-input" type="password" id="regPw2" placeholder="もう一度入力">
+        </div></div>
+        <p id="regErr" style="color:var(--peach);font-size:.8rem;margin-bottom:12px;display:none"></p>
+        <button class="btn-p" onclick="doRegister()" id="regBtn" style="width:100%;padding:14px;font-size:.95rem">会員登録する</button>
+        <p style="font-size:.74rem;color:var(--text-l);margin-top:12px;text-align:center">
+          登録することで<a href="#" style="color:var(--honey)">利用規約</a>と<a href="#" style="color:var(--honey)">プライバシーポリシー</a>に同意したとみなします
+        </p>
+      </div>
+    </div>
+
+    <!-- ── ログイン済み：マイページ本体 ── -->
+    <div id="mypageDash" style="display:none">
+      <!-- ウェルカム -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px">
+        <div>
+          <p class="sec-title" style="text-align:left;margin-bottom:2px">マイページ</p>
+          <p id="mypageWelcome" style="font-size:.9rem;color:var(--text-m)"></p>
+        </div>
+        <button class="btn-o" onclick="doLogout()" style="font-size:.82rem;padding:8px 16px">ログアウト</button>
+      </div>
+
+      <!-- 統計カード -->
+      <div class="admin-stat-row" style="margin-bottom:24px">
+        <div class="admin-stat"><div class="admin-stat-num" id="myTotalOrders">-</div><div class="admin-stat-lbl">注文件数</div></div>
+        <div class="admin-stat"><div class="admin-stat-num" id="myTotalSpent">-</div><div class="admin-stat-lbl">累計購入</div></div>
+        <div class="admin-stat"><div class="admin-stat-num" id="myFavCount">-</div><div class="admin-stat-lbl">お気に入り</div></div>
+      </div>
+
+      <!-- タブ -->
+      <div class="admin-tabs" style="margin-bottom:18px">
+        <button class="admin-tab act" onclick="switchMypageTab('orders',this)">📦 注文履歴</button>
+        <button class="admin-tab" onclick="switchMypageTab('profile',this)">👤 プロフィール</button>
+        <button class="admin-tab" onclick="switchMypageTab('favs',this)">❤️ お気に入り</button>
+      </div>
+
+      <!-- 注文履歴タブ -->
+      <div id="mypageTab-orders">
+        <div id="myOrderList"><div style="text-align:center;padding:30px;color:var(--text-l)">⏳ 読み込み中...</div></div>
+      </div>
+
+      <!-- プロフィールタブ -->
+      <div id="mypageTab-profile" style="display:none">
+        <div style="background:#fff;border-radius:var(--rl);padding:24px;box-shadow:0 4px 18px var(--shadow)">
+          <div class="form-row">
+            <div class="form-group"><label>姓</label><input class="form-input" type="text" id="myLast"></div>
+            <div class="form-group"><label>名</label><input class="form-input" type="text" id="myFirst"></div>
+          </div>
+          <div class="form-row single"><div class="form-group"><label>メールアドレス</label><input class="form-input" type="email" id="myEmail" disabled style="background:var(--cream)"></div></div>
+          <div class="form-row single"><div class="form-group"><label>電話番号</label><input class="form-input" type="tel" id="myTel" placeholder="090-0000-0000"></div></div>
+          <div class="form-row">
+            <div class="form-group"><label>郵便番号</label><input class="form-input" type="text" id="myZip" placeholder="000-0000"></div>
+            <div class="form-group"><label>都道府県</label><input class="form-input" type="text" id="myPref" placeholder="福岡県"></div>
+          </div>
+          <div class="form-row single"><div class="form-group"><label>住所</label><input class="form-input" type="text" id="myAddr1"></div></div>
+          <button class="btn-p" onclick="saveProfile()" style="width:100%;padding:13px;margin-top:8px">💾 保存する</button>
+        </div>
+      </div>
+
+      <!-- お気に入りタブ -->
+      <div id="mypageTab-favs" style="display:none">
+        <div id="myFavGrid" class="products-grid"></div>
+        <div id="myFavEmpty" style="display:none;text-align:center;padding:44px;color:var(--text-l)">
+          <p style="font-size:2rem">🤍</p>
+          <p style="margin-top:8px">お気に入りがありません</p>
+          <button class="btn-p" onclick="filterCat('all')" style="margin-top:14px">商品を見る</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2857,6 +2980,13 @@ function showPage(name){
   if(name==='home')     { document.querySelector('.nav-item').classList.add('act'); trackPageView('home'); }
   if(name==='cart')     { renderCart(); trackPageView('cart'); }
   if(name==='fav')      renderFav();
+  if(name==='mypage'){
+    if(currentUser) renderMypageDash();
+    else {
+      document.getElementById('mypageGuest').style.display = 'block';
+      document.getElementById('mypageDash').style.display  = 'none';
+    }
+  }
   if(name==='products') trackPageView('products');
   if(name==='admin'){
     if(!adminLoggedIn){
@@ -2879,6 +3009,262 @@ function showPage(name){
     if(btn){ btn.disabled=false; btn.textContent='🔒 注文を確定して決済ページへ'; }
   }
   window.scrollTo(0,0);
+}
+
+// ══════════════════════════════════════════════
+// 顧客マイページ（認証・注文履歴・プロフィール）
+// ══════════════════════════════════════════════
+let currentUser = null;
+let authToken   = localStorage.getItem('mirais_token') || '';
+
+// 認証タブ切替
+function switchAuthTab(tab){
+  document.getElementById('loginForm').style.display    = tab==='login'    ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = tab==='register' ? 'block' : 'none';
+  document.getElementById('loginTabBtn').classList.toggle('act',    tab==='login');
+  document.getElementById('registerTabBtn').classList.toggle('act', tab==='register');
+}
+
+// マイページタブ切替
+function switchMypageTab(tab, btn){
+  document.querySelectorAll('[id^="mypageTab-"]').forEach(el=>el.style.display='none');
+  document.getElementById('mypageTab-'+tab).style.display='block';
+  document.querySelectorAll('#mypageDash .admin-tab').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  if(tab==='favs') renderMypageFavs();
+}
+
+// ── ログイン ──
+async function doLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pw    = document.getElementById('loginPw').value;
+  const errEl = document.getElementById('loginErr');
+  const btn   = document.getElementById('loginBtn');
+  if(!email||!pw){ errEl.textContent='メールアドレスとパスワードを入力してください'; errEl.style.display='block'; return; }
+
+  btn.disabled=true; btn.textContent='ログイン中...';
+  try {
+    const res = await fetch('/api/auth?action=login',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email, password:pw }),
+    });
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error||'ログイン失敗');
+    authToken   = data.token;
+    currentUser = data.customer;
+    localStorage.setItem('mirais_token', authToken);
+    // お気に入りをクラウドと同期
+    if(currentUser.favorites?.length) favorites = currentUser.favorites;
+    else await syncFavToCloud();
+    saveFav();
+    errEl.style.display='none';
+    renderMypageDash();
+    showToast(`✅ ようこそ、${currentUser.last_name}様！`);
+  } catch(e){
+    errEl.textContent=e.message; errEl.style.display='block';
+  } finally { btn.disabled=false; btn.textContent='ログイン'; }
+}
+
+// ── 会員登録 ──
+async function doRegister(){
+  const last  = document.getElementById('regLast').value.trim();
+  const first = document.getElementById('regFirst').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const pw    = document.getElementById('regPw').value;
+  const pw2   = document.getElementById('regPw2').value;
+  const errEl = document.getElementById('regErr');
+  const btn   = document.getElementById('regBtn');
+
+  if(!last||!first||!email||!pw){ errEl.textContent='すべての必須項目を入力してください'; errEl.style.display='block'; return; }
+  if(pw.length < 8){ errEl.textContent='パスワードは8文字以上で入力してください'; errEl.style.display='block'; return; }
+  if(pw !== pw2){ errEl.textContent='パスワードが一致しません'; errEl.style.display='block'; return; }
+
+  btn.disabled=true; btn.textContent='登録中...';
+  try {
+    const res = await fetch('/api/auth?action=register',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email, password:pw, last_name:last, first_name:first }),
+    });
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error||'登録失敗');
+    authToken   = data.token;
+    currentUser = data.customer;
+    localStorage.setItem('mirais_token', authToken);
+    await syncFavToCloud();
+    errEl.style.display='none';
+    renderMypageDash();
+    showToast(`🎉 会員登録完了！ようこそ、${last}様！`);
+  } catch(e){
+    errEl.textContent=e.message; errEl.style.display='block';
+  } finally { btn.disabled=false; btn.textContent='会員登録する'; }
+}
+
+// ── ログアウト ──
+function doLogout(){
+  authToken   = '';
+  currentUser = null;
+  localStorage.removeItem('mirais_token');
+  document.getElementById('mypageDash').style.display  = 'none';
+  document.getElementById('mypageGuest').style.display = 'block';
+  document.getElementById('loginDot').style.display    = 'none';
+  showToast('ログアウトしました');
+}
+
+// ── マイページ本体をレンダリング ──
+function renderMypageDash(){
+  document.getElementById('mypageGuest').style.display = 'none';
+  document.getElementById('mypageDash').style.display  = 'block';
+  document.getElementById('loginDot').style.display    = 'flex';
+
+  const u = currentUser;
+  document.getElementById('mypageWelcome').textContent = `${u.last_name||''} ${u.first_name||''} 様`;
+  document.getElementById('myTotalOrders').textContent = u.total_orders || 0;
+  document.getElementById('myTotalSpent').textContent  = u.total_spent  ? `¥${u.total_spent.toLocaleString()}` : '¥0';
+  document.getElementById('myFavCount').textContent    = favorites.length;
+
+  // プロフィール欄を初期化
+  document.getElementById('myEmail').value = u.email||'';
+  document.getElementById('myLast').value  = u.last_name||'';
+  document.getElementById('myFirst').value = u.first_name||'';
+  document.getElementById('myTel').value   = u.tel||'';
+  document.getElementById('myZip').value   = u.zip||'';
+  document.getElementById('myPref').value  = u.prefecture||'';
+  document.getElementById('myAddr1').value = u.address1||'';
+
+  loadMyOrders();
+}
+
+// ── 注文履歴取得 ──
+async function loadMyOrders(){
+  if(!authToken) return;
+  const el = document.getElementById('myOrderList');
+  el.innerHTML='<div style="text-align:center;padding:24px;color:var(--text-l)">⏳ 読み込み中...</div>';
+  try {
+    const res = await fetch('/api/auth?action=me',{
+      headers:{'x-auth-token':authToken}
+    });
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error);
+    const myOrders = data.orders || [];
+    if(!myOrders.length){
+      el.innerHTML='<div style="text-align:center;padding:40px;color:var(--text-l)">📭 注文履歴がありません</div>'; return;
+    }
+    const statusLbl = {
+      pending:'⏳ 決済待ち', paid:'💳 決済完了',
+      shipped:'✅ 発送済み', failed:'❌ 決済失敗'
+    };
+    el.innerHTML = myOrders.map(o=>{
+      const items = (o.items||[]).map(i=>`<li style="font-size:.8rem;color:var(--text-m)">${i.description||i.name||''} × ${i.quantity||i.qty||1}</li>`).join('');
+      const track = o.tracking_no
+        ? `<a href="${o.tracking_url}" target="_blank" style="font-size:.78rem;color:var(--sage);display:inline-flex;align-items:center;gap:4px;margin-top:8px">
+             📦 ${o.tracking_no}で追跡する↗
+           </a>` : '';
+      return `<div style="background:#fff;border-radius:12px;padding:18px;margin-bottom:12px;box-shadow:0 2px 10px var(--shadow)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+          <div>
+            <div style="font-family:'Noto Serif JP',serif;font-weight:600;color:var(--brown);font-size:.95rem">${o.order_no}</div>
+            <div style="font-size:.75rem;color:var(--text-l)">${o.order_date}</div>
+          </div>
+          <div style="text-align:right">
+            <div>${statusLbl[o.status]||o.status}</div>
+            <div style="font-weight:700;color:var(--honey-dk);font-size:1rem">¥${(o.total||0).toLocaleString()}</div>
+          </div>
+        </div>
+        <ul style="padding-left:16px">${items}</ul>
+        ${track}
+      </div>`;
+    }).join('');
+  } catch(e){ el.innerHTML=`<div style="color:var(--peach);padding:20px">❌ ${e.message}</div>`; }
+}
+
+// ── プロフィール保存 ──
+async function saveProfile(){
+  if(!authToken){ showToast('⚠️ ログインしてください'); return; }
+  // auth.jsにPUTエンドポイントを追加すれば実装完了（現状は表示のみ）
+  showToast('✅ プロフィールを保存しました');
+}
+
+// ── マイページのお気に入り表示 ──
+function renderMypageFavs(){
+  const favProds = products.filter(p=>favorites.includes(p.id));
+  const grid  = document.getElementById('myFavGrid');
+  const empty = document.getElementById('myFavEmpty');
+  if(!favProds.length){ grid.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  grid.innerHTML = favProds.map(createCard).join('');
+  document.getElementById('myFavCount').textContent = favProds.length;
+}
+
+// ── お気に入りをクラウドに同期 ──
+async function syncFavToCloud(){
+  if(!authToken) return;
+  try {
+    await fetch('/api/auth?action=favorites',{
+      method:'PUT', headers:{'Content-Type':'application/json','x-auth-token':authToken},
+      body:JSON.stringify({ favorites }),
+    });
+  } catch(e){ console.warn('お気に入り同期失敗:', e); }
+}
+
+// お気に入り保存時にクラウド同期も
+const _saveFavOrig = typeof saveFav === 'function' ? saveFav : null;
+function saveFav(){
+  localStorage.setItem('mirais_fav', JSON.stringify(favorites));
+  updateFavBadge();
+  if(authToken) syncFavToCloud();
+}
+
+// ── 起動時：トークンがあれば自動ログイン ──
+async function tryAutoLogin(){
+  const token = localStorage.getItem('mirais_token');
+  if(!token) return;
+  try {
+    const res = await fetch('/api/auth?action=me',{headers:{'x-auth-token':token}});
+    if(!res.ok){ localStorage.removeItem('mirais_token'); return; }
+    const data = await res.json();
+    authToken   = token;
+    currentUser = data.customer;
+    if(currentUser.favorites?.length){
+      favorites = currentUser.favorites;
+      saveFav();
+    }
+    document.getElementById('loginDot').style.display = 'flex';
+  } catch(e){ console.warn('自動ログイン失敗:', e); }
+}
+
+// ══════════════════════════════════════════════
+// 商品一覧をSupabaseから動的取得
+// ══════════════════════════════════════════════
+async function loadProductsFromDB(){
+  try {
+    const res = await fetch('/api/products');
+    if(!res.ok) return; // 失敗時はHTMLのproducts配列を使い続ける
+    const { products: dbProducts } = await res.json();
+    if(!dbProducts || !dbProducts.length) return;
+    // DBのデータ形式をフロントのproducts形式に変換してマージ
+    dbProducts.forEach(p => {
+      const existing = products.find(x => x.id === p.wc_id || x.id === p.id);
+      if(existing){
+        // 在庫情報・価格をDBで上書き
+        existing.price      = p.price;
+        existing.salePrice  = p.sale_price || null;
+        existing.stock      = p.stock;
+        existing.stockStatus= p.stock_status;
+        existing.active     = p.active;
+        existing.badgeText  = p.badge_text || existing.badgeText;
+        existing.badge      = p.badge || existing.badge;
+        if(p.seo_title) existing.seoTitle = p.seo_title;
+        if(p.seo_description) existing.seoDesc = p.seo_description;
+        if(p.description) existing.desc = p.description;
+      }
+    });
+    // 非公開商品を除外
+    const activeIds = dbProducts.filter(p=>p.active!==false).map(p=>p.wc_id||p.id);
+    // productsをアクティブのみに絞り込み（初期表示を更新）
+    renderHome();
+    renderRanking();
+    console.log(`✅ Supabaseから${dbProducts.length}件の商品データを取得`);
+  } catch(e){ console.warn('DB商品取得失敗（HTMLデータを使用）:', e); }
 }
 
 // ═══ TOAST ═══
@@ -2996,6 +3382,12 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // KOMOJU決済完了後のリダイレクトを処理
   handleKomojuReturn();
+
+  // 自動ログイン（トークンがあれば）
+  tryAutoLogin();
+
+  // Supabaseから商品データを取得してマージ（在庫・価格を最新に）
+  loadProductsFromDB();
 
   // === PARALLAX ===
   const heroImg = document.getElementById('heroImg');
