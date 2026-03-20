@@ -455,7 +455,48 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
 
 /* ── 管理パネル ── */
 #page-admin{background:var(--cream)}
-.admin-wrap{max-width:860px;margin:0 auto;padding:40px 24px 80px}
+.admin-wrap{max-width:900px;margin:0 auto;padding:40px 24px 80px}
+
+/* ── 管理タブ ── */
+.admin-tabs{display:flex;gap:4px;background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:4px;flex-wrap:wrap}
+.admin-tab{flex:1;min-width:110px;padding:10px 14px;border:none;border-radius:9px;cursor:pointer;font-size:.82rem;font-family:'Noto Sans JP',sans-serif;font-weight:500;color:var(--text-m);background:transparent;transition:all .2s;white-space:nowrap;text-align:center}
+.admin-tab.act{background:#fff;color:var(--honey-dk);font-weight:700;box-shadow:0 2px 8px var(--shadow)}
+.admin-tab-content{animation:fadeIn .22s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── 商品管理 ── */
+.product-mgmt-row{background:#fff;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:14px;margin-bottom:10px;box-shadow:0 2px 10px var(--shadow)}
+.pm-thumb{width:56px;height:56px;border-radius:9px;object-fit:cover;background:var(--brown-pale);flex-shrink:0}
+.pm-info{flex:1;min-width:0}
+.pm-name{font-weight:600;font-size:.92rem;color:var(--text);margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm-price{font-size:.82rem;color:var(--honey-dk);font-weight:600}
+.pm-stock{font-size:.75rem;padding:3px 9px;border-radius:50px;font-weight:600;display:inline-block;margin-left:8px}
+.stock-ok{background:var(--sage-pale);color:var(--sage)}
+.stock-low{background:rgba(212,145,58,.15);color:var(--honey-dk)}
+.stock-out{background:rgba(229,135,110,.15);color:var(--peach)}
+.pm-actions{display:flex;gap:6px;flex-shrink:0}
+.pm-edit-btn,.pm-del-btn{padding:6px 12px;border:1px solid var(--border);border-radius:6px;cursor:pointer;font-size:.75rem;background:#fff;transition:all .2s;font-family:'Noto Sans JP',sans-serif}
+.pm-edit-btn:hover{background:var(--honey);color:#fff;border-color:var(--honey)}
+.pm-del-btn{color:var(--peach)}
+.pm-del-btn:hover{background:var(--peach);color:#fff;border-color:var(--peach)}
+
+/* ── AIエージェント ── */
+.ai-panel{background:#fff;border-radius:var(--rl);padding:22px;box-shadow:0 4px 18px var(--shadow);border:1px solid var(--border)}
+.ai-type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ai-type-btn{padding:10px 6px;border:2px solid var(--border);border-radius:10px;cursor:pointer;font-size:.78rem;font-family:'Noto Sans JP',sans-serif;background:#fff;color:var(--text-m);transition:all .2s;text-align:center}
+.ai-type-btn:hover{border-color:var(--honey-lt)}
+.ai-type-btn.act{border-color:var(--honey);background:rgba(212,145,58,.08);color:var(--honey-dk);font-weight:700}
+.ai-result-box{background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:18px;font-size:.87rem;line-height:1.9;color:var(--text);white-space:pre-wrap;min-height:100px;max-height:420px;overflow-y:auto}
+
+/* ── アクセス解析 ── */
+.trend-bar{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1}
+.trend-bar-fill{width:100%;background:var(--honey-lt);border-radius:4px 4px 0 0;transition:height .5s ease}
+.trend-bar-lbl{font-size:.62rem;color:var(--text-l)}
+.breakdown-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.breakdown-bar-wrap{flex:1;background:var(--cream);border-radius:50px;height:7px;overflow:hidden}
+.breakdown-bar-fill{height:100%;background:var(--honey);border-radius:50px;transition:width .6s ease}
+.breakdown-lbl{font-size:.79rem;color:var(--text-m);min-width:90px}
+.breakdown-val{font-size:.79rem;color:var(--honey-dk);font-weight:600;min-width:36px;text-align:right}
 .admin-login{max-width:360px;margin:80px auto;background:#fff;border-radius:var(--rl);padding:36px;box-shadow:0 8px 32px var(--shadow);text-align:center}
 .admin-login h2{font-family:'Noto Serif JP',serif;font-size:1.3rem;color:var(--brown);margin-bottom:22px}
 .order-card{background:#fff;border-radius:var(--r);padding:22px;margin-bottom:16px;box-shadow:0 3px 14px var(--shadow);border-left:4px solid var(--border)}
@@ -1130,43 +1171,199 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
 
   <!-- ダッシュボード -->
   <div id="adminDash" class="admin-wrap" style="display:none">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
       <div>
-        <div class="admin-ttl">📊 注文管理ダッシュボード</div>
+        <div class="admin-ttl">🏢 未来図 管理パネル</div>
         <div class="admin-sub">米粉バウムクーヘン工房 未来図</div>
       </div>
       <button class="btn-o" onclick="adminLogout()" style="font-size:.82rem;padding:8px 18px">ログアウト</button>
     </div>
 
-    <!-- 統計カード -->
-    <div class="admin-stat-row">
-      <div class="admin-stat">
-        <div class="admin-stat-num" id="statTotal">0</div>
-        <div class="admin-stat-lbl">総注文件数</div>
+    <!-- タブナビ -->
+    <div class="admin-tabs">
+      <button class="admin-tab act" onclick="switchAdminTab('orders',this)">📦 注文管理</button>
+      <button class="admin-tab" onclick="switchAdminTab('products',this)">🛍️ 商品・在庫</button>
+      <button class="admin-tab" onclick="switchAdminTab('ai',this)">🤖 AIエージェント</button>
+      <button class="admin-tab" onclick="switchAdminTab('analytics',this)">📊 アクセス解析</button>
+    </div>
+
+    <!-- ══ タブ①：注文管理 ══ -->
+    <div id="adminTab-orders" class="admin-tab-content">
+      <div class="admin-stat-row" style="margin-top:18px">
+        <div class="admin-stat"><div class="admin-stat-num" id="statTotal">0</div><div class="admin-stat-lbl">総注文件数</div></div>
+        <div class="admin-stat"><div class="admin-stat-num" id="statPending">0</div><div class="admin-stat-lbl">発送待ち</div></div>
+        <div class="admin-stat"><div class="admin-stat-num" id="statShipped">0</div><div class="admin-stat-lbl">発送済み</div></div>
       </div>
-      <div class="admin-stat">
-        <div class="admin-stat-num" id="statPending">0</div>
-        <div class="admin-stat-lbl">発送待ち</div>
+      <div class="admin-filter">
+        <button class="admin-filter-btn act" onclick="filterOrders('all',this)">すべて</button>
+        <button class="admin-filter-btn" onclick="filterOrders('paid',this)">決済完了</button>
+        <button class="admin-filter-btn" onclick="filterOrders('shipped',this)">発送済み</button>
+        <button class="admin-filter-btn" onclick="filterOrders('pending',this)">未払い</button>
       </div>
-      <div class="admin-stat">
-        <div class="admin-stat-num" id="statShipped">0</div>
-        <div class="admin-stat-lbl">発送済み</div>
+      <div id="orderList"></div>
+      <div id="noOrders" style="text-align:center;padding:44px;color:var(--text-l);display:none">
+        <p style="font-size:2rem">📭</p><p style="margin-top:8px">注文データがありません</p>
       </div>
     </div>
 
-    <!-- フィルター -->
-    <div class="admin-filter">
-      <button class="admin-filter-btn act" onclick="filterOrders('all',this)">すべて</button>
-      <button class="admin-filter-btn" onclick="filterOrders('pending',this)">発送待ち</button>
-      <button class="admin-filter-btn" onclick="filterOrders('shipped',this)">発送済み</button>
+    <!-- ══ タブ②：商品・在庫管理 ══ -->
+    <div id="adminTab-products" class="admin-tab-content" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 14px">
+        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown)">商品一覧・在庫管理</h3>
+        <button class="btn-p" onclick="openProductModal(null)" style="padding:9px 18px;font-size:.85rem">＋ 新商品追加</button>
+      </div>
+      <div id="adminProductList"></div>
     </div>
 
-    <!-- 注文一覧 -->
-    <div id="orderList"></div>
+    <!-- ══ タブ③：AIエージェント ══ -->
+    <div id="adminTab-ai" class="admin-tab-content" style="display:none">
+      <div style="margin:18px 0 14px">
+        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🤖 AIコンテンツ生成</h3>
+        <p style="font-size:.82rem;color:var(--text-l)">Claude AIが商品説明・SEO・SNS投稿文を自動生成します</p>
+      </div>
 
-    <div id="noOrders" style="text-align:center;padding:44px;color:var(--text-l);display:none">
-      <p style="font-size:2rem">📭</p>
-      <p style="margin-top:8px">注文データがありません</p>
+      <div class="ai-panel">
+        <!-- 商品選択 -->
+        <div class="form-group" style="margin-bottom:14px">
+          <label style="font-size:.85rem;font-weight:600;color:var(--text)">対象商品</label>
+          <select class="form-sel form-input" id="aiProductSel" style="margin-top:5px">
+            <option value="">商品を選択...</option>
+          </select>
+        </div>
+
+        <!-- コンテンツ種別 -->
+        <div style="margin-bottom:16px">
+          <label style="font-size:.85rem;font-weight:600;color:var(--text);display:block;margin-bottom:8px">生成タイプ</label>
+          <div class="ai-type-grid">
+            <button class="ai-type-btn act" data-type="description" onclick="selectAiType(this)">📝 商品説明文</button>
+            <button class="ai-type-btn" data-type="seo" onclick="selectAiType(this)">🔍 SEO最適化</button>
+            <button class="ai-type-btn" data-type="instagram" onclick="selectAiType(this)">📸 Instagram</button>
+            <button class="ai-type-btn" data-type="twitter" onclick="selectAiType(this)">🐦 X（Twitter）</button>
+            <button class="ai-type-btn" data-type="blog" onclick="selectAiType(this)">📰 ブログ記事</button>
+            <button class="ai-type-btn" data-type="custom" onclick="selectAiType(this)">✍️ カスタム</button>
+          </div>
+        </div>
+
+        <!-- カスタムプロンプト（カスタム選択時のみ表示） -->
+        <div id="customPromptArea" style="display:none;margin-bottom:14px">
+          <label style="font-size:.85rem;font-weight:600;color:var(--text);display:block;margin-bottom:5px">カスタムプロンプト</label>
+          <textarea class="form-input" id="customPrompt" rows="4" placeholder="AIへの指示を自由に入力..." style="resize:vertical"></textarea>
+        </div>
+
+        <button class="btn-p" onclick="generateAiContent()" id="aiGenBtn" style="width:100%;padding:13px;font-size:.95rem">
+          ✨ AIで生成する
+        </button>
+      </div>
+
+      <!-- 生成結果 -->
+      <div id="aiResult" style="display:none;margin-top:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown)">生成結果</h4>
+          <div style="display:flex;gap:8px">
+            <button onclick="copyAiResult()" class="btn-o" style="padding:6px 14px;font-size:.78rem">📋 コピー</button>
+            <button onclick="applyAiToProduct()" class="btn-p" style="padding:6px 14px;font-size:.78rem">✅ 商品に適用</button>
+          </div>
+        </div>
+        <div id="aiResultText" class="ai-result-box"></div>
+      </div>
+
+      <!-- 生成履歴 -->
+      <div style="margin-top:28px">
+        <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:12px">📋 生成履歴</h4>
+        <div id="aiHistory" style="font-size:.82rem;color:var(--text-l)">生成履歴はここに表示されます</div>
+      </div>
+    </div>
+
+    <!-- ══ タブ④：アクセス解析 ══ -->
+    <div id="adminTab-analytics" class="admin-tab-content" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 14px">
+        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown)">アクセス解析</h3>
+        <select class="form-sel form-input" id="analyticsDays" onchange="loadAnalytics()" style="width:120px;font-size:.85rem">
+          <option value="7">過去7日</option>
+          <option value="30" selected>過去30日</option>
+          <option value="90">過去90日</option>
+        </select>
+      </div>
+      <div class="admin-stat-row" id="analyticsStats">
+        <div class="admin-stat"><div class="admin-stat-num" id="statPV">-</div><div class="admin-stat-lbl">ページビュー</div></div>
+        <div class="admin-stat"><div class="admin-stat-num" id="statSales">-</div><div class="admin-stat-lbl">売上合計</div></div>
+        <div class="admin-stat"><div class="admin-stat-num" id="statCVR">-</div><div class="admin-stat-lbl">購入率</div></div>
+      </div>
+      <!-- トレンドグラフ -->
+      <div style="background:#fff;border-radius:var(--r);padding:20px;box-shadow:0 3px 14px var(--shadow);margin-bottom:18px">
+        <h4 style="font-size:.9rem;color:var(--text-m);margin-bottom:14px">📈 日別ページビュー（過去7日）</h4>
+        <div id="trendChart" style="display:flex;align-items:flex-end;gap:8px;height:100px;padding:0 4px"></div>
+      </div>
+      <!-- ページ別 -->
+      <div style="background:#fff;border-radius:var(--r);padding:20px;box-shadow:0 3px 14px var(--shadow);margin-bottom:18px">
+        <h4 style="font-size:.9rem;color:var(--text-m);margin-bottom:12px">📄 ページ別アクセス</h4>
+        <div id="pageBreakdown"></div>
+      </div>
+      <!-- 人気商品 -->
+      <div style="background:#fff;border-radius:var(--r);padding:20px;box-shadow:0 3px 14px var(--shadow)">
+        <h4 style="font-size:.9rem;color:var(--text-m);margin-bottom:12px">🔥 人気商品TOP5</h4>
+        <div id="topProducts"></div>
+      </div>
+    </div>
+
+  </div><!-- /adminDash -->
+</div><!-- /page-admin -->
+
+<!-- 商品編集モーダル -->
+<div id="productModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9000;overflow-y:auto">
+  <div style="max-width:600px;margin:40px auto;background:#fff;border-radius:var(--rl);padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px">
+      <h3 id="productModalTitle" style="font-family:'Noto Serif JP',serif;font-size:1.2rem;color:var(--brown)">商品編集</h3>
+      <button onclick="closeProductModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--text-l)">✕</button>
+    </div>
+    <div class="form-row single"><div class="form-group"><label>商品名 *</label><input class="form-input" id="pm-name" type="text"></div></div>
+    <div class="form-row single"><div class="form-group"><label>短い説明</label><input class="form-input" id="pm-short" type="text" placeholder="一行の紹介文"></div></div>
+    <div class="form-row">
+      <div class="form-group"><label>価格（税込）*</label><input class="form-input" id="pm-price" type="number"></div>
+      <div class="form-group"><label>セール価格</label><input class="form-input" id="pm-sale" type="number" placeholder="なし"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>在庫数 *</label><input class="form-input" id="pm-stock" type="number" value="99"></div>
+      <div class="form-group"><label>カテゴリ</label>
+        <select class="form-sel form-input" id="pm-cat">
+          <option value="soft">プレーン（ソフト）</option>
+          <option value="hard">プレーン（ハード）</option>
+          <option value="gift">セット・ギフト</option>
+          <option value="other">その他</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>バッジ種類</label>
+        <select class="form-sel form-input" id="pm-badge">
+          <option value="">なし</option>
+          <option value="pop">pop（オレンジ）</option>
+          <option value="new">new（緑）</option>
+          <option value="lim">lim（赤）</option>
+          <option value="sale">sale（青）</option>
+        </select>
+      </div>
+      <div class="form-group"><label>バッジテキスト</label><input class="form-input" id="pm-badge-text" type="text" placeholder="例：人気No.1"></div>
+    </div>
+    <div class="form-row single"><div class="form-group"><label>画像URL</label><input class="form-input" id="pm-img" type="url" placeholder="https://..."></div></div>
+    <div class="form-row single"><div class="form-group"><label>商品詳細説明</label><textarea class="form-input" id="pm-desc" rows="4" style="resize:vertical"></textarea></div></div>
+    <div class="form-row single"><div class="form-group"><label>アレルゲン</label><input class="form-input" id="pm-allergen" type="text"></div></div>
+    <div class="form-row">
+      <div class="form-group"><label>賞味期限</label><input class="form-input" id="pm-expiry" type="text"></div>
+      <div class="form-group"><label>保存方法</label><input class="form-input" id="pm-storage" type="text"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>SEOタイトル</label><input class="form-input" id="pm-seo-title" type="text"></div>
+      <div class="form-group"><label>SEO説明文</label><input class="form-input" id="pm-seo-desc" type="text"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin:14px 0">
+      <input type="checkbox" id="pm-active" checked style="width:18px;height:18px;accent-color:var(--honey)">
+      <label for="pm-active" style="font-size:.88rem;cursor:pointer">公開する（チェックを外すと非公開）</label>
+    </div>
+    <input type="hidden" id="pm-id">
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button class="btn-o" onclick="closeProductModal()" style="flex:1;padding:13px">キャンセル</button>
+      <button class="btn-p" onclick="saveProduct()" style="flex:2;padding:13px" id="pmSaveBtn">💾 保存する</button>
     </div>
   </div>
 </div>
@@ -2084,11 +2281,408 @@ function adminLogout(){
   document.getElementById('adminPw').value = '';
 }
 
+// ══ 管理タブ切替 ══
+function switchAdminTab(tab, btn){
+  document.querySelectorAll('.admin-tab').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  document.querySelectorAll('.admin-tab-content').forEach(c=>c.style.display='none');
+  document.getElementById('adminTab-'+tab).style.display='block';
+  if(tab==='orders')    renderAdminOrders('all');
+  if(tab==='products')  renderAdminProducts();
+  if(tab==='ai')        loadAiProductList();
+  if(tab==='analytics') loadAnalytics();
+}
+
 // 管理パネル：注文一覧フィルター
 function filterOrders(status, btn){
   document.querySelectorAll('.admin-filter-btn').forEach(b=>b.classList.remove('act'));
   btn.classList.add('act');
   renderAdminOrders(status);
+}
+
+// ── Supabaseから注文一覧を取得してレンダリング ──
+async function renderAdminOrders(statusFilter = 'all'){
+  const list     = document.getElementById('orderList');
+  const noOrders = document.getElementById('noOrders');
+  list.innerHTML = '<div style="text-align:center;padding:36px;color:var(--text-l)">⏳ 読み込み中...</div>';
+  noOrders.style.display = 'none';
+
+  try {
+    const params = new URLSearchParams({ limit: 200 });
+    if(statusFilter !== 'all') params.set('status', statusFilter);
+    const res = await fetch(`/api/orders?${params}`, {
+      headers: { 'x-admin-token': ADMIN_PASSWORD },
+    });
+    if(!res.ok) throw new Error(`取得失敗 (${res.status})`);
+    const { orders: data } = await res.json();
+    orders = data || [];
+  } catch(e) {
+    list.innerHTML = `<div style="text-align:center;padding:36px;color:var(--peach)">❌ ${e.message}</div>`;
+    return;
+  }
+
+  document.getElementById('statTotal').textContent   = orders.length;
+  document.getElementById('statPending').textContent = orders.filter(o=>o.status==='pending'||o.status==='paid').length;
+  document.getElementById('statShipped').textContent = orders.filter(o=>o.status==='shipped').length;
+
+  if(orders.length === 0){ list.innerHTML=''; noOrders.style.display='block'; return; }
+  noOrders.style.display = 'none';
+
+  const statusMap = {
+    pending:  '<span class="order-status status-pending">⏳ 未払い</span>',
+    paid:     '<span class="order-status" style="background:rgba(122,158,106,.15);color:var(--sage)">💳 決済完了</span>',
+    shipped:  '<span class="order-status status-shipped">✅ 発送済み</span>',
+    failed:   '<span class="order-status" style="background:rgba(229,135,110,.15);color:var(--peach)">❌ 失敗</span>',
+    expired:  '<span class="order-status" style="background:#f0f0f0;color:#888">⏰ 期限切れ</span>',
+  };
+  const payMethodMap = {credit_card:'💳 クレカ',konbini:'🏪 コンビニ',paypay:'🔴 PayPay',bank_transfer:'🏦 銀行振込'};
+
+  list.innerHTML = orders.map(o => {
+    const c = o.customer || {};
+    const statusLbl = statusMap[o.status] || `<span class="order-status">${o.status}</span>`;
+    const payM = payMethodMap[o.payment_method] || o.payment_method || '';
+    const itemText = (o.items||[]).map(i=>
+      `<li>${i.description||i.name||''}（${i.size||''}）× ${i.quantity||i.qty||1}　¥${((i.amount||i.price||0)*(i.quantity||i.qty||1)).toLocaleString()}</li>`
+    ).join('');
+    const trackSection = (o.status==='shipped' && o.tracking_no)
+      ? `<div class="tracking-tag">📦 ${o.tracking_no}<a href="${o.tracking_url}" target="_blank" style="color:var(--sage);margin-left:8px;font-size:.75rem">追跡↗</a></div>`
+      : `<div class="tracking-row">
+           <input class="tracking-input" id="track-${o.order_no}" type="text" placeholder="例：1234-5678-9012" value="${o.tracking_no||''}">
+           <button class="tracking-btn" onclick="saveTracking('${o.order_no}')">📦 登録・通知</button>
+         </div>`;
+    const rcptBtn = o.receipt_sent
+      ? `<span style="font-size:.75rem;color:var(--sage)">✅ 領収書送信済み</span>`
+      : `<button onclick="resendReceipt('${o.order_no}')" style="font-size:.75rem;color:var(--honey-dk);background:none;border:1px solid var(--honey);border-radius:5px;padding:4px 10px;cursor:pointer">📧 領収書再送</button>`;
+    return `
+    <div class="order-card ${o.status==='shipped'?'shipped':'pending'}">
+      <div class="order-hd">
+        <div>
+          <div class="order-num-tag">${o.order_no}</div>
+          <div class="order-meta">📅 ${o.order_date}　${payM}<br>
+            👤 ${c.last||''} ${c.first||''} 様　📧 ${c.email||''}<br>
+            📍 〒${c.zip||''} ${c.pref||''}${c.addr1||''}${c.addr2?' '+c.addr2:''}　📞 ${c.tel||''}</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          ${statusLbl}
+          <div style="font-size:1.1rem;font-weight:700;color:var(--honey-dk);margin-top:6px">¥${(o.total||0).toLocaleString()}</div>
+          <div style="font-size:.72rem;color:var(--text-l)">送料：${o.ship===0?'無料':'¥'+(o.ship||0).toLocaleString()}</div>
+        </div>
+      </div>
+      <ul class="order-items-list">${itemText}</ul>
+      ${c.note?`<div style="font-size:.78rem;color:var(--text-l);margin-bottom:8px">📝 ${c.note}</div>`:''}
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">${trackSection}${rcptBtn}</div>
+    </div>`;
+  }).join('');
+}
+
+// 追跡番号保存
+async function saveTracking(orderNo){
+  const inputEl = document.getElementById(`track-${orderNo}`);
+  const trackNo = inputEl?.value.trim();
+  if(!trackNo){ showToast('⚠️ 追跡番号を入力してください'); return; }
+  try {
+    const res = await fetch('/api/orders', {
+      method:'PATCH',
+      headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+      body: JSON.stringify({ order_no:orderNo, tracking_no:trackNo }),
+    });
+    if(!res.ok) throw new Error('更新失敗');
+    const { order } = await res.json();
+    await sendTrackingEmail({ id:orderNo, customer:order?.customer||{}, total:order?.total||0,
+      trackingNo:trackNo, trackingUrl:order?.tracking_url||'' });
+    showToast('✅ 追跡番号を登録し発送通知を送りました！');
+    renderAdminOrders('all');
+  } catch(e){ showToast(`❌ ${e.message}`); }
+}
+
+// 領収書再送
+async function resendReceipt(orderNo){
+  const order = orders.find(o=>o.order_no===orderNo);
+  if(!order){ showToast('⚠️ 注文が見つかりません'); return; }
+  await sendReceiptEmail({ id:order.order_no, date:order.order_date, customer:order.customer||{},
+    items:order.items||[], sub:order.sub, ship:order.ship, discount:order.discount, total:order.total });
+  await fetch('/api/orders', { method:'PATCH',
+    headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+    body:JSON.stringify({ order_no:orderNo, receipt_sent:true }) });
+  showToast('📧 領収書を再送しました');
+  renderAdminOrders('all');
+}
+
+// ══ 商品管理 ══
+let adminProducts = [];
+async function renderAdminProducts(){
+  const el = document.getElementById('adminProductList');
+  el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-l)">⏳ 読み込み中...</div>';
+  try {
+    const res = await fetch('/api/products?active_only=false', {
+      headers:{'x-admin-token':ADMIN_PASSWORD}
+    });
+    const { products: data } = await res.json();
+    adminProducts = data || [];
+    if(!adminProducts.length){ el.innerHTML='<div style="text-align:center;padding:30px;color:var(--text-l)">商品がありません</div>'; return; }
+    el.innerHTML = adminProducts.map(p => {
+      const stockCls = p.stock <= 0 ? 'stock-out' : p.stock <= 5 ? 'stock-low' : 'stock-ok';
+      const stockTxt = p.stock <= 0 ? '売り切れ' : p.stock <= 5 ? `残${p.stock}個` : `在庫${p.stock}`;
+      const inactive = !p.active ? '<span style="font-size:.72rem;background:#f0f0f0;color:#888;border-radius:4px;padding:2px 7px;margin-left:6px">非公開</span>' : '';
+      return `
+      <div class="product-mgmt-row">
+        <img class="pm-thumb" src="${p.img_url||''}" onerror="this.style.background='var(--brown-pale)';this.style.display='none'">
+        <div class="pm-info">
+          <div class="pm-name">${p.name}${inactive}</div>
+          <div class="pm-price">¥${(p.price||0).toLocaleString()}
+            <span class="pm-stock ${stockCls}">${stockTxt}</span>
+          </div>
+        </div>
+        <div class="pm-actions">
+          <button class="pm-edit-btn" onclick="openProductModal(${p.id})">編集</button>
+          <input type="number" value="${p.stock}" min="0" style="width:64px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:.8rem;text-align:center"
+            onchange="updateStock(${p.id},this.value)">
+          <button class="pm-del-btn" onclick="toggleProductActive(${p.id},${p.active})">${p.active?'非公開':'公開'}</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e){ el.innerHTML=`<div style="color:var(--peach);padding:20px">❌ ${e.message}</div>`; }
+}
+
+function openProductModal(id){
+  const modal = document.getElementById('productModal');
+  if(id){
+    const p = adminProducts.find(x=>x.id===id);
+    if(!p) return;
+    document.getElementById('productModalTitle').textContent = '商品編集';
+    document.getElementById('pm-id').value      = p.id;
+    document.getElementById('pm-name').value    = p.name||'';
+    document.getElementById('pm-short').value   = p.short_desc||'';
+    document.getElementById('pm-price').value   = p.price||0;
+    document.getElementById('pm-sale').value    = p.sale_price||'';
+    document.getElementById('pm-stock').value   = p.stock||0;
+    document.getElementById('pm-cat').value     = p.category||'other';
+    document.getElementById('pm-badge').value   = p.badge||'';
+    document.getElementById('pm-badge-text').value = p.badge_text||'';
+    document.getElementById('pm-img').value     = p.img_url||'';
+    document.getElementById('pm-desc').value    = p.description||'';
+    document.getElementById('pm-allergen').value= p.allergen||'';
+    document.getElementById('pm-expiry').value  = p.expiry||'';
+    document.getElementById('pm-storage').value = p.storage||'';
+    document.getElementById('pm-seo-title').value = p.seo_title||'';
+    document.getElementById('pm-seo-desc').value  = p.seo_description||'';
+    document.getElementById('pm-active').checked  = p.active!==false;
+  } else {
+    document.getElementById('productModalTitle').textContent = '新商品追加';
+    ['pm-id','pm-name','pm-short','pm-sale','pm-img','pm-desc','pm-allergen','pm-expiry','pm-storage','pm-seo-title','pm-seo-desc'].forEach(id=>{
+      const el=document.getElementById(id); if(el) el.value='';
+    });
+    document.getElementById('pm-price').value='0';
+    document.getElementById('pm-stock').value='99';
+    document.getElementById('pm-active').checked=true;
+  }
+  modal.style.display='block';
+}
+function closeProductModal(){ document.getElementById('productModal').style.display='none'; }
+
+async function saveProduct(){
+  const id = document.getElementById('pm-id').value;
+  const body = {
+    name:           document.getElementById('pm-name').value,
+    short_desc:     document.getElementById('pm-short').value,
+    price:          parseInt(document.getElementById('pm-price').value)||0,
+    sale_price:     parseInt(document.getElementById('pm-sale').value)||null,
+    stock:          parseInt(document.getElementById('pm-stock').value)||0,
+    stock_status:   parseInt(document.getElementById('pm-stock').value)>0?'instock':'outofstock',
+    category:       document.getElementById('pm-cat').value,
+    badge:          document.getElementById('pm-badge').value,
+    badge_text:     document.getElementById('pm-badge-text').value,
+    img_url:        document.getElementById('pm-img').value,
+    description:    document.getElementById('pm-desc').value,
+    allergen:       document.getElementById('pm-allergen').value,
+    expiry:         document.getElementById('pm-expiry').value,
+    storage:        document.getElementById('pm-storage').value,
+    seo_title:      document.getElementById('pm-seo-title').value,
+    seo_description:document.getElementById('pm-seo-desc').value,
+    active:         document.getElementById('pm-active').checked,
+  };
+  if(!body.name){ showToast('⚠️ 商品名は必須です'); return; }
+  const btn = document.getElementById('pmSaveBtn');
+  btn.disabled=true; btn.textContent='保存中...';
+  try {
+    const method = id ? 'PUT' : 'POST';
+    if(id) body.id = parseInt(id);
+    const res = await fetch('/api/products', {
+      method, headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+      body: JSON.stringify(body),
+    });
+    if(!res.ok) throw new Error('保存失敗');
+    showToast(id?'✅ 商品を更新しました':'✅ 新商品を追加しました');
+    closeProductModal();
+    renderAdminProducts();
+  } catch(e){ showToast(`❌ ${e.message}`); }
+  finally{ btn.disabled=false; btn.textContent='💾 保存する'; }
+}
+
+async function updateStock(id, stock){
+  await fetch('/api/products', {
+    method:'PUT', headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+    body: JSON.stringify({ id, stock:parseInt(stock), stock_status:parseInt(stock)>0?'instock':'outofstock' }),
+  });
+  showToast(`✅ 在庫数を${stock}個に更新しました`);
+}
+
+async function toggleProductActive(id, current){
+  await fetch('/api/products', {
+    method:'PUT', headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+    body: JSON.stringify({ id, active:!current }),
+  });
+  showToast(!current?'✅ 公開しました':'✅ 非公開にしました');
+  renderAdminProducts();
+}
+
+// ══ AIエージェント ══
+let aiSelectedType = 'description';
+let aiGeneratedContent = '';
+let aiTargetProductId = null;
+
+function selectAiType(btn){
+  document.querySelectorAll('.ai-type-btn').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  aiSelectedType = btn.dataset.type;
+  document.getElementById('customPromptArea').style.display = aiSelectedType==='custom'?'block':'none';
+}
+
+async function loadAiProductList(){
+  const sel = document.getElementById('aiProductSel');
+  try {
+    const res = await fetch('/api/products?active_only=false',{headers:{'x-admin-token':ADMIN_PASSWORD}});
+    const { products: data } = await res.json();
+    sel.innerHTML = '<option value="">商品を選択...</option>' +
+      (data||[]).map(p=>`<option value="${p.id}">${p.name}（¥${(p.price||0).toLocaleString()}）</option>`).join('');
+  } catch(e){ console.error(e); }
+}
+
+async function generateAiContent(){
+  const productId = document.getElementById('aiProductSel').value;
+  const customPrompt = document.getElementById('customPrompt').value;
+  if(!productId){ showToast('⚠️ 商品を選択してください'); return; }
+  if(aiSelectedType==='custom' && !customPrompt){ showToast('⚠️ プロンプトを入力してください'); return; }
+
+  aiTargetProductId = parseInt(productId);
+  const btn = document.getElementById('aiGenBtn');
+  btn.disabled=true; btn.textContent='✨ AIが生成中...';
+  document.getElementById('aiResult').style.display='none';
+
+  try {
+    const res = await fetch('/api/ai-agent', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+      body: JSON.stringify({ product_id:parseInt(productId), content_type:aiSelectedType,
+        custom_prompt: aiSelectedType==='custom'?customPrompt:undefined }),
+    });
+    if(!res.ok){ const e=await res.json(); throw new Error(e.error||'生成失敗'); }
+    const data = await res.json();
+    aiGeneratedContent = data.content;
+
+    const resultEl = document.getElementById('aiResultText');
+    // SEOの場合はJSON整形表示
+    if(aiSelectedType==='seo'){
+      try {
+        const seo = JSON.parse(data.content);
+        resultEl.innerHTML = `<strong>タイトル:</strong> ${seo.title}<br><strong>説明文:</strong> ${seo.description}<br><strong>キーワード:</strong> ${(seo.keywords||[]).join('、')}`;
+      } catch{ resultEl.textContent = data.content; }
+    } else {
+      resultEl.textContent = data.content;
+    }
+    document.getElementById('aiResult').style.display='block';
+
+    // 履歴に追加
+    const hist = document.getElementById('aiHistory');
+    const label = {description:'商品説明',seo:'SEO',instagram:'Instagram',twitter:'X',blog:'ブログ',custom:'カスタム'}[aiSelectedType];
+    hist.innerHTML = `<div style="background:var(--sage-pale);border-radius:8px;padding:10px 14px;margin-bottom:8px">
+      <span style="font-size:.75rem;color:var(--sage)">${label} ／ ${data.product_name} ／ ${new Date().toLocaleTimeString('ja-JP')}</span>
+    </div>` + hist.innerHTML;
+
+  } catch(e){ showToast(`❌ ${e.message}`); }
+  finally{ btn.disabled=false; btn.textContent='✨ AIで生成する'; }
+}
+
+function copyAiResult(){
+  navigator.clipboard.writeText(aiGeneratedContent).then(()=>showToast('📋 コピーしました'));
+}
+
+async function applyAiToProduct(){
+  if(!aiTargetProductId || !aiGeneratedContent){ showToast('⚠️ 先にコンテンツを生成してください'); return; }
+  const fields = {};
+  if(aiSelectedType==='description') fields.short_desc = aiGeneratedContent.slice(0,200);
+  else if(aiSelectedType==='seo'){
+    try{ const s=JSON.parse(aiGeneratedContent); fields.seo_title=s.title; fields.seo_description=s.description; } catch{}
+  }
+  if(Object.keys(fields).length===0){ showToast('このタイプは手動でコピーして使用してください'); return; }
+  fields.id = aiTargetProductId;
+  await fetch('/api/products',{method:'PUT',headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},body:JSON.stringify(fields)});
+  showToast('✅ 商品に適用しました！');
+}
+
+// ══ アクセス解析 ══
+async function loadAnalytics(){
+  const days = document.getElementById('analyticsDays')?.value || '30';
+  document.getElementById('statPV').textContent='-';
+  document.getElementById('statSales').textContent='-';
+  document.getElementById('statCVR').textContent='-';
+
+  try {
+    const res = await fetch(`/api/analytics?days=${days}`,{headers:{'x-admin-token':ADMIN_PASSWORD}});
+    if(!res.ok) throw new Error('取得失敗');
+    const d = await res.json();
+
+    document.getElementById('statPV').textContent    = d.total_pv.toLocaleString();
+    document.getElementById('statSales').textContent = `¥${d.total_sales.toLocaleString()}`;
+    document.getElementById('statCVR').textContent   = `${d.cvr}%`;
+
+    // トレンドグラフ
+    const chart = document.getElementById('trendChart');
+    const max = Math.max(...d.daily_trend.map(t=>t.pv), 1);
+    chart.innerHTML = d.daily_trend.map(t=>`
+      <div class="trend-bar">
+        <div class="trend-bar-fill" style="height:${Math.max((t.pv/max)*80,4)}px" title="${t.pv}PV"></div>
+        <div class="trend-bar-lbl">${t.date}</div>
+      </div>`).join('');
+
+    // ページ別
+    const byPage = d.by_page || {};
+    const pageNames = {home:'ホーム',products:'商品一覧',detail:'商品詳細',cart:'カート',complete:'購入完了'};
+    const totalPV = Object.values(byPage).reduce((s,v)=>s+v,0)||1;
+    document.getElementById('pageBreakdown').innerHTML =
+      Object.entries(byPage).sort((a,b)=>b[1]-a[1]).map(([page,cnt])=>`
+        <div class="breakdown-row">
+          <div class="breakdown-lbl">${pageNames[page]||page}</div>
+          <div class="breakdown-bar-wrap"><div class="breakdown-bar-fill" style="width:${(cnt/totalPV*100).toFixed(0)}%"></div></div>
+          <div class="breakdown-val">${cnt}</div>
+        </div>`).join('');
+
+    // 人気商品
+    const topEl = document.getElementById('topProducts');
+    if(!d.top_products?.length){ topEl.innerHTML='<p style="color:var(--text-l);font-size:.82rem">データがありません</p>'; return; }
+    const pRes = await fetch('/api/products?active_only=false',{headers:{'x-admin-token':ADMIN_PASSWORD}});
+    const {products:pList} = await pRes.json();
+    topEl.innerHTML = d.top_products.map((tp,i)=>{
+      const p = (pList||[]).find(x=>x.id===tp.product_id);
+      return `<div class="breakdown-row">
+        <div style="font-weight:700;color:var(--honey-dk);min-width:20px">${i+1}</div>
+        <div class="breakdown-lbl" style="flex:1">${p?.name||'ID:'+tp.product_id}</div>
+        <div class="breakdown-val">${tp.views}views</div>
+      </div>`;
+    }).join('');
+
+  } catch(e){ showToast(`❌ ${e.message}`); }
+}
+
+// アクセス記録（フロントから呼び出し）
+function trackPageView(page, productId=null, action='view', amount=0){
+  const sid = sessionStorage.getItem('mirais_sid') || Math.random().toString(36).substr(2,12);
+  sessionStorage.setItem('mirais_sid', sid);
+  fetch('/api/analytics', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ page, product_id:productId, action, amount, session_id:sid }),
+  }).catch(()=>{});
 }
 
 // ── Supabaseから注文一覧を取得してレンダリング ──
@@ -2260,14 +2854,16 @@ function showPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('act'));
   document.getElementById('page-'+name).classList.add('act');
   document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('act'));
-  if(name==='home')    document.querySelector('.nav-item').classList.add('act');
-  if(name==='cart')    renderCart();
-  if(name==='fav')     renderFav();
+  if(name==='home')     { document.querySelector('.nav-item').classList.add('act'); trackPageView('home'); }
+  if(name==='cart')     { renderCart(); trackPageView('cart'); }
+  if(name==='fav')      renderFav();
+  if(name==='products') trackPageView('products');
   if(name==='admin'){
     if(!adminLoggedIn){
       document.getElementById('adminLogin').style.display = 'block';
       document.getElementById('adminDash').style.display  = 'none';
     } else {
+      document.getElementById('adminTab-orders').style.display = 'block';
       renderAdminOrders('all');
     }
   }
@@ -2280,7 +2876,7 @@ function showPage(name){
     s2.className = 'step-it';     s2.querySelector('.step-num').textContent = '2';
     document.querySelectorAll('.form-input.error').forEach(el=>el.classList.remove('error'));
     const btn = document.getElementById('placeBtn');
-    if(btn){ btn.disabled=false; btn.textContent='🔒 注文を確定して決済する'; }
+    if(btn){ btn.disabled=false; btn.textContent='🔒 注文を確定して決済ページへ'; }
   }
   window.scrollTo(0,0);
 }
