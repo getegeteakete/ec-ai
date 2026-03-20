@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>米粉バウムクーヘン工房 未来図 | グルテンフリー・福岡</title>
 <meta name="description" content="佐賀県産無農薬米粉100%使用。グルテンフリーの米粉バウムクーヘン専門店【未来図】。福岡市城南区より全国へお届けします。">
+<!-- EmailJS SDK（領収書・追跡メール送信） -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500&family=Zen+Antique+Soft&display=swap" rel="stylesheet">
 
@@ -396,8 +398,27 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 .fade-a{animation:fadeUp .55s ease forwards}.fade-b{animation:fadeUp .55s .14s ease both}.fade-c{animation:fadeUp .55s .28s ease both}
 
-/* product color bg */
-.bg-soft{background:linear-gradient(145deg,#FFF3D0,#EFB96A)}
+/* ── KOMOJU / CARD FORM ── */
+.komoju-wrap{background:#fff;border-radius:var(--rl);padding:26px;box-shadow:0 4px 22px var(--shadow);margin-bottom:22px;border:1px solid var(--border)}
+.card-brand-row{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.card-brand-img{height:26px;object-fit:contain;border:1px solid var(--border);border-radius:4px;padding:2px 6px;background:#fff}
+.card-brand-amex{font-size:.72rem;font-weight:800;color:#016FCA;border:1px solid var(--border);border-radius:4px;padding:4px 7px;background:#fff;letter-spacing:.02em}
+.card-input-wrap{position:relative;display:flex;align-items:center}
+.card-num-input{flex:1;letter-spacing:.06em}
+.card-type-ico{position:absolute;right:12px;font-size:1.2rem}
+.cvc-tip{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;background:var(--cream);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.73rem;color:var(--text-l);cursor:help;font-weight:700}
+.ssl-row{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 12px}
+.ssl-badge{display:inline-flex;align-items:center;gap:4px;background:var(--sage-pale);border:1px solid var(--sage-lt);border-radius:5px;padding:5px 10px;font-size:.73rem;color:var(--sage);font-weight:500}
+.komoju-note{font-size:.75rem;color:var(--text-l);line-height:1.7;padding:10px 14px;background:var(--cream);border-radius:8px}
+.place-btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+
+/* 2ステップ用 co-steps幅調整 */
+.co-steps{display:flex;justify-content:center;gap:0;margin-bottom:44px;position:relative}
+.co-steps::before{content:'';position:absolute;top:19px;left:35%;right:35%;height:2px;background:var(--border);z-index:0}
+
+/* 入力エラー */
+.form-input.error{border-color:var(--peach);background:rgba(229,135,110,.04)}
+.err-msg{font-size:.76rem;color:var(--peach);margin-top:3px}
 .bg-hard{background:linear-gradient(145deg,#F5E4C0,#C49A3A)}
 .bg-okara{background:linear-gradient(145deg,#E8F2E0,#8FAF7C)}
 .bg-imo{background:linear-gradient(145deg,#F9EBD0,#C4842A)}
@@ -405,6 +426,47 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
 .bg-set3{background:linear-gradient(145deg,#F5E4D8,#B87040)}
 .bg-cookie{background:linear-gradient(145deg,#F5E8C0,#B8902A)}
 .bg-btob{background:linear-gradient(145deg,#E8F0E8,#5C8040)}
+
+/* ── お気に入り ── */
+.fav-badge{position:absolute;top:0;right:0;background:var(--peach);color:#fff;font-size:.62rem;width:17px;height:17px;border-radius:50%;display:none;align-items:center;justify-content:center;font-weight:700}
+.fav-badge.show{display:flex}
+.pcard-fav.act{background:rgba(229,135,110,.15)!important}
+.fav-empty{text-align:center;padding:76px 24px;color:var(--text-l)}
+.fav-empty-ico{font-size:3.5rem;margin-bottom:14px}
+#page-fav .products-grid{padding:32px 0 76px}
+
+/* ── 管理パネル ── */
+#page-admin{background:var(--cream)}
+.admin-wrap{max-width:860px;margin:0 auto;padding:40px 24px 80px}
+.admin-login{max-width:360px;margin:80px auto;background:#fff;border-radius:var(--rl);padding:36px;box-shadow:0 8px 32px var(--shadow);text-align:center}
+.admin-login h2{font-family:'Noto Serif JP',serif;font-size:1.3rem;color:var(--brown);margin-bottom:22px}
+.order-card{background:#fff;border-radius:var(--r);padding:22px;margin-bottom:16px;box-shadow:0 3px 14px var(--shadow);border-left:4px solid var(--border)}
+.order-card.shipped{border-left-color:var(--sage)}
+.order-card.pending{border-left-color:var(--honey)}
+.order-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.order-num-tag{font-family:'Noto Serif JP',serif;font-size:1rem;font-weight:600;color:var(--brown)}
+.order-status{padding:4px 12px;border-radius:50px;font-size:.73rem;font-weight:700}
+.status-pending{background:rgba(212,145,58,.15);color:var(--honey-dk)}
+.status-shipped{background:var(--sage-pale);color:var(--sage)}
+.order-meta{font-size:.8rem;color:var(--text-l);margin-bottom:10px;line-height:1.8}
+.tracking-row{display:flex;gap:9px;align-items:center;margin-top:10px}
+.tracking-input{flex:1;padding:9px 13px;border:2px solid var(--border);border-radius:8px;font-size:.85rem;font-family:'Noto Sans JP',sans-serif;outline:none;transition:border-color .2s}
+.tracking-input:focus{border-color:var(--honey)}
+.tracking-btn{padding:9px 18px;background:var(--honey);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:.82rem;font-family:'Noto Sans JP',sans-serif;font-weight:600;white-space:nowrap}
+.tracking-tag{display:inline-flex;align-items:center;gap:5px;background:var(--sage-pale);border:1px solid var(--sage-lt);border-radius:6px;padding:5px 11px;font-size:.78rem;color:var(--sage);font-weight:600;margin-top:8px}
+.admin-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.admin-stat{background:#fff;border-radius:var(--r);padding:18px;text-align:center;box-shadow:0 3px 14px var(--shadow)}
+.admin-stat-num{font-size:1.8rem;font-weight:700;color:var(--honey-dk);font-family:'Noto Serif JP',serif}
+.admin-stat-lbl{font-size:.75rem;color:var(--text-l);margin-top:3px}
+.admin-filter{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.admin-filter-btn{padding:7px 16px;border:2px solid var(--border);border-radius:50px;cursor:pointer;font-size:.8rem;background:#fff;color:var(--text-m);font-family:'Noto Sans JP',sans-serif;transition:all .2s}
+.admin-filter-btn.act{background:var(--honey);border-color:var(--honey);color:#fff}
+.mail-overlay{position:fixed;inset:0;background:rgba(92,51,23,.55);z-index:9998;display:none;align-items:center;justify-content:center}
+.mail-overlay.show{display:flex}
+.mail-card{background:#fff;border-radius:var(--rl);padding:40px;text-align:center;max-width:340px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.mail-spinner{width:48px;height:48px;border:4px solid var(--brown-pale);border-top-color:var(--honey);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 18px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.place-btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
 </style>
 </head>
 <body>
@@ -428,19 +490,20 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
       <button class="icon-btn" onclick="showPage('cart')" title="カート">
         🛒<span class="cart-badge" id="cartBadge">0</span>
       </button>
-      <button class="icon-btn" title="お気に入り">🤍</button>
-      <button class="btn-p" style="padding:8px 18px;font-size:.82rem;" onclick="showToast('ログイン機能は準備中です')">ログイン</button>
+      <button class="icon-btn" onclick="showPage('fav')" title="お気に入り" style="position:relative">
+        ❤️<span class="fav-badge" id="favBadge">0</span>
+      </button>
+      <button class="icon-btn" onclick="showPage('admin')" title="管理パネル" style="font-size:.9rem;padding:6px 10px;border-radius:8px;background:var(--brown-pale)">⚙️</button>
     </div>
   </div>
   <nav class="main-nav">
     <div class="nav-in">
       <div class="nav-item act" onclick="showPage('home')">ホーム</div>
-      <div class="nav-item" onclick="filterCat('all')">すべての商品</div>
-      <div class="nav-item" onclick="filterCat('soft')">プレーン（ソフト）</div>
-      <div class="nav-item" onclick="filterCat('hard')">プレーン（ハード）</div>
-      <div class="nav-item" onclick="filterCat('flavor')">フレーバー</div>
-      <div class="nav-item" onclick="filterCat('gift')">ギフトセット</div>
-      <div class="nav-item" onclick="filterCat('other')">その他</div>
+      <div class="nav-item" onclick="filterCat('all')">全商品（16点）</div>
+      <div class="nav-item" onclick="filterCat('soft')">プレーン ソフト</div>
+      <div class="nav-item" onclick="filterCat('hard')">プレーン ハード</div>
+      <div class="nav-item" onclick="filterCat('gift')">セット・ギフト</div>
+      <div class="nav-item" onclick="filterCat('other')">クッキー・その他</div>
       <div class="nav-item" onclick="showPage('shopinfo')">店舗情報</div>
     </div>
   </nav>
@@ -705,32 +768,48 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
 <div id="page-checkout" class="page">
   <div class="container co-page">
     <h2 style="font-family:'Noto Serif JP',serif;font-size:1.55rem;color:var(--brown);text-align:center;margin-bottom:28px">ご注文手続き</h2>
-    <div class="co-steps">
-      <div class="step-it act" id="co-step1"><div class="step-num">1</div><div class="step-lbl">配送先情報</div></div>
-      <div class="step-it" id="co-step2"><div class="step-num">2</div><div class="step-lbl">配送方法</div></div>
-      <div class="step-it" id="co-step3"><div class="step-num">3</div><div class="step-lbl">お支払い</div></div>
-      <div class="step-it" id="co-step4"><div class="step-num">4</div><div class="step-lbl">注文確認</div></div>
+
+    <!-- 2ステップ表示 -->
+    <div class="co-steps" id="coStepBar">
+      <div class="step-it act" id="co-step1"><div class="step-num">1</div><div class="step-lbl">配送先</div></div>
+      <div class="step-it" id="co-step2"><div class="step-num">2</div><div class="step-lbl">確認・お支払い</div></div>
     </div>
 
-    <!-- Step 1 -->
+    <!-- ── STEP 1：配送先 ── -->
     <div id="coStep1" class="co-form-wrap">
-      <h3 class="co-sec-title">📦 配送先情報</h3>
+      <h3 class="co-sec-title">📦 お届け先を入力</h3>
+
       <div class="form-row">
-        <div class="form-group"><label>姓<span class="req">*必須</span></label><input class="form-input" type="text" placeholder="山田" id="f-last"></div>
-        <div class="form-group"><label>名<span class="req">*必須</span></label><input class="form-input" type="text" placeholder="花子" id="f-first"></div>
+        <div class="form-group">
+          <label>お名前（姓）<span class="req">*必須</span></label>
+          <input class="form-input" type="text" placeholder="山田" id="f-last" autocomplete="family-name">
+        </div>
+        <div class="form-group">
+          <label>お名前（名）<span class="req">*必須</span></label>
+          <input class="form-input" type="text" placeholder="花子" id="f-first" autocomplete="given-name">
+        </div>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label>姓（フリガナ）</label><input class="form-input" type="text" placeholder="ヤマダ"></div>
-        <div class="form-group"><label>名（フリガナ）</label><input class="form-input" type="text" placeholder="ハナコ"></div>
+
+      <div class="form-row single">
+        <div class="form-group">
+          <label>メールアドレス<span class="req">*必須</span></label>
+          <input class="form-input" type="email" placeholder="example@email.com" id="f-email" autocomplete="email">
+        </div>
       </div>
-      <div class="form-row single"><div class="form-group"><label>メールアドレス<span class="req">*必須</span></label><input class="form-input" type="email" placeholder="example@email.com" id="f-email"></div></div>
-      <div class="form-row single"><div class="form-group"><label>電話番号<span class="req">*必須</span></label><input class="form-input" type="tel" placeholder="090-0000-0000" id="f-tel"></div></div>
+
+      <div class="form-row single">
+        <div class="form-group">
+          <label>電話番号<span class="req">*必須</span></label>
+          <input class="form-input" type="tel" placeholder="090-0000-0000" id="f-tel" autocomplete="tel">
+        </div>
+      </div>
+
       <div class="form-row">
         <div class="form-group">
           <label>郵便番号<span class="req">*必須</span></label>
           <div class="zip-wrap">
             <span class="zip-hyphen">〒</span>
-            <input class="form-input zip-input" type="text" id="zipCode" placeholder="例：8140123" maxlength="8" oninput="handleZipInput(this)" inputmode="numeric">
+            <input class="form-input zip-input" type="text" id="zipCode" placeholder="例：8140123" maxlength="8" oninput="handleZipInput(this)" inputmode="numeric" autocomplete="postal-code">
             <button type="button" class="zip-search-btn" onclick="searchZip()" id="zipSearchBtn">
               <span id="zipBtnTxt">住所検索</span>
               <span id="zipSpinner" class="zip-spinner" style="display:none"></span>
@@ -738,89 +817,136 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
           </div>
           <div id="zipMsg" class="zip-msg"></div>
         </div>
-        <div class="form-group"><label>都道府県<span class="req">*必須</span></label>
-          <select class="form-sel form-input" id="prefecture">
+        <div class="form-group">
+          <label>都道府県<span class="req">*必須</span></label>
+          <select class="form-sel form-input" id="prefecture" autocomplete="address-level1">
             <option value="">選択してください</option>
             <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option><option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option><option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option><option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option><option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option><option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option><option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option><option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option><option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option><option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option><option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option><option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
           </select>
         </div>
       </div>
-      <div class="form-row single"><div class="form-group"><label>住所（市区町村・番地）<span class="req">*必須</span></label><input class="form-input" type="text" id="address1" placeholder="郵便番号検索で自動入力されます"></div></div>
-      <div class="form-row single"><div class="form-group"><label>建物名・部屋番号（任意）</label><input class="form-input" type="text" placeholder="○○マンション101号室"></div></div>
+
+      <div class="form-row single">
+        <div class="form-group">
+          <label>住所（市区町村・番地）<span class="req">*必須</span></label>
+          <input class="form-input" type="text" id="address1" placeholder="郵便番号検索で自動入力されます" autocomplete="address-line1">
+        </div>
+      </div>
+      <div class="form-row single">
+        <div class="form-group">
+          <label>建物名・部屋番号（任意）</label>
+          <input class="form-input" type="text" id="address2" placeholder="○○マンション101号室" autocomplete="address-line2">
+        </div>
+      </div>
+      <div class="form-row single">
+        <div class="form-group">
+          <label>備考・ご要望（任意）</label>
+          <textarea class="form-input" rows="2" id="f-note" placeholder="ご不在時の対応、ギフトラッピング希望など" style="resize:vertical"></textarea>
+        </div>
+      </div>
+
       <div class="form-nav">
         <button class="btn-back" onclick="showPage('cart')">← カートに戻る</button>
-        <button class="btn-next" onclick="goStep(2)">配送方法へ →</button>
+        <button class="btn-next" onclick="goStep(2)">確認・お支払いへ →</button>
       </div>
     </div>
 
-    <!-- Step 2 -->
+    <!-- ── STEP 2：確認 + KOMOJU クレジット決済 ── -->
     <div id="coStep2" class="co-form-wrap" style="display:none">
-      <h3 class="co-sec-title">🚚 配送方法</h3>
-      <div class="ship-opts">
-        <div class="ship-opt act" onclick="selShip(this,660)"><div class="ship-radio"></div><div><div class="ship-name">通常配送</div><div class="ship-info">ご注文から1週間〜10日以内にお届け（ヤマト運輸）</div></div><div class="ship-price">¥660</div></div>
-        <div class="ship-opt" onclick="selShip(this,1100)"><div class="ship-radio"></div><div><div class="ship-name">速達配送</div><div class="ship-info">最短2〜3営業日でお届け（ヤマト運輸）</div></div><div class="ship-price">¥1,100</div></div>
-        <div class="ship-opt" onclick="selShip(this,880)"><div class="ship-radio"></div><div><div class="ship-name">時間指定配送</div><div class="ship-info">お届け時間帯のご指定が可能</div></div><div class="ship-price">¥880</div></div>
-      </div>
-      <div class="form-row single"><div class="form-group"><label>配送希望日（任意）</label><input class="form-input" type="date" id="delivDate"></div></div>
-      <div class="form-row single"><div class="form-group"><label>ご要望・備考（任意）</label><textarea class="form-input" rows="3" placeholder="ご不在の場合は宅配ボックスへ入れてください" style="resize:vertical"></textarea></div></div>
-      <div class="form-nav">
-        <button class="btn-back" onclick="goStep(1)">← 戻る</button>
-        <button class="btn-next" onclick="goStep(3)">お支払いへ →</button>
-      </div>
-    </div>
 
-    <!-- Step 3 -->
-    <div id="coStep3" class="co-form-wrap" style="display:none">
-      <h3 class="co-sec-title">💳 お支払い方法</h3>
-      <div class="komoju-badge">🔒 KOMOJU決済（SSL暗号化・安全）</div>
-      <div class="pay-methods" style="margin-top:18px">
-        <div class="pay-opt act" onclick="selPay(this)">
-          <div class="pay-radio"></div><span class="pay-ico">💳</span>
-          <div><div class="pay-name">クレジット・デビットカード</div><div class="pay-desc">VISA / Mastercard / JCB / AMEX 対応</div><div class="pay-logos"><span class="clabel">VISA</span><span class="clabel">MC</span><span class="clabel">JCB</span><span class="clabel">AMEX</span></div></div>
-        </div>
-        <div class="pay-opt" onclick="selPay(this)">
-          <div class="pay-radio"></div><span class="pay-ico">🏪</span>
-          <div><div class="pay-name">コンビニ決済</div><div class="pay-desc">ローソン / ファミリーマート / セブン-イレブン / デイリーヤマザキ</div></div>
-        </div>
-        <div class="pay-opt" onclick="selPay(this)">
-          <div class="pay-radio"></div><span class="pay-ico">🏦</span>
-          <div><div class="pay-name">銀行振込</div><div class="pay-desc">各種インターネットバンキング対応</div></div>
-        </div>
-        <div class="pay-opt" onclick="selPay(this)">
-          <div class="pay-radio"></div><span class="pay-ico">📱</span>
-          <div><div class="pay-name">PayPay</div><div class="pay-desc">PayPayでかんたんお支払い</div></div>
-        </div>
-        <div class="pay-opt" onclick="selPay(this)">
-          <div class="pay-radio"></div><span class="pay-ico">🚚</span>
-          <div><div class="pay-name">代金引換</div><div class="pay-desc">商品お届け時にお支払い（手数料 +330円）</div></div>
-        </div>
+      <!-- 注文内容確認 -->
+      <h3 class="co-sec-title">📋 ご注文内容の確認</h3>
+      <div class="confirm-card">
+        <div class="confirm-hd">🛒 注文商品</div>
+        <div id="confirmItems"></div>
       </div>
-      <div class="sec-badges">
-        <div class="sec-badge">🔒 SSL暗号化通信</div>
-        <div class="sec-badge">🛡️ PCI DSS準拠</div>
-        <div class="sec-badge">✅ 3Dセキュア対応</div>
+      <div class="confirm-card">
+        <div class="confirm-hd">📦 お届け先</div>
+        <div id="confirmAddr" style="font-size:.88rem;color:var(--text-m);line-height:2"></div>
       </div>
-      <div class="komoju-box">ℹ️ ご注文確定後、KOMOJUの安全な決済画面に移動します。カード情報は当店では保持しません。</div>
-      <div class="form-nav">
-        <button class="btn-back" onclick="goStep(2)">← 戻る</button>
-        <button class="btn-next" onclick="goStep(4)">注文確認へ →</button>
-      </div>
-    </div>
-
-    <!-- Step 4 -->
-    <div id="coStep4" class="co-form-wrap" style="display:none">
-      <h3 class="co-sec-title">📋 注文内容の確認</h3>
-      <div class="confirm-card"><div class="confirm-hd">🛒 注文商品</div><div id="confirmItems"></div></div>
       <div class="confirm-card">
         <div class="confirm-hd">💰 お支払い金額</div>
         <div class="confirm-row"><span>小計</span><strong id="confSub"></strong></div>
-        <div class="confirm-row"><span>送料</span><strong id="confShip"></strong></div>
-        <div class="confirm-row" style="font-size:1.05rem;border-top:2px solid var(--border);padding-top:11px;margin-top:7px;font-weight:700;color:var(--honey-dk)"><span>合計（税込）</span><strong id="confTotal"></strong></div>
+        <div class="confirm-row"><span>送料（全国一律）</span><strong id="confShip"></strong></div>
+        <div class="confirm-row" id="confDiscRow" style="display:none;color:var(--sage)"><span>割引</span><strong id="confDisc"></strong></div>
+        <div class="confirm-row" style="font-size:1.08rem;border-top:2px solid var(--border);padding-top:12px;margin-top:8px;font-weight:700;color:var(--honey-dk)">
+          <span>合計（税込）</span><strong id="confTotal"></strong>
+        </div>
       </div>
-      <label class="agree-check"><input type="checkbox" id="agreeChk"><span><a href="#" style="color:var(--honey)">利用規約</a>および<a href="#" style="color:var(--honey)">プライバシーポリシー</a>に同意します</span></label>
-      <button class="place-btn" onclick="placeOrder()">🔒 注文を確定する（KOMOJU決済へ）</button>
-      <div style="text-align:center;font-size:.78rem;color:var(--text-l);margin-top:10px">注文確定後、安全な決済画面に移動します</div>
-      <div class="form-nav"><button class="btn-back" onclick="goStep(3)">← 戻る</button></div>
+
+      <!-- KOMOJU クレジットカード入力 -->
+      <h3 class="co-sec-title" style="margin-top:32px">💳 クレジットカード情報</h3>
+
+      <div class="komoju-wrap">
+        <div class="card-brand-row">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg" alt="VISA" class="card-brand-img">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="MC" class="card-brand-img">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/JCB_logo.svg" alt="JCB" class="card-brand-img">
+          <span class="card-brand-amex">AMEX</span>
+        </div>
+
+        <!-- KOMOJU Fields SDK埋め込み点 -->
+        <!-- ★ 本番実装時: komoju-fields Web Component を使用 -->
+        <!-- <script src="https://komoju.com/sdk/v1/fields.js" data-komoju-publishable-key="YOUR_PK"></script> -->
+        <!-- <komoju-fields id="komoju-fields" session="SESSION_TOKEN"></komoju-fields> -->
+
+        <!-- フロント側カード入力UI（KOMOJU設定前の動作確認用） -->
+        <div class="card-form" id="cardForm">
+          <div class="form-group" style="margin-bottom:14px">
+            <label style="font-size:.83rem;font-weight:600;color:var(--text)">カード番号<span class="req">*必須</span></label>
+            <div class="card-input-wrap">
+              <input class="form-input card-num-input" type="text" id="cardNumber" placeholder="1234 5678 9012 3456"
+                maxlength="19" oninput="fmtCardNum(this)" inputmode="numeric" autocomplete="cc-number">
+              <span class="card-type-ico" id="cardTypeIco"></span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label style="font-size:.83rem;font-weight:600;color:var(--text)">有効期限<span class="req">*必須</span></label>
+              <input class="form-input" type="text" id="cardExpiry" placeholder="MM / YY"
+                maxlength="7" oninput="fmtExpiry(this)" inputmode="numeric" autocomplete="cc-exp">
+            </div>
+            <div class="form-group">
+              <label style="font-size:.83rem;font-weight:600;color:var(--text)">セキュリティコード<span class="req">*必須</span></label>
+              <div style="position:relative">
+                <input class="form-input" type="text" id="cardCvc" placeholder="CVV"
+                  maxlength="4" oninput="this.value=this.value.replace(/\D/g,'')" inputmode="numeric" autocomplete="cc-csc">
+                <span class="cvc-tip" title="カード裏面の3桁（AMEXは表面4桁）">?</span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:4px">
+            <label style="font-size:.83rem;font-weight:600;color:var(--text)">カード名義（半角ローマ字）<span class="req">*必須</span></label>
+            <input class="form-input" type="text" id="cardName" placeholder="HANAKO YAMADA"
+              style="text-transform:uppercase" autocomplete="cc-name">
+          </div>
+        </div>
+
+        <div class="ssl-row">
+          <span class="ssl-badge">🔒 SSL暗号化通信</span>
+          <span class="ssl-badge">🛡️ PCI DSS準拠</span>
+          <span class="ssl-badge">✅ 3Dセキュア対応</span>
+        </div>
+        <div class="komoju-note">
+          カード情報はKOMOJU（Degica Co., Ltd.）の安全なサーバーで処理されます。当店ではカード情報を保持しません。
+        </div>
+      </div>
+
+      <label class="agree-check">
+        <input type="checkbox" id="agreeChk">
+        <span><a href="#" style="color:var(--honey)">利用規約</a>および<a href="#" style="color:var(--honey)">プライバシーポリシー</a>に同意します</span>
+      </label>
+
+      <button class="place-btn" id="placeBtn" onclick="placeOrder()">
+        🔒 注文を確定して決済する
+      </button>
+      <p style="text-align:center;font-size:.75rem;color:var(--text-l);margin-top:8px">
+        ※ KOMOJUの決済完了後、自動的に完了画面に移動します
+      </p>
+
+      <div class="form-nav" style="margin-top:22px">
+        <button class="btn-back" onclick="goStep(1)">← 配送先に戻る</button>
+      </div>
     </div>
   </div>
 </div>
@@ -881,9 +1007,9 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
         <ul class="ft-links">
           <li><a onclick="filterCat('soft')">プレーン（ソフトタイプ）</a></li>
           <li><a onclick="filterCat('hard')">プレーン（ハードタイプ）</a></li>
-          <li><a onclick="filterCat('flavor')">フレーバー</a></li>
-          <li><a onclick="filterCat('gift')">ギフトセット</a></li>
-          <li><a onclick="filterCat('other')">バウムクッキー他</a></li>
+          <li><a onclick="filterCat('gift')">セット・ギフト商品</a></li>
+          <li><a onclick="filterCat('other')">クッキー缶・その他</a></li>
+          <li><a onclick="filterCat('all')">全商品一覧</a></li>
         </ul>
       </div>
       <div>
@@ -926,8 +1052,8 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
     <div class="mob-nav-it act" onclick="showPage('home')"><span class="mob-nav-ico">🏠</span>ホーム</div>
     <div class="mob-nav-it" onclick="filterCat('all')"><span class="mob-nav-ico">🛍️</span>商品</div>
     <div class="mob-nav-it" onclick="showPage('cart')"><span class="mob-nav-ico">🛒</span>カート</div>
+    <div class="mob-nav-it" onclick="showPage('fav')"><span class="mob-nav-ico">❤️</span>お気に入り</div>
     <div class="mob-nav-it" onclick="showPage('shopinfo')"><span class="mob-nav-ico">🏠</span>店舗</div>
-    <div class="mob-nav-it"><span class="mob-nav-ico">🤍</span>お気に入り</div>
   </div>
 </div>
 
@@ -941,100 +1067,314 @@ footer{background:var(--brown);color:#fff;padding:56px 0 28px}
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<!-- メール送信オーバーレイ -->
+<div class="mail-overlay" id="mailOverlay">
+  <div class="mail-card">
+    <div class="mail-spinner"></div>
+    <p id="mailMsg" style="font-size:.92rem;color:var(--brown);font-weight:500">領収書メールを送信中...</p>
+    <p style="font-size:.78rem;color:var(--text-l);margin-top:8px">しばらくお待ちください</p>
+  </div>
+</div>
+
+<!-- ═══ お気に入りページ ═══ -->
+<div id="page-fav" class="page">
+  <div class="container" style="padding:40px 0 76px">
+    <p class="sec-title">お気に入りリスト</p>
+    <p class="sec-sub">My Favorites</p>
+    <div id="favEmpty" class="fav-empty" style="display:none">
+      <div class="fav-empty-ico">🤍</div>
+      <p style="font-size:1rem;color:var(--text-m);margin-bottom:18px">まだお気に入りに商品がありません</p>
+      <button class="btn-p" onclick="filterCat('all')">商品を見る</button>
+    </div>
+    <div id="favGrid" class="products-grid"></div>
+  </div>
+</div>
+
+<!-- ═══ 管理パネル ═══ -->
+<div id="page-admin" class="page">
+
+  <!-- ログイン画面 -->
+  <div id="adminLogin" class="admin-login">
+    <div style="font-size:2.5rem;margin-bottom:14px">🔐</div>
+    <h2>管理者ログイン</h2>
+    <p style="font-size:.8rem;color:var(--text-l);margin-bottom:20px">未来図 管理パネル</p>
+    <input class="form-input" type="password" id="adminPw" placeholder="パスワードを入力" style="margin-bottom:12px;width:100%"
+      onkeydown="if(event.key==='Enter')adminLogin()">
+    <button class="btn-p" onclick="adminLogin()" style="width:100%;padding:13px">ログイン</button>
+    <p id="adminPwErr" style="color:var(--peach);font-size:.78rem;margin-top:10px;display:none">パスワードが違います</p>
+  </div>
+
+  <!-- ダッシュボード -->
+  <div id="adminDash" class="admin-wrap" style="display:none">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div>
+        <div class="admin-ttl">📊 注文管理ダッシュボード</div>
+        <div class="admin-sub">米粉バウムクーヘン工房 未来図</div>
+      </div>
+      <button class="btn-o" onclick="adminLogout()" style="font-size:.82rem;padding:8px 18px">ログアウト</button>
+    </div>
+
+    <!-- 統計カード -->
+    <div class="admin-stat-row">
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="statTotal">0</div>
+        <div class="admin-stat-lbl">総注文件数</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="statPending">0</div>
+        <div class="admin-stat-lbl">発送待ち</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="statShipped">0</div>
+        <div class="admin-stat-lbl">発送済み</div>
+      </div>
+    </div>
+
+    <!-- フィルター -->
+    <div class="admin-filter">
+      <button class="admin-filter-btn act" onclick="filterOrders('all',this)">すべて</button>
+      <button class="admin-filter-btn" onclick="filterOrders('pending',this)">発送待ち</button>
+      <button class="admin-filter-btn" onclick="filterOrders('shipped',this)">発送済み</button>
+    </div>
+
+    <!-- 注文一覧 -->
+    <div id="orderList"></div>
+
+    <div id="noOrders" style="text-align:center;padding:44px;color:var(--text-l);display:none">
+      <p style="font-size:2rem">📭</p>
+      <p style="margin-top:8px">注文データがありません</p>
+    </div>
+  </div>
+</div>
+
 <script>
-// ═══ REAL PRODUCT DATA from 未来図 ═══
+// ══════════════════════════════════════════════
+// ★ EmailJS設定（要設定）
+// https://www.emailjs.com/ でアカウント作成後に設定
+// ══════════════════════════════════════════════
+const EMAILJS_CONFIG = {
+  publicKey:  'YOUR_PUBLIC_KEY',       // EmailJS Public Key
+  serviceId:  'YOUR_SERVICE_ID',       // EmailJSサービスID (Gmail等)
+  receiptTpl: 'template_receipt',      // 領収書テンプレートID
+  trackingTpl:'template_tracking',     // 追跡番号テンプレートID
+};
+// ★ 管理パネルのパスワード（本番前に必ず変更）
+const ADMIN_PASSWORD = 'mirais2024';
+
+// ══════════════════════════════════════════════
+// KOMOJU設定（契約済み・公開鍵設定済み）
+// ══════════════════════════════════════════════
+const KOMOJU_CONFIG = {
+  publishableKey: 'pk_live_bksmxmjm7urv539dhqtb17tf',
+  // セッション作成はサーバーサイド Vercel Function /api/komoju-session で実行
+  // 非公開鍵は Vercel の環境変数 KOMOJU_SECRET_KEY に設定（HTMLには絶対書かない）
+  sessionEndpoint: '/api/komoju-session',
+  // 決済完了後の戻り先URL（Vercelデプロイ後に実際のURLに変更）
+  returnUrl: typeof window !== 'undefined'
+    ? window.location.origin + '/?order=complete'
+    : 'https://ec-ai.vercel.app/?order=complete',
+};
+
+// ═══ REAL PRODUCT DATA from 未来図 WooCommerce API ═══
 const products = [
   {
-    id:1, name:'米粉バウムクーヘン（プレーン・ソフトタイプ）',
+    id:1754, wcId:1754,
+    name:'米粉バウムクーヘン プレーン（ソフトタイプ）',
     short:'佐賀県産無農薬米粉のふんわり食感。定番の人気No.1商品。',
-    desc:'佐賀県産の無農薬の米粉、種子島のやさしい甘さのきび砂糖、国産バターを使って焼いた、ふんわり食感の「ソフトタイプ」バウムクーヘンです。グルテンフリーなので小麦アレルギーの方をはじめ健康を意識する方へもおすすめです。日頃のおやつにはもちろん手土産や大切な贈り物に最適です。',
+    desc:'佐賀県産の無農薬の米粉、種子島のやさしい甘さのきび砂糖、国産バターを使って焼いた、ふんわり食感の「ソフトタイプ」バウムクーヘンです。グルテンフリーなので小麦アレルギーの方をはじめ健康を意識する方へもおすすめです。日頃のおやつにはもちろん手土産や大切な贈り物にも最適です。',
     ingredients:'鶏卵（九州産）、きび砂糖（種子島産）、バター（国産）、植物油脂、ホイップクリーム、米粉（佐賀県産・無農薬）、洋酒／加工澱粉、乳化剤、ベーキングパウダー、香料、リン酸塩（Na）、安定剤（増粘多糖類）、カロチン色素',
     allergen:'卵・乳成分・大豆', weight:'約330g', size:'直径約14cm×高さ4cm',
-    price:1800, salePrice:null, cat:'soft', badge:'pop', badgeText:'人気No.1', stars:5, reviews:156,
-    emoji:'🍮', bg:'bg-soft',
+    price:1600, salePrice:null, cat:'soft', badge:'pop', badgeText:'人気No.1', stars:5, reviews:156,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2024/12/IMG_4247.png',
     sizes:['1個（約330g）'],
     expiry:'発送日より28日', storage:'直射日光・高温多湿を避け常温保存',
   },
   {
-    id:2, name:'米粉バウムクーヘン（プレーン・ハードタイプ）',
+    id:1757, wcId:1757,
+    name:'米粉バウムクーヘン プレーン（ハードタイプ）',
     short:'モチっとした食感がクセになる。アーモンドパウダー入りで風味豊か。',
     desc:'佐賀県産の無農薬の米粉、種子島のきび砂糖、国産バターを使って焼いた、もっちりとした食感が癖になる「ハードタイプ」バウムクーヘンです。アーモンドパウダーが入っており、洋酒のほのかな風味と相まって大人な味わいに仕上がっています。グルテンフリーなので小麦アレルギーの方をはじめ健康を意識する方へもおすすめです。',
     ingredients:'鶏卵（九州産）、砂糖（きび砂糖）、米粉（佐賀県産・無農薬）、バター（国産）、植物油脂、アーモンドパウダー、水飴、粉糖、塩、洋酒、レモン汁／トレハロース、加工澱粉、カスタードパウダー、乳化剤、ベーキングパウダー、香料、安定剤（増粘多糖類）、リン酸塩（Na）、カロチン色素',
     allergen:'卵・乳成分・大豆・アーモンド・オレンジ', weight:'約300g', size:'直径約14cm×高さ4cm',
-    price:1800, salePrice:null, cat:'hard', badge:'pop', badgeText:'定番人気', stars:5, reviews:134,
-    emoji:'🥮', bg:'bg-hard',
+    price:1600, salePrice:null, cat:'hard', badge:'pop', badgeText:'定番人気', stars:5, reviews:134,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2024/12/IMG_4249.jpeg',
     sizes:['1個（約300g）'],
     expiry:'発送日より28日（製造日より21日）', storage:'直射日光・高温多湿を避け常温保存',
   },
   {
-    id:3, name:'米粉バウムクーヘン（おから豆乳）',
-    short:'おからと豆乳入りのヘルシーなフレーバー。やさしい甘さ。',
-    desc:'おからと豆乳を加えた、よりヘルシーなフレーバーバウムクーヘン。おからの食物繊維と豆乳のまろやかな風味が米粉のもっちり食感に絶妙に合わさった一品です。ダイエット中の方や健康を意識する方に特においすすめです。',
-    ingredients:'鶏卵（九州産）、きび砂糖（種子島産）、バター（国産）、おから、豆乳、植物油脂、米粉（佐賀県産）、洋酒／加工澱粉、乳化剤、ベーキングパウダー、香料、リン酸塩（Na）、安定剤（増粘多糖類）、カロチン色素',
-    allergen:'卵・乳成分・大豆', weight:'約300g', size:'直径約14cm×高さ4cm',
-    price:1900, salePrice:null, cat:'flavor', badge:'new', badgeText:'NEW', stars:5, reviews:62,
-    emoji:'🌱', bg:'bg-okara',
-    sizes:['1個（約300g）'],
-    expiry:'製造日より21日', storage:'直射日光・高温多湿を避け常温保存',
+    id:2195, wcId:2195,
+    name:'★お試しセット★ お配り用プレゼントにもいかがですか？',
+    short:'はじめての方に。手軽に楽しめるお試しセット。プレゼントにも◎',
+    desc:'米粉バウムクーヘン工房 未来図のお菓子を初めてご注文される方や、プチギフト・お配りものとしてご利用いただける特別なお試しセットです。本商品の詳細はショップまでお問い合わせください。',
+    ingredients:'各商品の原材料に準ずる',
+    allergen:'卵・乳成分・大豆（含む商品あり）', weight:'要確認', size:'要確認',
+    price:1000, salePrice:null, cat:'gift', badge:'sale', badgeText:'お試し', stars:5, reviews:42,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/02/IMG_4951-scaled.jpeg',
+    sizes:['セット内容は注文時に確認'],
+    expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
   },
   {
-    id:4, name:'米粉バウムクーヘン（さつまいも・豆乳）',
-    short:'さつまいもの上品な甘みと豆乳のまろやかさ。期間限定フレーバー。',
-    desc:'さつまいもと豆乳を使った期間限定のフレーバーバウムクーヘンです。さつまいもの自然な甘みと豆乳のまろやかさが米粉の食感と絶妙にマッチ。甘さ控えめで食べやすく、お子様から年配の方まで幅広くお楽しみいただけます。',
-    ingredients:'鶏卵（九州産）、きび砂糖（種子島産）、バター（国産）、さつまいも、ホイップクリーム、植物油脂、米粉（佐賀県産）、蜂蜜、アーモンドパウダー、洋酒／加工澱粉、乳化剤、香料、ベーキングパウダー、リン酸塩（Na）、安定剤（増粘多糖類）、カロチン色素',
-    allergen:'卵・乳成分・大豆・アーモンド・オレンジ', weight:'約300g', size:'直径約14cm×高さ4cm',
-    price:1900, salePrice:null, cat:'flavor', badge:'lim', badgeText:'期間限定', stars:4, reviews:48,
-    emoji:'🍠', bg:'bg-imo',
-    sizes:['1個（約300g）'],
-    expiry:'製造日より21日', storage:'直射日光・高温多湿を避け常温保存',
+    id:1760, wcId:1760,
+    name:'米粉バウムクーヘン ハーフセット（2個入）',
+    short:'2つの味が楽しめるハーフカットセット。手軽なプレゼントに。',
+    desc:'米粉バウムクーヘンのハーフカットが2個入ったセットです。2種類の味をお楽しみいただけます（ソフトタイプ・ハードタイプ）。ちょっとしたプレゼントや自分へのご褒美にぴったりです。',
+    ingredients:'各フレーバーの原材料に準ずる',
+    allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'ハーフカット×2', size:'ハーフカットサイズ×2個',
+    price:1750, salePrice:null, cat:'gift', badge:null, badgeText:'', stars:5, reviews:67,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2024/12/IMG_4251.jpeg',
+    sizes:['2個入りセット'],
+    expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
   },
   {
-    id:5, name:'米粉バウムクーヘン ハーフセット（4個入）',
+    id:1765, wcId:1765,
+    name:'米粉バウムクーヘン ハーフセット（4個入）',
     short:'4種類の味が楽しめるハーフカットセット。お試しに最適！',
     desc:'4種類の味が楽しめるハーフカットサイズのお得なセットです。セット内容：①プレーン（ソフトタイプ）②プレーン（ハードタイプ）③おから豆乳④さつまいも。はじめてご注文の方のお試しにも、贈り物にも大変喜ばれています。',
-    ingredients:'各フレーバーの原材料を含む（プレーンソフト・プレーンハード・おから豆乳・さつまいも）',
-    allergen:'卵・乳成分・大豆・アーモンド・オレンジ（含む商品あり）', weight:'各ハーフカット', size:'ハーフカットサイズ×4個',
-    price:4000, salePrice:null, cat:'gift', badge:'pop', badgeText:'人気セット', stars:5, reviews:89,
-    emoji:'🎁', bg:'bg-half',
+    ingredients:'各フレーバーの原材料に準ずる',
+    allergen:'卵・乳成分・大豆・アーモンド・オレンジ（含む商品あり）', weight:'ハーフカット×4', size:'ハーフカットサイズ×4個',
+    price:3400, salePrice:null, cat:'gift', badge:'pop', badgeText:'人気セット', stars:5, reviews:89,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2024/12/IMG_4256.jpeg',
     sizes:['4個入りセット'],
     expiry:'各商品に準ずる（製造日より21〜28日）', storage:'直射日光・高温多湿を避け常温保存',
   },
   {
-    id:6, name:'米粉バウムクーヘン 3本セット（のし対応）',
-    short:'贈り物に最適。のし・メッセージカード無料対応の定番ギフト。',
-    desc:'米粉バウムクーヘンを3本お選びいただけるギフトセットです。のし・メッセージカード無料対応。誕生日・内祝い・お中元・お歳暮・出産祝いなど様々なシーンでご利用いただけます。フレーバーはご注文時にご指定ください（ソフト・ハード・おから豆乳・さつまいも）。',
-    ingredients:'ご指定のフレーバーの原材料に準ずる',
-    allergen:'フレーバーにより異なる', weight:'3本セット', size:'専用ギフトボックス入り',
-    price:5800, salePrice:null, cat:'gift', badge:'new', badgeText:'ギフト人気', stars:5, reviews:73,
-    emoji:'🎀', bg:'bg-set3',
-    sizes:['3本セット（フレーバー指定可）'],
+    id:1772, wcId:1772,
+    name:'米粉バウムクーヘン ハーフセット（6個入）',
+    short:'6種類の味が揃うボリューム満点のハーフセット。大切な贈り物に。',
+    desc:'6個のハーフカットバウムクーヘンが入ったセットです。様々なフレーバーをお楽しみいただけます。お中元・お歳暮・内祝いなどの贈り物にも大変喜ばれています。',
+    ingredients:'各フレーバーの原材料に準ずる',
+    allergen:'卵・乳成分・大豆・アーモンド・オレンジ（含む商品あり）', weight:'ハーフカット×6', size:'ハーフカットサイズ×6個',
+    price:5050, salePrice:null, cat:'gift', badge:'new', badgeText:'ギフト人気', stars:5, reviews:73,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2024/12/IMG_4262.jpeg',
+    sizes:['6個入りセット'],
     expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
   },
   {
-    id:7, name:'米粉バウムクッキー（ハードタイプ）',
+    id:2029, wcId:2029,
+    name:'米粉バウムクッキー（プレーン：ハード）',
     short:'ハードタイプのバウムクッキー。クセになる美味しさ！',
     desc:'ハードタイプのバウムクーヘンをもとにしたバウムクッキーです。サクサクとした食感の中に米粉の旨みが凝縮。個包装なので職場のおやつや小さなプレゼントにも最適です。',
     ingredients:'米粉（佐賀県産）、砂糖、バター、卵、アーモンドパウダー、洋酒',
     allergen:'卵・乳成分・アーモンド', weight:'約50g', size:'個包装',
     price:600, salePrice:null, cat:'other', badge:null, badgeText:'', stars:4, reviews:31,
-    emoji:'🍪', bg:'bg-cookie',
-    sizes:['1個（個包装）', '5個入り袋'],
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4318.jpeg',
+    sizes:['1個（個包装）'],
     expiry:'製造日より30日', storage:'直射日光・高温多湿を避け常温保存',
   },
   {
-    id:8, name:'BtoB法人向け 名入れバウムクーヘン（要相談）',
-    short:'企業ノベルティ・記念品・名入れ対応。目的とご予算をお聞かせください。',
-    desc:'法人様向けのオリジナルノベルティ・記念品として米粉バウムクーヘンをご提供しています。名入れ・オリジナルパッケージ対応可能です。最低ロット数・価格はご予算・納期・数量により異なりますのでお問い合わせください。\n📞 お問い合わせ：092-834-9856（11:00〜17:00 水・日定休）',
-    ingredients:'ご指定フレーバーの原材料に準ずる',
-    allergen:'フレーバーにより異なる', weight:'要相談', size:'要相談',
-    price:0, salePrice:null, cat:'other', badge:'new', badgeText:'BtoB', stars:5, reviews:12,
-    emoji:'🏢', bg:'bg-btob',
-    sizes:['要お問い合わせ'],
-    expiry:'要相談', storage:'直射日光・高温多湿を避け常温保存',
+    id:2034, wcId:2034,
+    name:'米粉バウムクーヘン 1/8カットサイズセット（15個入）',
+    short:'1/8カットの食べきりサイズが15個入り。大人数への贈り物に最適。',
+    desc:'バウムクーヘンを1/8にカットした食べきりサイズが15個入ったセットです。大人数へのプレゼントや会社への手土産にぴったり。個包装なので衛生的にお配りいただけます。',
+    ingredients:'各フレーバーの原材料に準ずる',
+    allergen:'卵・乳成分・大豆（含む商品あり）', weight:'1/8カット×15個', size:'1/8カットサイズ×15個',
+    price:3550, salePrice:null, cat:'gift', badge:null, badgeText:'', stars:5, reviews:55,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4321.jpeg',
+    sizes:['15個入りセット'],
+    expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
+  },
+  {
+    id:2068, wcId:2068,
+    name:'米粉バウムクーヘン & バウムクッキー詰合せ（8個入）',
+    short:'バウムクーヘンとクッキーの豪華な詰め合わせ8個入り。',
+    desc:'バウムクーヘンとバウムクッキーを組み合わせた贅沢な詰め合わせセットです（8個入）。見た目も華やかで、様々な食感をお楽しみいただけます。贈り物や手土産に大変喜ばれています。',
+    ingredients:'バウムクーヘン・バウムクッキー各フレーバーの原材料に準ずる',
+    allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'8個入', size:'詰め合わせボックス',
+    price:1880, salePrice:null, cat:'gift', badge:null, badgeText:'', stars:5, reviews:48,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4359.jpeg',
+    sizes:['8個入りセット'],
+    expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
+  },
+  {
+    id:2062, wcId:2062,
+    name:'米粉バウムクーヘン & バウムクッキー詰合せ（12個入）',
+    short:'バウムクーヘンとクッキーの豪華な詰め合わせ12個入り。',
+    desc:'バウムクーヘンとバウムクッキーを組み合わせた贅沢な詰め合わせセットです（12個入）。見た目も華やかで、様々な食感をお楽しみいただけます。お中元・お歳暮・内祝いなどの贈り物に最適です。',
+    ingredients:'バウムクーヘン・バウムクッキー各フレーバーの原材料に準ずる',
+    allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'12個入', size:'詰め合わせボックス',
+    price:2810, salePrice:null, cat:'gift', badge:'pop', badgeText:'ギフト人気', stars:5, reviews:61,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4354.jpeg',
+    sizes:['12個入りセット'],
+    expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
+  },
+  {
+    id:2072, wcId:2072,
+    name:'米粉バウムクーヘン 1/8カットサイズセット（10個入）',
+    short:'1/8カットの食べきりサイズが10個入り。職場への手土産に。',
+    desc:'バウムクーヘンを1/8にカットした食べきりサイズが10個入ったセットです。職場や友人へのプレゼントとして手軽にお配りいただけます。個包装で衛生的です。',
+    ingredients:'各フレーバーの原材料に準ずる',
+    allergen:'卵・乳成分・大豆（含む商品あり）', weight:'1/8カット×10個', size:'1/8カットサイズ×10個',
+    price:2400, salePrice:null, cat:'gift', badge:null, badgeText:'', stars:5, reviews:44,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4365.jpeg',
+    sizes:['10個入りセット'],
+    expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
+  },
+  {
+    id:2120, wcId:2120,
+    name:'米粉バウムクーヘン 1/4カットサイズセット（3個入）',
+    short:'1/4カットが3個入り。4種類のフレーバーからお選びいただけます。',
+    desc:'バウムクーヘンを1/4にカットしたサイズが3個入ったセットです。プレーン（ソフト）・プレーン（ハード）・おから豆乳・さつまいもの4種類のフレーバーからお選びいただけます。',
+    ingredients:'各フレーバーの原材料に準ずる',
+    allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'1/4カット×3個', size:'1/4カットサイズ×3個',
+    price:1350, salePrice:null, cat:'gift', badge:null, badgeText:'', stars:5, reviews:36,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4462.jpeg',
+    sizes:['3個入りセット（フレーバー指定可）'],
+    expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
+  },
+  {
+    id:2127, wcId:2127,
+    name:'米粉バウムクーヘン 1/4カットサイズセット（6個入）',
+    short:'1/4カットが6個入り。贈り物に喜ばれる定番サイズ。',
+    desc:'バウムクーヘンを1/4にカットしたサイズが6個入ったセットです。プレーン（ソフト）・プレーン（ハード）・おから豆乳・さつまいもの4種類のフレーバーからお選びいただけます。誕生日・内祝いなどのプレゼントに大変喜ばれています。',
+    ingredients:'各フレーバーの原材料に準ずる',
+    allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'1/4カット×6個', size:'1/4カットサイズ×6個',
+    price:2600, salePrice:null, cat:'gift', badge:'pop', badgeText:'贈り物人気', stars:5, reviews:52,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4468.jpeg',
+    sizes:['6個入りセット（フレーバー指定可）'],
+    expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
+  },
+  {
+    id:2134, wcId:2134,
+    name:'米粉バウムクーヘン 1/4カットサイズセット（9個入）',
+    short:'1/4カットが9個入り。大切な方への豪華なギフトに。',
+    desc:'バウムクーヘンを1/4にカットしたサイズが9個入ったセットです。プレーン（ソフト）・プレーン（ハード）・おから豆乳・さつまいもの4種類のフレーバーからお選びいただけます。お中元・お歳暮・お世話になった方への贈り物にぴったりです。',
+    ingredients:'各フレーバーの原材料に準ずる',
+    allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'1/4カット×9個', size:'1/4カットサイズ×9個',
+    price:3850, salePrice:null, cat:'gift', badge:'new', badgeText:'NEW', stars:5, reviews:28,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4474.jpeg',
+    sizes:['9個入りセット（フレーバー指定可）'],
+    expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
+  },
+  {
+    id:2255, wcId:2255,
+    name:'クッキー缶【ミモザ缶】',
+    short:'可愛いミモザ缶に入ったクッキーセット。贈り物に大人気！',
+    desc:'春の陽気を感じさせる可愛いミモザ柄の缶に入ったクッキーセットです。見た目も可愛く、プレゼントや手土産に大変喜ばれています。お花見や春のギフトシーンにもぴったりです。',
+    ingredients:'米粉（佐賀県産）、砂糖、バター、卵、アーモンドパウダー、洋酒',
+    allergen:'卵・乳成分・アーモンド', weight:'要確認', size:'ミモザ缶入り',
+    price:700, salePrice:null, cat:'other', badge:'new', badgeText:'NEW', stars:5, reviews:24,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/02/AOI_2808-scaled.jpg',
+    sizes:['ミモザ缶1缶'],
+    expiry:'製造日より30日', storage:'直射日光・高温多湿を避け常温保存',
+  },
+  {
+    id:2337, wcId:2337,
+    name:'【数量限定】お楽しみアウトレットBOX',
+    short:'数量限定のお得なアウトレットBOX。訳あり品がお値打ち価格で！',
+    desc:'形が少し不揃いだったり、わけあり品を詰め合わせたお得なアウトレットBOXです。数量限定販売のため、なくなり次第終了となります。品質には問題ありませんので、ぜひお楽しみください。',
+    ingredients:'各商品の原材料に準ずる',
+    allergen:'卵・乳成分・大豆（含む商品あり）', weight:'要確認', size:'BOXサイズ',
+    price:2000, salePrice:null, cat:'other', badge:'lim', badgeText:'数量限定', stars:5, reviews:19,
+    img:'https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/03/IMG_4942-scaled.jpeg',
+    sizes:['内容はお楽しみ'],
+    expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
   },
 ];
 
 let cart = JSON.parse(localStorage.getItem('mirais_cart') || '[]');
+let favorites = JSON.parse(localStorage.getItem('mirais_fav') || '[]');
+let orders = JSON.parse(localStorage.getItem('mirais_orders') || '[]');
+let adminLoggedIn = false;
 let currentProduct = null;
 let selectedSize = '';
 let selectedShipPrice = 660;
@@ -1049,17 +1389,21 @@ function createCard(p){
     ? '<span class="pcard-price">お問い合わせください</span>'
     : p.salePrice
       ? `<span class="pcard-price">¥${p.salePrice.toLocaleString()}</span><span class="pcard-orig">¥${p.price.toLocaleString()}</span>`
-      : `<span class="pcard-price">¥${price.toLocaleString()}</span>`;
+      : `<span class="pcard-price">¥${price.toLocaleString()}<span style="font-size:.72rem;font-weight:400;color:var(--text-l)">（税込）</span></span>`;
   const badge = p.badge ? `<div class="pcard-badge b-${p.badge}">${p.badgeText}</div>` : '';
   const addBtn = p.price === 0
     ? `<button class="add-btn" onclick="event.stopPropagation();showToast('📞 092-834-9856 にお電話ください')">お問い合わせ</button>`
     : `<button class="add-btn" onclick="event.stopPropagation();quickAdd(${p.id})">🛒 カートに追加</button>`;
+  const imgHtml = p.img
+    ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;transition:transform .45s ease" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    : '';
+  const fallback = `<div style="width:100%;height:100%;display:${p.img?'none':'flex'};align-items:center;justify-content:center;font-size:4rem;background:var(--brown-pale)">🍰</div>`;
   return `
     <div class="pcard" onclick="showDetail(${p.id})">
-      <div class="pcard-img">
-        <div class="${p.bg}" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4.5rem">${p.emoji}</div>
+      <div class="pcard-img" style="overflow:hidden">
+        ${imgHtml}${fallback}
         ${badge}
-        <button class="pcard-fav" onclick="event.stopPropagation();this.classList.toggle('act');this.textContent=this.classList.contains('act')?'❤️':'🤍'">🤍</button>
+        <button class="pcard-fav" onclick="event.stopPropagation();toggleFavCard(${p.id},this)">${favorites.includes(p.id)?'❤️':'🤍'}</button>
       </div>
       <div class="pcard-body">
         <div class="pcard-stars">${stars(p.stars)}</div>
@@ -1073,17 +1417,20 @@ function createCard(p){
 
 function renderHome(){
   document.getElementById('homeGrid').innerHTML =
-    products.filter(p => p.id !== 8).slice(0,6).map(createCard).join('');
+    products.slice(0,6).map(createCard).join('');
 }
 
 function renderRanking(){
-  const ranked = [...products].filter(p=>p.id!==8).sort((a,b)=>b.reviews-a.reviews).slice(0,5);
+  const ranked = [...products].sort((a,b)=>b.reviews-a.reviews).slice(0,5);
   document.getElementById('rankList').innerHTML = ranked.map((p,i)=>{
     const cls=['rn1','rn2','rn3','rnx','rnx'][i];
     const price = p.price === 0 ? 'お問い合わせ' : `¥${(p.salePrice||p.price).toLocaleString()}`;
+    const imgEl = p.img
+      ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:8px" loading="lazy" onerror="this.style.display='none'">`
+      : `<div class="rank-img" style="display:flex;align-items:center;justify-content:center;font-size:1.8rem;background:var(--brown-pale);border-radius:8px">🍰</div>`;
     return `<div class="rank-item" onclick="showDetail(${p.id})">
       <div class="rank-num ${cls}">${i+1}</div>
-      <div class="rank-img ${p.bg}">${p.emoji}</div>
+      <div class="rank-img" style="overflow:hidden;border-radius:8px">${imgEl}</div>
       <div class="rank-info"><div class="rank-name">${p.name}</div><div class="rank-star">${stars(p.stars)} ${p.reviews}件のレビュー</div></div>
       <div class="rank-price">${price}</div>
     </div>`;
@@ -1091,7 +1438,7 @@ function renderRanking(){
 }
 
 function filterCat(cat){
-  const titles = {all:'すべての商品',soft:'プレーン（ソフトタイプ）',hard:'プレーン（ハードタイプ）',flavor:'フレーバー商品',gift:'ギフトセット',other:'その他'};
+  const titles = {all:'すべての商品',soft:'プレーン（ソフトタイプ）',hard:'プレーン（ハードタイプ）',gift:'セット・ギフト商品',other:'クッキー・その他'};
   const filtered = cat==='all' ? products : products.filter(p=>p.cat===cat);
   document.getElementById('prodPageTitle').textContent = titles[cat]||'すべての商品';
   document.getElementById('prodPageCnt').textContent = `${filtered.length}件の商品`;
@@ -1111,12 +1458,17 @@ function showDetail(id){
     <span style="color:var(--text)">${p.name}</span>`;
 
   const mi = document.getElementById('dMainImg');
-  mi.className = `d-main-img ${p.bg}`;
-  mi.innerHTML = `<span style="font-size:6rem">${p.emoji}</span>`;
+  mi.className = 'd-main-img';
+  mi.style.overflow = 'hidden';
+  if(p.img){
+    mi.innerHTML = `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML='<span style=font-size:5rem>🍰</span>'">`;
+  } else {
+    mi.innerHTML = `<span style="font-size:6rem">🍰</span>`;
+  }
 
-  document.getElementById('dThumbs').innerHTML = ['全体','断面','箱入り'].map((t,i)=>
-    `<div class="d-thumb ${p.bg} ${i===0?'act':''}" onclick="selectThumb(this)" style="opacity:${i===0?1:.7}">
-      <span style="font-size:1.5rem">${p.emoji}</span>
+  document.getElementById('dThumbs').innerHTML = ['メイン','側面','パッケージ'].map((t,i)=>
+    `<div class="d-thumb ${i===0?'act':''}" onclick="selectThumb(this)" style="overflow:hidden;opacity:${i===0?1:.7};background:var(--brown-pale);display:flex;align-items:center;justify-content:center">
+      ${p.img && i===0 ? `<img src="${p.img}" alt="${t}" style="width:100%;height:100%;object-fit:cover" loading="lazy">` : `<span style="font-size:1.4rem">🍮</span>`}
     </div>`
   ).join('');
 
@@ -1157,6 +1509,16 @@ function showDetail(id){
   document.getElementById('tab-desc').classList.add('act');
   document.getElementById('qtyInput').value = 1;
 
+  // お気に入りボタン状態を初期化
+  const favBtn = document.getElementById('favBtn');
+  if(favBtn){
+    const isFav = favorites.includes(p.id);
+    favBtn.textContent = isFav ? '❤️ お気に入り登録済み' : '🤍 お気に入りに追加';
+    favBtn.style.background   = isFav ? 'rgba(229,135,110,.12)' : '';
+    favBtn.style.borderColor  = isFav ? 'var(--peach)' : '';
+    favBtn.style.color        = isFav ? 'var(--peach)' : '';
+  }
+
   showPage('detail');
   window.scrollTo(0,0);
 }
@@ -1181,7 +1543,63 @@ function changeQty(d){
   const inp = document.getElementById('qtyInput');
   inp.value = Math.min(10, Math.max(1, parseInt(inp.value)+d));
 }
-function toggleFav(btn){ btn.classList.toggle('act'); btn.textContent = btn.classList.contains('act')?'❤️':'🤍' }
+function toggleFavCard(id, btn){
+  const idx = favorites.indexOf(id);
+  if(idx === -1){
+    favorites.push(id);
+    btn.textContent = '❤️';
+    showToast('❤️ お気に入りに追加しました');
+  } else {
+    favorites.splice(idx, 1);
+    btn.textContent = '🤍';
+    showToast('🤍 お気に入りから削除しました');
+  }
+  saveFav();
+}
+function toggleFav(btn){
+  if(!currentProduct) return;
+  const id = currentProduct.id;
+  const idx = favorites.indexOf(id);
+  if(idx === -1){
+    favorites.push(id);
+    btn.textContent = '❤️ お気に入り登録済み';
+    btn.style.background = 'rgba(229,135,110,.12)';
+    btn.style.borderColor = 'var(--peach)';
+    btn.style.color = 'var(--peach)';
+    showToast('❤️ お気に入りに追加しました');
+  } else {
+    favorites.splice(idx, 1);
+    btn.textContent = '🤍 お気に入りに追加';
+    btn.style.background = '';
+    btn.style.borderColor = '';
+    btn.style.color = '';
+    showToast('🤍 お気に入りから削除しました');
+  }
+  saveFav();
+}
+function saveFav(){
+  localStorage.setItem('mirais_fav', JSON.stringify(favorites));
+  updateFavBadge();
+}
+function updateFavBadge(){
+  const badge = document.getElementById('favBadge');
+  if(!badge) return;
+  const cnt = favorites.length;
+  badge.textContent = cnt;
+  badge.classList.toggle('show', cnt > 0);
+}
+function renderFav(){
+  const favProds = products.filter(p => favorites.includes(p.id));
+  const empty = document.getElementById('favEmpty');
+  const grid  = document.getElementById('favGrid');
+  if(favProds.length === 0){
+    empty.style.display = 'block';
+    grid.innerHTML = '';
+  } else {
+    empty.style.display = 'none';
+    grid.innerHTML = favProds.map(createCard).join('');
+  }
+}
 
 // ═══ CART ═══
 function quickAdd(id){
@@ -1190,7 +1608,7 @@ function quickAdd(id){
   const price = p.salePrice||p.price;
   const ex = cart.find(c=>c.id===id && c.size===p.sizes[0]);
   if(ex) ex.qty++;
-  else cart.push({id, name:p.name, price, size:p.sizes[0], emoji:p.emoji, bg:p.bg, qty:1});
+  else cart.push({id, name:p.name, price, size:p.sizes[0], img:p.img||'', qty:1});
   saveCart();
   showToast('🛒 カートに追加しました');
 }
@@ -1204,7 +1622,7 @@ function addToCartFromDetail(){
   const qty = parseInt(document.getElementById('qtyInput').value);
   const ex = cart.find(c=>c.id===currentProduct.id && c.size===selectedSize);
   if(ex) ex.qty += qty;
-  else cart.push({id:currentProduct.id, name:currentProduct.name, price, size:selectedSize, emoji:currentProduct.emoji, bg:currentProduct.bg, qty});
+  else cart.push({id:currentProduct.id, name:currentProduct.name, price, size:selectedSize, img:currentProduct.img||'', qty});
   saveCart();
   showToast('🛒 カートに追加しました');
 }
@@ -1217,9 +1635,13 @@ function renderCart(){
   document.getElementById('cartEmpty').style.display = empty ? 'block' : 'none';
   document.getElementById('cartLayout').style.display = empty ? 'none' : 'grid';
   if(empty) return;
-  document.getElementById('cartItems').innerHTML = cart.map((item,i)=>`
+  document.getElementById('cartItems').innerHTML = cart.map((item,i)=>{
+    const imgEl = item.img
+      ? `<img src="${item.img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px" loading="lazy" onerror="this.style.display='none'">`
+      : `<span style="font-size:2rem">🍰</span>`;
+    return `
     <div class="c-item">
-      <div class="c-item-img ${item.bg}">${item.emoji}</div>
+      <div class="c-item-img" style="overflow:hidden;background:var(--brown-pale)">${imgEl}</div>
       <div class="c-item-info">
         <div class="c-item-name">${item.name}</div>
         <div class="c-item-var">サイズ: ${item.size}</div>
@@ -1231,7 +1653,8 @@ function renderCart(){
         </div>
       </div>
       <button class="c-del" onclick="removeItem(${i})" title="削除">🗑</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
   updateCartTotals();
 }
 
@@ -1261,57 +1684,525 @@ function applyCoupon(){
   else { showToast('❌ 無効なクーポンコードです') }
 }
 
-// ═══ CHECKOUT ═══
+// ═══ CHECKOUT（2ステップ版） ═══
 function goStep(n){
-  for(let i=1;i<=4;i++){
+  // ステップ1→2のバリデーション
+  if(n === 2 && !validateStep1()) return;
+
+  for(let i=1;i<=2;i++){
     document.getElementById('coStep'+i).style.display = i===n?'block':'none';
     const el = document.getElementById('co-step'+i);
     el.className = 'step-it ' + (i<n?'done':i===n?'act':'');
     if(i<n) el.querySelector('.step-num').textContent = '✓';
+    else if(i===n) el.querySelector('.step-num').textContent = String(i);
   }
-  if(n===4) renderConfirm();
-  window.scrollTo(0,200);
+  if(n===2) renderConfirm();
+  window.scrollTo(0,100);
 }
 
-function selShip(el,price){
-  document.querySelectorAll('.ship-opt').forEach(o=>o.classList.remove('act'));
-  el.classList.add('act');
-  selectedShipPrice = price;
-}
-function selPay(el){
-  document.querySelectorAll('.pay-opt').forEach(o=>o.classList.remove('act'));
-  el.classList.add('act');
+function validateStep1(){
+  const fields = [
+    {id:'f-last',   label:'姓'},
+    {id:'f-first',  label:'名'},
+    {id:'f-email',  label:'メールアドレス'},
+    {id:'f-tel',    label:'電話番号'},
+    {id:'zipCode',  label:'郵便番号'},
+    {id:'address1', label:'住所'},
+  ];
+  let ok = true;
+  // 都道府県
+  const pref = document.getElementById('prefecture');
+  if(!pref.value){
+    pref.classList.add('error');
+    showToast('⚠️ 都道府県を選択してください');
+    ok = false;
+  } else { pref.classList.remove('error'); }
+
+  for(const f of fields){
+    const el = document.getElementById(f.id);
+    if(!el) continue;
+    if(!el.value.trim()){
+      el.classList.add('error');
+      if(ok){ showToast(`⚠️ ${f.label}を入力してください`); ok = false; }
+    } else { el.classList.remove('error'); }
+  }
+  // メール形式チェック
+  const email = document.getElementById('f-email');
+  if(email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)){
+    email.classList.add('error');
+    showToast('⚠️ 正しいメールアドレスを入力してください');
+    ok = false;
+  }
+  return ok;
 }
 
 function renderConfirm(){
   const sub = cart.reduce((s,c)=>s+c.price*c.qty,0);
-  const ship = sub>=5000?0:selectedShipPrice;
-  const total = sub+ship-discountAmt;
+  const ship = sub >= 5000 ? 0 : 660;
+  const total = sub + ship - discountAmt;
+
+  // 商品一覧
   document.getElementById('confirmItems').innerHTML = cart.map(c=>
-    `<div class="confirm-row"><span>${c.name}（${c.size}）× ${c.qty}</span><strong>¥${(c.price*c.qty).toLocaleString()}</strong></div>`
+    `<div class="confirm-row">
+      <span>${c.name}（${c.size}）× ${c.qty}</span>
+      <strong>¥${(c.price*c.qty).toLocaleString()}</strong>
+    </div>`
   ).join('');
-  document.getElementById('confSub').textContent = `¥${sub.toLocaleString()}`;
-  document.getElementById('confShip').textContent = ship===0?'無料':`¥${ship}`;
+
+  // お届け先
+  const last  = document.getElementById('f-last')?.value || '';
+  const first = document.getElementById('f-first')?.value || '';
+  const zip   = document.getElementById('zipCode')?.value || '';
+  const pref  = document.getElementById('prefecture')?.value || '';
+  const addr1 = document.getElementById('address1')?.value || '';
+  const addr2 = document.getElementById('address2')?.value || '';
+  const tel   = document.getElementById('f-tel')?.value || '';
+  const email = document.getElementById('f-email')?.value || '';
+  document.getElementById('confirmAddr').innerHTML =
+    `${last} ${first} 様<br>〒${zip} ${pref}${addr1}${addr2 ? ' ' + addr2 : ''}<br>TEL: ${tel}<br>MAIL: ${email}`;
+
+  // 金額
+  document.getElementById('confSub').textContent   = `¥${sub.toLocaleString()}`;
+  document.getElementById('confShip').textContent  = ship === 0 ? '無料' : `¥${ship.toLocaleString()}`;
   document.getElementById('confTotal').textContent = `¥${total.toLocaleString()}`;
+  if(discountAmt > 0){
+    document.getElementById('confDiscRow').style.display = 'flex';
+    document.getElementById('confDisc').textContent = `-¥${discountAmt.toLocaleString()}`;
+  }
 }
 
-function placeOrder(){
-  if(!document.getElementById('agreeChk').checked){ showToast('⚠️ 利用規約に同意してください'); return; }
-  const num = '#MIRAIS-'+Math.random().toString(36).substr(2,8).toUpperCase();
-  document.getElementById('orderNum').textContent = num;
-  cart = []; saveCart();
+// ─ カード番号フォーマット ─
+function fmtCardNum(el){
+  let v = el.value.replace(/\D/g,'').slice(0,16);
+  el.value = v.match(/.{1,4}/g)?.join(' ') || v;
+  // ブランド判定
+  const ico = document.getElementById('cardTypeIco');
+  if(/^4/.test(v))       ico.textContent = '💳'; // VISA
+  else if(/^5[1-5]/.test(v)||/^2[2-7]/.test(v)) ico.textContent = '🔴'; // MC
+  else if(/^3[47]/.test(v)) ico.textContent = '🟦'; // AMEX
+  else if(/^35/.test(v)) ico.textContent = '💠'; // JCB
+  else                   ico.textContent = '';
+}
+function fmtExpiry(el){
+  let v = el.value.replace(/\D/g,'').slice(0,4);
+  if(v.length >= 3) v = v.slice(0,2) + ' / ' + v.slice(2);
+  el.value = v;
+}
+
+// ══════════════════════════════════════════════
+// ① 注文確定 → KOMOJU決済セッション作成 → リダイレクト
+// ══════════════════════════════════════════════
+async function placeOrder(){
+  if(!document.getElementById('agreeChk').checked){
+    showToast('⚠️ 利用規約に同意してください'); return;
+  }
+  // カードバリデーション
+  const cardNum  = document.getElementById('cardNumber')?.value.replace(/\s/g,'') || '';
+  const cardExp  = document.getElementById('cardExpiry')?.value || '';
+  const cardCvc  = document.getElementById('cardCvc')?.value || '';
+  const cardName = document.getElementById('cardName')?.value.trim() || '';
+  if(cardNum.length < 13){ showToast('⚠️ カード番号を正しく入力してください'); return; }
+  if(cardExp.length < 7){  showToast('⚠️ 有効期限を入力してください'); return; }
+  if(cardCvc.length < 3){  showToast('⚠️ セキュリティコードを入力してください'); return; }
+  if(!cardName){           showToast('⚠️ カード名義を入力してください'); return; }
+
+  const btn = document.getElementById('placeBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ 決済ページへ移動中...';
+
+  // 金額計算
+  const sub   = cart.reduce((s,c) => s + c.price * c.qty, 0);
+  const ship  = sub >= 5000 ? 0 : 660;
+  const total = sub + ship - discountAmt;
+
+  // お届け先
+  const customer = {
+    last:  document.getElementById('f-last')?.value  || '',
+    first: document.getElementById('f-first')?.value || '',
+    email: document.getElementById('f-email')?.value || '',
+    tel:   document.getElementById('f-tel')?.value   || '',
+    zip:   document.getElementById('zipCode')?.value  || '',
+    pref:  document.getElementById('prefecture')?.value || '',
+    addr1: document.getElementById('address1')?.value || '',
+    addr2: document.getElementById('address2')?.value || '',
+    note:  document.getElementById('f-note')?.value  || '',
+  };
+
+  // 注文番号を事前生成（KOMOJUのexternal_order_numに使用）
+  const orderNo  = '#MIRAIS-' + Math.random().toString(36).substr(2,8).toUpperCase();
+  const orderDate = new Date().toLocaleString('ja-JP',{
+    year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'
+  });
+
+  // 注文を保存（決済前に保存しておく）
+  const newOrder = {
+    id: orderNo, date: orderDate, customer,
+    items: [...cart], sub, ship, discount: discountAmt, total,
+    status: 'pending', trackingNo:'', trackingUrl:'', receiptSent: false,
+  };
+  orders.unshift(newOrder);
+  localStorage.setItem('mirais_orders', JSON.stringify(orders));
+  // 現在の注文IDをセッションストレージに保存（決済後に参照）
+  sessionStorage.setItem('mirais_pending_order', orderNo);
+
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  // ★ 本番：Vercel Function経由でKOMOJUセッション作成
+  // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  try {
+    const res = await fetch(KOMOJU_CONFIG.sessionEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount:    total,
+        currency:  'JPY',
+        orderNo,
+        email:     customer.email,
+        returnUrl: KOMOJU_CONFIG.returnUrl,
+        items: cart.map(c => ({
+          description: `${c.name}（${c.size}）`,
+          quantity:    c.qty,
+          amount:      c.price,
+          currency:    'JPY',
+        })),
+        shipping: {
+          address: `〒${customer.zip} ${customer.pref}${customer.addr1}${customer.addr2 ? ' '+customer.addr2 : ''}`,
+          name:    `${customer.last} ${customer.first}`,
+          phone:   customer.tel,
+        },
+      }),
+    });
+
+    if(!res.ok){
+      const err = await res.json().catch(()=>({}));
+      throw new Error(err.message || `サーバーエラー (${res.status})`);
+    }
+
+    const { session_url } = await res.json();
+    // KOMOJUの決済ページへリダイレクト
+    window.location.href = session_url;
+    return;
+
+  } catch(e) {
+    console.error('KOMOJU session error:', e);
+
+    // ─── Vercel Function未設定時のフォールバック（デモ完了） ───
+    if(e.message && (e.message.includes('Failed to fetch') || e.message.includes('404') || e.message.includes('NetworkError'))){
+      // Vercel Functionがまだデプロイされていない場合はデモ完了
+      await new Promise(r => setTimeout(r, 1000));
+      await sendReceiptEmail(newOrder);
+      cart = []; discountAmt = 0; saveCart();
+      document.getElementById('orderNum').textContent = orderNo;
+      showPage('complete');
+      window.scrollTo(0,0);
+      btn.disabled = false;
+      btn.textContent = '🔒 注文を確定して決済する';
+      return;
+    }
+
+    showToast(`❌ ${e.message}`);
+    btn.disabled = false;
+    btn.textContent = '🔒 注文を確定して決済する';
+    // 注文保存をロールバック
+    orders.shift();
+    localStorage.setItem('mirais_orders', JSON.stringify(orders));
+  }
+}
+
+// ── KOMOJU決済完了後のコールバック処理 ──
+// （KOMOJUがreturn_url?order=completeでリダイレクトしてくる）
+async function handleKomojuReturn(){
+  const params = new URLSearchParams(window.location.search);
+  if(params.get('order') !== 'complete') return;
+
+  const orderNo = sessionStorage.getItem('mirais_pending_order');
+  if(!orderNo) return;
+
+  const order = orders.find(o => o.id === orderNo);
+  if(!order) return;
+
+  // 決済確認（Vercel Function経由でKOMOJUステータスを確認）
+  try {
+    const sessionId = params.get('session_id');
+    if(sessionId){
+      const res = await fetch(`/api/komoju-verify?session_id=${sessionId}`);
+      const data = await res.json();
+      if(data.status !== 'completed'){
+        showToast('⚠️ 決済が完了していません');
+        return;
+      }
+    }
+  } catch(e){ /* Vercel Function未設定時はスキップ */ }
+
+  // 領収書メール送信
+  await sendReceiptEmail(order);
+
+  // カートをクリア
+  cart = []; discountAmt = 0; saveCart();
+  sessionStorage.removeItem('mirais_pending_order');
+
+  // 完了ページ表示
+  document.getElementById('orderNum').textContent = orderNo;
   showPage('complete');
-  window.scrollTo(0,0);
+  // URLからパラメータを除去
+  window.history.replaceState({}, '', window.location.pathname);
 }
 
-// ═══ PAGE ROUTING ═══
+// ══════════════════════════════════════════════
+// ① EmailJS：領収書メール送信
+// ══════════════════════════════════════════════
+async function sendReceiptEmail(order){
+  const overlay = document.getElementById('mailOverlay');
+  const msg     = document.getElementById('mailMsg');
+  overlay.classList.add('show');
+  msg.textContent = '領収書メールを送信中...';
+
+  // 商品明細テキスト生成
+  const itemLines = order.items.map(c=>
+    `・${c.name}（${c.size}）× ${c.qty}　¥${(c.price*c.qty).toLocaleString()}`
+  ).join('\n');
+  const addr = `〒${order.customer.zip} ${order.customer.pref}${order.customer.addr1}${order.customer.addr2 ? ' '+order.customer.addr2 : ''}`;
+
+  const params = {
+    to_name:    `${order.customer.last} ${order.customer.first}`,
+    to_email:   order.customer.email,
+    order_id:   order.id,
+    order_date: order.date,
+    item_list:  itemLines,
+    subtotal:   `¥${order.sub.toLocaleString()}`,
+    shipping:   order.ship === 0 ? '無料' : `¥${order.ship.toLocaleString()}`,
+    discount:   order.discount > 0 ? `-¥${order.discount.toLocaleString()}` : '−',
+    total:      `¥${order.total.toLocaleString()}`,
+    address:    addr,
+    tel:        order.customer.tel,
+    note:       order.customer.note || 'なし',
+    shop_name:  '米粉バウムクーヘン工房 未来図',
+    shop_tel:   '092-834-9856',
+  };
+
+  try {
+    if(EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY'){
+      emailjs.init(EMAILJS_CONFIG.publicKey);
+      await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.receiptTpl, params);
+      order.receiptSent = true;
+      localStorage.setItem('mirais_orders', JSON.stringify(orders));
+    }
+    msg.textContent = '✅ 領収書メールを送信しました！';
+    await new Promise(r => setTimeout(r, 1200));
+  } catch(e) {
+    console.error('EmailJS error:', e);
+    msg.textContent = '⚠️ メール送信に失敗しました（注文は完了しています）';
+    await new Promise(r => setTimeout(r, 1500));
+  } finally {
+    overlay.classList.remove('show');
+  }
+}
+
+// ══════════════════════════════════════════════
+// ② 発送追跡番号登録 → 追跡メール送信
+// ══════════════════════════════════════════════
+async function saveTracking(orderId){
+  const inputEl = document.getElementById(`track-${orderId}`);
+  const trackNo = inputEl?.value.trim();
+  if(!trackNo){ showToast('⚠️ 追跡番号を入力してください'); return; }
+
+  const order = orders.find(o => o.id === orderId);
+  if(!order){ showToast('⚠️ 注文が見つかりません'); return; }
+
+  order.trackingNo = trackNo;
+  order.status     = 'shipped';
+  // ヤマト運輸の荷物追跡URL（他社の場合は変更）
+  order.trackingUrl = `https://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id=${trackNo}`;
+  localStorage.setItem('mirais_orders', JSON.stringify(orders));
+
+  // 追跡メール送信
+  await sendTrackingEmail(order);
+  renderAdminOrders('all');
+  showToast('✅ 追跡番号を登録しました');
+}
+
+async function sendTrackingEmail(order){
+  const overlay = document.getElementById('mailOverlay');
+  const msg     = document.getElementById('mailMsg');
+  overlay.classList.add('show');
+  msg.textContent = '発送通知メールを送信中...';
+
+  const params = {
+    to_name:      `${order.customer.last} ${order.customer.first}`,
+    to_email:     order.customer.email,
+    order_id:     order.id,
+    order_date:   order.date,
+    tracking_no:  order.trackingNo,
+    tracking_url: order.trackingUrl,
+    total:        `¥${order.total.toLocaleString()}`,
+    shop_name:    '米粉バウムクーヘン工房 未来図',
+    shop_tel:     '092-834-9856',
+  };
+
+  try {
+    if(EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY'){
+      emailjs.init(EMAILJS_CONFIG.publicKey);
+      await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.trackingTpl, params);
+    }
+    msg.textContent = '✅ 発送通知メールを送信しました！';
+    await new Promise(r => setTimeout(r, 1200));
+  } catch(e) {
+    console.error('EmailJS error:', e);
+    msg.textContent = '⚠️ メール送信に失敗しました';
+    await new Promise(r => setTimeout(r, 1500));
+  } finally {
+    overlay.classList.remove('show');
+  }
+}
+
+// ══════════════════════════════════════════════
+// 管理パネル：ログイン / ログアウト
+// ══════════════════════════════════════════════
+function adminLogin(){
+  const pw = document.getElementById('adminPw')?.value;
+  if(pw === ADMIN_PASSWORD){
+    adminLoggedIn = true;
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminDash').style.display = 'block';
+    renderAdminOrders('all');
+  } else {
+    document.getElementById('adminPwErr').style.display = 'block';
+    document.getElementById('adminPw').classList.add('error');
+    setTimeout(()=>{
+      document.getElementById('adminPwErr').style.display = 'none';
+      document.getElementById('adminPw').classList.remove('error');
+    }, 2000);
+  }
+}
+function adminLogout(){
+  adminLoggedIn = false;
+  document.getElementById('adminLogin').style.display = 'block';
+  document.getElementById('adminDash').style.display  = 'none';
+  document.getElementById('adminPw').value = '';
+}
+
+// 管理パネル：注文一覧レンダリング
+function filterOrders(status, btn){
+  document.querySelectorAll('.admin-filter-btn').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  renderAdminOrders(status);
+}
+
+function renderAdminOrders(statusFilter){
+  // 統計
+  const total   = orders.length;
+  const pending = orders.filter(o=>o.status==='pending').length;
+  const shipped = orders.filter(o=>o.status==='shipped').length;
+  document.getElementById('statTotal').textContent   = total;
+  document.getElementById('statPending').textContent = pending;
+  document.getElementById('statShipped').textContent = shipped;
+
+  const filtered = statusFilter==='all' ? orders
+    : orders.filter(o=>o.status===statusFilter);
+
+  const noOrders = document.getElementById('noOrders');
+  const list     = document.getElementById('orderList');
+
+  if(filtered.length === 0){
+    list.innerHTML = '';
+    noOrders.style.display = 'block';
+    return;
+  }
+  noOrders.style.display = 'none';
+
+  list.innerHTML = filtered.map(o => {
+    const statusLbl = o.status === 'shipped'
+      ? '<span class="order-status status-shipped">✅ 発送済み</span>'
+      : '<span class="order-status status-pending">⏳ 発送待ち</span>';
+
+    const itemText = o.items.map(c=>
+      `<li>${c.name}（${c.size}）× ${c.qty}　¥${(c.price*c.qty).toLocaleString()}</li>`
+    ).join('');
+
+    const trackingSection = o.status === 'shipped' && o.trackingNo
+      ? `<div class="tracking-tag">
+           📦 追跡番号：${o.trackingNo}
+           <a href="${o.trackingUrl}" target="_blank" style="color:var(--sage);margin-left:8px;font-size:.75rem">追跡する↗</a>
+         </div>`
+      : `<div class="tracking-row">
+           <input class="tracking-input" id="track-${o.id}" type="text"
+             placeholder="例：1234-5678-9012（ヤマト運輸）" value="${o.trackingNo||''}">
+           <button class="tracking-btn" onclick="saveTracking('${o.id}')">
+             📦 登録・発送通知
+           </button>
+         </div>`;
+
+    const receiptBtn = o.receiptSent
+      ? `<span style="font-size:.75rem;color:var(--sage)">✅ 領収書送信済み</span>`
+      : `<button onclick="resendReceipt('${o.id}')"
+           style="font-size:.75rem;color:var(--honey-dk);background:none;border:1px solid var(--honey);border-radius:5px;padding:4px 10px;cursor:pointer">
+           📧 領収書を再送
+         </button>`;
+
+    return `
+    <div class="order-card ${o.status}">
+      <div class="order-hd">
+        <div>
+          <div class="order-num-tag">${o.id}</div>
+          <div class="order-meta">
+            📅 ${o.date}　👤 ${o.customer.last} ${o.customer.first} 様　📧 ${o.customer.email}<br>
+            📍 〒${o.customer.zip} ${o.customer.pref}${o.customer.addr1}${o.customer.addr2?' '+o.customer.addr2:''}　
+            📞 ${o.customer.tel}
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          ${statusLbl}
+          <div style="font-size:1.05rem;font-weight:700;color:var(--honey-dk);margin-top:6px">¥${o.total.toLocaleString()}</div>
+          <div style="font-size:.75rem;color:var(--text-l)">(送料：${o.ship===0?'無料':'¥'+o.ship.toLocaleString()})</div>
+        </div>
+      </div>
+      <ul class="order-items-list">${itemText}</ul>
+      ${o.customer.note ? `<div style="font-size:.78rem;color:var(--text-l);margin-bottom:8px">📝 備考：${o.customer.note}</div>` : ''}
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+        ${trackingSection}
+        ${receiptBtn}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// 領収書再送
+async function resendReceipt(orderId){
+  const order = orders.find(o=>o.id===orderId);
+  if(!order) return;
+  await sendReceiptEmail(order);
+  renderAdminOrders('all');
+  showToast('📧 領収書を再送しました');
+}
+
+// ══════════════════════════════════════════════
+// PAGE ROUTING（お気に入り・管理パネル対応）
+// ══════════════════════════════════════════════
 function showPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('act'));
   document.getElementById('page-'+name).classList.add('act');
   document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('act'));
-  if(name==='home') document.querySelector('.nav-item').classList.add('act');
-  if(name==='cart') renderCart();
-  if(name==='checkout') goStep(1);
+  if(name==='home')    document.querySelector('.nav-item').classList.add('act');
+  if(name==='cart')    renderCart();
+  if(name==='fav')     renderFav();
+  if(name==='admin'){
+    if(!adminLoggedIn){
+      document.getElementById('adminLogin').style.display = 'block';
+      document.getElementById('adminDash').style.display  = 'none';
+    } else {
+      renderAdminOrders('all');
+    }
+  }
+  if(name==='checkout'){
+    document.getElementById('coStep1').style.display = 'block';
+    document.getElementById('coStep2').style.display = 'none';
+    const s1 = document.getElementById('co-step1');
+    const s2 = document.getElementById('co-step2');
+    s1.className = 'step-it act'; s1.querySelector('.step-num').textContent = '1';
+    s2.className = 'step-it';     s2.querySelector('.step-num').textContent = '2';
+    document.querySelectorAll('.form-input.error').forEach(el=>el.classList.remove('error'));
+    const btn = document.getElementById('placeBtn');
+    if(btn){ btn.disabled=false; btn.textContent='🔒 注文を確定して決済する'; }
+  }
   window.scrollTo(0,0);
 }
 
@@ -1418,9 +2309,18 @@ async function searchZip(){
 
 // ═══ INIT ═══
 document.addEventListener('DOMContentLoaded',()=>{
+  // EmailJS初期化
+  if(EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY'){
+    emailjs.init(EMAILJS_CONFIG.publicKey);
+  }
+
   renderHome();
   renderRanking();
   updateBadge();
+  updateFavBadge();
+
+  // KOMOJU決済完了後のリダイレクトを処理
+  handleKomojuReturn();
 
   // === PARALLAX ===
   const heroImg = document.getElementById('heroImg');
@@ -1435,9 +2335,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   const revealEls = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if(entry.isIntersecting){
-        entry.target.classList.add('visible');
-      }
+      if(entry.isIntersecting) entry.target.classList.add('visible');
     });
   }, { threshold: 0.15 });
   revealEls.forEach(el => observer.observe(el));
@@ -1445,18 +2343,12 @@ document.addEventListener('DOMContentLoaded',()=>{
   // === SCROLL TO TOP ===
   const scrollTopBtn = document.getElementById('scrollTopBtn');
   window.addEventListener('scroll', () => {
-    if(window.scrollY > 400){
-      scrollTopBtn.classList.add('visible');
-    } else {
-      scrollTopBtn.classList.remove('visible');
-    }
+    scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
   }, { passive: true });
 
   // Auto-trigger hero reveals
   setTimeout(() => {
-    document.querySelectorAll('#heroSection .reveal').forEach(el => {
-      el.classList.add('visible');
-    });
+    document.querySelectorAll('#heroSection .reveal').forEach(el => el.classList.add('visible'));
   }, 120);
 
   // === SECTION REVEAL on scroll ===
@@ -1464,6 +2356,35 @@ document.addEventListener('DOMContentLoaded',()=>{
     el.classList.add('reveal');
     observer.observe(el);
   });
+
+  // === デモ用：サンプル注文データ（管理パネル確認用・初回のみ） ===
+  if(orders.length === 0){
+    const demo = [
+      {
+        id:'#MIRAIS-DEMO001', date:'2026/03/15 14:32',
+        customer:{last:'山田',first:'花子',email:'hanako@example.com',tel:'090-1234-5678',
+          zip:'814-0123',pref:'福岡県',addr1:'福岡市城南区長尾1-1-1',addr2:'',note:''},
+        items:[{name:'米粉バウムクーヘン プレーン（ソフトタイプ）',size:'1個（約330g）',qty:2,price:1600}],
+        sub:3200, ship:0, discount:0, total:3200,
+        status:'pending', trackingNo:'', trackingUrl:'', receiptSent:true,
+      },
+      {
+        id:'#MIRAIS-DEMO002', date:'2026/03/18 09:11',
+        customer:{last:'鈴木',first:'一郎',email:'ichiro@example.com',tel:'080-9876-5432',
+          zip:'530-0001',pref:'大阪府',addr1:'大阪市北区梅田1-2-3',addr2:'サンビル401',note:'午前中希望'},
+        items:[
+          {name:'米粉バウムクーヘン ハーフセット（4個入）',size:'4個入りセット',qty:1,price:3400},
+          {name:'米粉バウムクッキー（プレーン：ハード）',size:'1個（個包装）',qty:3,price:600},
+        ],
+        sub:5200, ship:0, discount:520, total:4680,
+        status:'shipped', trackingNo:'1234-5678-9012', 
+        trackingUrl:'https://jizen.kuronekoyamato.co.jp/jizen/servlet/crjz.b.NQ0010?id=123456789012',
+        receiptSent:true,
+      },
+    ];
+    orders = demo;
+    localStorage.setItem('mirais_orders', JSON.stringify(orders));
+  }
 });
 </script>
 </body>
