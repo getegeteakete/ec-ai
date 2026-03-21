@@ -856,7 +856,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   <!-- Campaign -->
   <section class="campaign">
     <div class="cmp-inner container">
-      <div class="cmp-label">🎉 期間限定キャンペーン</div>
+      <div class="cmp-label"><svg width="12" height="12" style="vertical-align:middle;margin-right:6px;opacity:.8"><use href="#ic-sparkle"/></svg>期間限定キャンペーン</div>
       <h2 class="cmp-title">ご贈答・内祝いに<br>ギフトセット 好評販売中</h2>
       <p class="cmp-desc">のし・メッセージカード無料対応 ｜ BtoB法人向けノベルティも承ります</p>
       <button class="btn-cmp" onclick="filterCat('gift')">ギフトを見る →</button>
@@ -1248,92 +1248,6 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   </div>
 </div>
 
-<!-- ═══ FOOTER ═══ -->
-<footer>
-  <div class="container">
-    <div class="ft-grid">
-      <div>
-        <div class="ft-logo">未来図</div>
-        <p class="ft-desc">米粉バウムクーヘン工房 未来図<br>グルテンフリーの米粉バウムクーヘン専門店。<br>佐賀県産無農薬米粉100%使用。<br>福岡市城南区長尾より全国へお届けします。</p>
-        <div class="ft-sns">
-          <a class="sns-btn" href="https://www.instagram.com/fukuoka_mirais/" target="_blank" title="Instagram"><svg width="16" height="16"><use href="#ic-instagram"/></svg></a>
-          <a class="sns-btn" href="#" title="X (Twitter)"><svg width="15" height="15"><use href="#ic-twitter"/></svg></a>
-          <a class="sns-btn" href="#" title="LINE"><svg width="16" height="16"><use href="#ic-message"/></svg></a>
-        </div>
-      </div>
-      <div>
-        <div class="ft-heading">商品カテゴリー</div>
-        <ul class="ft-links">
-          <li><a onclick="filterCat('soft')">プレーン（ソフトタイプ）</a></li>
-          <li><a onclick="filterCat('hard')">プレーン（ハードタイプ）</a></li>
-          <li><a onclick="filterCat('gift')">セット・ギフト商品</a></li>
-          <li><a onclick="filterCat('other')">クッキー缶・その他</a></li>
-          <li><a onclick="filterCat('all')">全商品一覧</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="ft-heading">ショッピング</div>
-        <ul class="ft-links">
-          <li><a onclick="showPage('cart')">ショッピングカート</a></li>
-          <li><a href="#">注文履歴</a></li>
-          <li><a href="#">お気に入りリスト</a></li>
-          <li><a onclick="showPage('shopinfo')">特定商取引法に基づく表記</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="ft-heading">会社情報</div>
-        <ul class="ft-links">
-          <li><a onclick="showPage('shopinfo')">店舗情報</a></li>
-          <li><a href="#">お問い合わせ</a></li>
-          <li><a href="#">よくある質問</a></li>
-          <li><a href="#">プライバシーポリシー</a></li>
-          <li><a href="tel:0928349856">📞 092-834-9856</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="ft-bottom">
-      <p class="ft-copy">© 2024 米粉バウムクーヘン工房 未来図 All Rights Reserved. 〒814-0123 福岡県福岡市城南区長尾1-15-21-103</p>
-      <div class="ft-pays">
-        <div class="pay-badge">KOMOJU</div>
-        <div class="pay-badge">VISA</div>
-        <div class="pay-badge">MC</div>
-        <div class="pay-badge">JCB</div>
-        <div class="pay-badge">PayPay</div>
-        <div class="pay-badge">コンビニ</div>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<!-- Mobile Bottom Nav -->
-<div class="mob-nav">
-  <div class="mob-nav-in">
-    <div class="mob-nav-it act" onclick="showPage('home')"><svg class="mob-nav-ico icon" width="22" height="22"><use href="#ic-home"/></svg>ホーム</div>
-    <div class="mob-nav-it" onclick="filterCat('all')"><svg class="mob-nav-ico icon" width="22" height="22"><use href="#ic-bag"/></svg>商品</div>
-    <div class="mob-nav-it" onclick="showPage('cart')"><svg class="mob-nav-ico icon" width="22" height="22"><use href="#ic-cart"/></svg>カート</div>
-    <div class="mob-nav-it" onclick="showPage('fav')"><svg class="mob-nav-ico icon" width="22" height="22"><use href="#ic-heart"/></svg>お気に入り</div>
-    <div class="mob-nav-it" onclick="showPage('mypage')"><svg class="mob-nav-ico icon" width="22" height="22"><use href="#ic-user"/></svg>マイページ</div>
-  </div>
-</div>
-
-<!-- Scroll to Top -->
-<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="ページトップへ">
-  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-    <use href="#ic-chevron-up"/>
-  </svg>
-</button>
-
-<!-- Toast -->
-<div class="toast" id="toast"></div>
-
-<!-- メール送信オーバーレイ -->
-<div class="mail-overlay" id="mailOverlay">
-  <div class="mail-card">
-    <div class="mail-spinner"></div>
-    <p id="mailMsg" style="font-size:.92rem;color:var(--brown);font-weight:500">領収書メールを送信中...</p>
-    <p style="font-size:.78rem;color:var(--text-l);margin-top:8px">しばらくお待ちください</p>
-  </div>
-</div>
 
 <!-- ═══ お気に入りページ ═══ -->
 <div id="page-fav" class="page">
@@ -1428,9 +1342,9 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 
       <!-- タブ -->
       <div class="admin-tabs" style="margin-bottom:18px">
-        <button class="admin-tab act" onclick="switchMypageTab('orders',this)">📦 注文履歴</button>
-        <button class="admin-tab" onclick="switchMypageTab('profile',this)">👤 プロフィール</button>
-        <button class="admin-tab" onclick="switchMypageTab('favs',this)">❤️ お気に入り</button>
+        <button class="admin-tab act" onclick="switchMypageTab('orders',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-package"/></svg>注文履歴</button>
+        <button class="admin-tab" onclick="switchMypageTab('profile',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-user"/></svg>プロフィール</button>
+        <button class="admin-tab" onclick="switchMypageTab('favs',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-heart"/></svg>お気に入り</button>
       </div>
 
       <!-- 注文履歴タブ -->
@@ -1452,7 +1366,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
             <div class="form-group"><label>都道府県</label><input class="form-input" type="text" id="myPref" placeholder="福岡県"></div>
           </div>
           <div class="form-row single"><div class="form-group"><label>住所</label><input class="form-input" type="text" id="myAddr1"></div></div>
-          <button class="btn-p" onclick="saveProfile()" style="width:100%;padding:13px;margin-top:8px">💾 保存する</button>
+          <button class="btn-p" onclick="saveProfile()" style="width:100%;padding:13px;margin-top:8px"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-check"/></svg>保存する</button>
         </div>
       </div>
 
@@ -1490,15 +1404,15 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         <div class="admin-ttl">🏢 未来図 管理パネル</div>
         <div class="admin-sub">米粉バウムクーヘン工房 未来図</div>
       </div>
-      <button class="btn-o" onclick="adminLogout()" style="font-size:.82rem;padding:8px 18px">ログアウト</button>
+      <button class="btn-o" onclick="adminLogout()" style="font-size:.78rem;padding:7px 16px;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13"><use href="#ic-chevron-down"/></svg>ログアウト</button>
     </div>
 
     <!-- タブナビ -->
     <div class="admin-tabs">
-      <button class="admin-tab act" onclick="switchAdminTab('orders',this)">📦 注文管理</button>
-      <button class="admin-tab" onclick="switchAdminTab('products',this)">🛍️ 商品・在庫</button>
-      <button class="admin-tab" onclick="switchAdminTab('ai',this)">🤖 AIエージェント</button>
-      <button class="admin-tab" onclick="switchAdminTab('analytics',this)">📊 アクセス解析</button>
+      <button class="admin-tab act" onclick="switchAdminTab('orders',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-package"/></svg>注文管理</button>
+      <button class="admin-tab" onclick="switchAdminTab('products',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-bag"/></svg>商品・在庫</button>
+      <button class="admin-tab" onclick="switchAdminTab('ai',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-sparkle"/></svg>AIエージェント</button>
+      <button class="admin-tab" onclick="switchAdminTab('analytics',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-star"/></svg>アクセス解析</button>
     </div>
 
     <!-- ══ タブ①：注文管理 ══ -->
@@ -1549,12 +1463,12 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         <div style="margin-bottom:16px">
           <label style="font-size:.85rem;font-weight:600;color:var(--text);display:block;margin-bottom:8px">生成タイプ</label>
           <div class="ai-type-grid">
-            <button class="ai-type-btn act" data-type="description" onclick="selectAiType(this)">📝 商品説明文</button>
+            <button class="ai-type-btn act" data-type="description" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-check"/></svg>商品説明文</button>
             <button class="ai-type-btn" data-type="seo" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-search"/></svg>SEO最適化</button>
             <button class="ai-type-btn" data-type="instagram" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-instagram"/></svg>Instagram</button>
             <button class="ai-type-btn" data-type="twitter" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-twitter"/></svg>X（Twitter）</button>
-            <button class="ai-type-btn" data-type="blog" onclick="selectAiType(this)">📰 ブログ記事</button>
-            <button class="ai-type-btn" data-type="custom" onclick="selectAiType(this)">✍️ カスタム</button>
+            <button class="ai-type-btn" data-type="blog" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-leaf"/></svg>ブログ記事</button>
+            <button class="ai-type-btn" data-type="custom" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-sparkle"/></svg>カスタム</button>
           </div>
         </div>
 
@@ -1677,10 +1591,98 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     <input type="hidden" id="pm-id">
     <div style="display:flex;gap:10px;margin-top:18px">
       <button class="btn-o" onclick="closeProductModal()" style="flex:1;padding:13px">キャンセル</button>
-      <button class="btn-p" onclick="saveProduct()" style="flex:2;padding:13px" id="pmSaveBtn">💾 保存する</button>
+      <button class="btn-p" onclick="saveProduct()" style="flex:2;padding:13px" id="pmSaveBtn"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-check"/></svg>保存する</button>
     </div>
   </div>
 </div>
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <div class="ft-grid">
+      <div>
+        <div class="ft-logo">未来図</div>
+        <p class="ft-desc">米粉バウムクーヘン工房 未来図<br>グルテンフリーの米粉バウムクーヘン専門店。<br>佐賀県産無農薬米粉100%使用。<br>福岡市城南区長尾より全国へお届けします。</p>
+        <div class="ft-sns">
+          <a class="sns-btn" href="https://www.instagram.com/fukuoka_mirais/" target="_blank" title="Instagram"><svg width="16" height="16"><use href="#ic-instagram"/></svg></a>
+          <a class="sns-btn" href="#" title="X (Twitter)"><svg width="15" height="15"><use href="#ic-twitter"/></svg></a>
+          <a class="sns-btn" href="#" title="LINE"><svg width="16" height="16"><use href="#ic-message"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="ft-heading">商品カテゴリー</div>
+        <ul class="ft-links">
+          <li><a onclick="filterCat('soft')">プレーン（ソフトタイプ）</a></li>
+          <li><a onclick="filterCat('hard')">プレーン（ハードタイプ）</a></li>
+          <li><a onclick="filterCat('gift')">セット・ギフト商品</a></li>
+          <li><a onclick="filterCat('other')">クッキー缶・その他</a></li>
+          <li><a onclick="filterCat('all')">全商品一覧</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-heading">ショッピング</div>
+        <ul class="ft-links">
+          <li><a onclick="showPage('cart')">ショッピングカート</a></li>
+          <li><a href="#">注文履歴</a></li>
+          <li><a href="#">お気に入りリスト</a></li>
+          <li><a onclick="showPage('shopinfo')">特定商取引法に基づく表記</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="ft-heading">会社情報</div>
+        <ul class="ft-links">
+          <li><a onclick="showPage('shopinfo')">店舗情報</a></li>
+          <li><a href="#">お問い合わせ</a></li>
+          <li><a href="#">よくある質問</a></li>
+          <li><a href="#">プライバシーポリシー</a></li>
+          <li><a href="tel:0928349856">📞 092-834-9856</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p class="ft-copy">© 2024 米粉バウムクーヘン工房 未来図 All Rights Reserved. 〒814-0123 福岡県福岡市城南区長尾1-15-21-103</p>
+      <div class="ft-pays">
+        <div class="pay-badge">KOMOJU</div>
+        <div class="pay-badge">VISA</div>
+        <div class="pay-badge">MC</div>
+        <div class="pay-badge">JCB</div>
+        <div class="pay-badge">PayPay</div>
+        <div class="pay-badge">コンビニ</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Mobile Bottom Nav -->
+<div class="mob-nav">
+  <div class="mob-nav-in">
+    <div class="mob-nav-it act" onclick="showPage('home')"><svg class="mob-nav-ico icon" width="22" height="22"><use href="#ic-home"/></svg>ホーム</div>
+    <div class="mob-nav-it" onclick="filterCat('all')"><svg class="mob-nav-ico icon" width="22" height="22"><use href="#ic-bag"/></svg>商品</div>
+    <div class="mob-nav-it" onclick="showPage('cart')"><svg class="mob-nav-ico icon" width="22" height="22"><use href="#ic-cart"/></svg>カート</div>
+    <div class="mob-nav-it" onclick="showPage('fav')"><svg class="mob-nav-ico icon" width="22" height="22"><use href="#ic-heart"/></svg>お気に入り</div>
+    <div class="mob-nav-it" onclick="showPage('mypage')"><svg class="mob-nav-ico icon" width="22" height="22"><use href="#ic-user"/></svg>マイページ</div>
+  </div>
+</div>
+
+<!-- Scroll to Top -->
+<button class="scroll-top" id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="ページトップへ">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <use href="#ic-chevron-up"/>
+  </svg>
+</button>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- メール送信オーバーレイ -->
+<div class="mail-overlay" id="mailOverlay">
+  <div class="mail-card">
+    <div class="mail-spinner"></div>
+    <p id="mailMsg" style="font-size:.92rem;color:var(--brown);font-weight:500">領収書メールを送信中...</p>
+    <p style="font-size:.78rem;color:var(--text-l);margin-top:8px">しばらくお待ちください</p>
+  </div>
+</div>
+
+
 
 <script>
 // ══════════════════════════════════════════════
@@ -2057,7 +2059,7 @@ function showDetail(id){
   const favBtn = document.getElementById('favBtn');
   if(favBtn){
     const isFav = favorites.includes(p.id);
-    favBtn.textContent = isFav ? '❤️ お気に入り登録済み' : '🤍 お気に入りに追加';
+    favBtn.textContent = isFav ? '<svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-heart"/></svg>お気に入り登録済み' : '🤍 お気に入りに追加';
     favBtn.style.background   = isFav ? 'rgba(229,135,110,.12)' : '';
     favBtn.style.borderColor  = isFav ? 'var(--peach)' : '';
     favBtn.style.color        = isFav ? 'var(--peach)' : '';
@@ -2106,7 +2108,7 @@ function toggleFav(btn){
   const idx = favorites.indexOf(id);
   if(idx === -1){
     favorites.push(id);
-    btn.textContent = '❤️ お気に入り登録済み';
+    btn.textContent = '<svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-heart"/></svg>お気に入り登録済み';
     btn.style.background = 'rgba(229,135,110,.12)';
     btn.style.borderColor = 'var(--peach)';
     btn.style.color = 'var(--peach)';
