@@ -943,6 +943,42 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   /* bodyの余白を確実に確保 */
 }
 
+
+/* ── BtoBナビアイテム ── */
+.nav-btob{
+  color:var(--caramel) !important;
+  font-weight:700 !important;
+  letter-spacing:.06em;
+  text-decoration:none;
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+.nav-btob::before{
+  content:'';
+  display:inline-block;
+  width:6px;
+  height:6px;
+  background:var(--gold-lt);
+  border-radius:50%;
+  opacity:.8;
+}
+.nav-btob:hover{
+  color:var(--espresso) !important;
+  background:rgba(192,144,32,.08);
+}
+
+/* ── ドロワーBtoB ── */
+.drawer-btob{
+  color:var(--caramel) !important;
+  font-weight:700 !important;
+  background:rgba(192,144,32,.06) !important;
+  border-left:3px solid var(--gold-lt);
+  text-decoration:none;
+}
+.drawer-btob:active{background:rgba(192,144,32,.12) !important}
+
 </style>
 </head>
 <!-- SVG Icon Sprite -->
@@ -1104,6 +1140,14 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         <svg width="16" height="16"><use href="#ic-map-pin"/></svg>店舗情報
       </button>
     </div>
+    <div class="drawer-divider"></div>
+    <div class="drawer-section">
+      <div class="drawer-section-ttl">BtoB</div>
+      <a class="drawer-item drawer-btob" href="https://btob.fukuoka-mirais.com" target="_blank" rel="noopener">
+        <svg width="16" height="16"><use href="#ic-gift"/></svg>法人・オリジナルギフト
+        <svg width="12" height="12" style="margin-left:auto;opacity:.5"><use href="#ic-arrow-right"/></svg>
+      </a>
+    </div>
   </div>
   <div class="drawer-footer">
     <p>米粉バウムクーヘン工房 未来図<br>福岡市城南区長尾1-15-21-103</p>
@@ -1156,6 +1200,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div class="nav-item" onclick="filterCat('gift')">セット・ギフト</div>
       <div class="nav-item" onclick="filterCat('other')">クッキー・その他</div>
       <div class="nav-item" onclick="showPage('shopinfo')">店舗情報</div>
+      <a class="nav-item nav-btob" href="https://btob.fukuoka-mirais.com" target="_blank" rel="noopener">法人・BtoB</a>
     </div>
   </nav>
 </header>
@@ -1191,7 +1236,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
           <button class="btn-p-hero" onclick="filterCat('all')">商品を見る →</button>
           <button class="btn-o-hero" onclick="showPage('shopinfo')">店舗情報</button>
         </div>
-        <p class="hero-note reveal reveal-delay-3">🚚 送料：全国一律660円 ｜ ギフト包装・のし無料対応</p>
+        <p class="hero-note reveal reveal-delay-3">送料：全国一律660円 ｜ ギフト包装・のし無料対応 ｜ <a href="https://btob.fukuoka-mirais.com" target="_blank" rel="noopener" style="color:var(--gold-lt);text-decoration:underline;text-underline-offset:3px">法人BtoB ↗</a></p>
       </div>
     </div>
 
@@ -1238,7 +1283,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     <div class="cmp-inner container">
       <div class="cmp-label"><svg width="12" height="12" style="vertical-align:middle;margin-right:6px;opacity:.8"><use href="#ic-sparkle"/></svg>期間限定キャンペーン</div>
       <h2 class="cmp-title">ご贈答・内祝いに<br>ギフトセット 好評販売中</h2>
-      <p class="cmp-desc">のし・メッセージカード無料対応 ｜ BtoB法人向けノベルティも承ります</p>
+      <p class="cmp-desc">のし・メッセージカード無料対応 ｜ <a href="https://btob.fukuoka-mirais.com" target="_blank" rel="noopener" style="color:var(--gold-lt);text-decoration:underline;text-underline-offset:2px">BtoB法人向けノベルティ</a>も承ります</p>
       <button class="btn-cmp" onclick="filterCat('gift')">ギフトを見る →</button>
     </div>
   </section>
@@ -1614,7 +1659,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         <div class="info-row"><span class="info-lbl">営業時間</span><span class="info-val">11:00〜17:00</span></div>
         <div class="info-row"><span class="info-lbl">定休日</span><span class="info-val">水曜日・日曜日</span></div>
         <div class="info-row"><span class="info-lbl">SNS</span><span class="info-val">Instagram: @fukuoka_mirais_staff</span></div>
-        <div class="info-row"><span class="info-lbl">BtoB</span><span class="info-val">法人向けノベルティ・ギフト・名入れ対応。ご予算・納期・目的をお聞かせください。</span></div>
+        <div class="info-row"><span class="info-lbl">BtoB</span><span class="info-val">法人向けノベルティ・ギフト・名入れ対応。ご予算・納期・目的をお聞かせください。<br><a href="https://btob.fukuoka-mirais.com" target="_blank" rel="noopener" style="color:var(--caramel);font-weight:600;text-decoration:underline;text-underline-offset:3px">→ BtoBサイトはこちら</a></span></div>
       </div>
       <div class="info-box">
         <div class="info-title" style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" style="color:var(--caramel)"><use href="#ic-truck"/></svg>配送・特定商取引法</div>
@@ -2010,6 +2055,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div>
         <div class="ft-heading">会社情報</div>
         <ul class="ft-links">
+          <li><a href="https://btob.fukuoka-mirais.com" target="_blank" rel="noopener" style="color:var(--gold-lt);font-weight:600">法人・BtoB ↗</a></li>
           <li><a onclick="showPage('shopinfo')">店舗情報</a></li>
           <li><a href="#">お問い合わせ</a></li>
           <li><a href="#">よくある質問</a></li>
@@ -2017,6 +2063,19 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
           <li><a href="tel:0928349856">📞 092-834-9856</a></li>
         </ul>
       </div>
+    </div>
+    <!-- BtoBバナー -->
+    <div style="background:rgba(192,144,32,.12);border:1px solid rgba(192,144,32,.25);border-radius:2px;padding:16px 20px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-lt);margin-bottom:4px">BtoB / Corporate Gift</div>
+        <div style="font-size:.88rem;color:rgba(255,248,235,.88);font-weight:500">法人向けオリジナルギフト・ノベルティ承ります</div>
+      </div>
+      <a href="https://btob.fukuoka-mirais.com" target="_blank" rel="noopener"
+         style="display:inline-flex;align-items:center;gap:7px;background:var(--gold-lt);color:var(--espresso);padding:10px 20px;border-radius:2px;font-size:.78rem;font-weight:700;text-decoration:none;white-space:nowrap;letter-spacing:.06em;flex-shrink:0;transition:background .2s">
+        <svg width="13" height="13"><use href="#ic-gift"/></svg>
+        BtoBサイトを見る
+        <svg width="11" height="11"><use href="#ic-arrow-right"/></svg>
+      </a>
     </div>
     <div class="ft-bottom">
       <p class="ft-copy">© 2024 米粉バウムクーヘン工房 未来図 All Rights Reserved. 〒814-0123 福岡県福岡市城南区長尾1-15-21-103</p>
