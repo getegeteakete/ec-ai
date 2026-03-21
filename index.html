@@ -128,7 +128,6 @@ header::after{content:'';display:block;height:1px;background:linear-gradient(90d
 @keyframes arrowPulse{0%,100%{opacity:1}50%{opacity:.3}}
 
 /* WAVE */
-.hero-wave{display:block;width:100%;position:relative;z-index:2;margin-top:-2px}
 
 /* ── ZIP SEARCH ── */
 .zip-wrap{display:flex;align-items:center;gap:7px}
@@ -584,6 +583,58 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 /* レビューアバター */
 .r-avatar{width:38px;height:38px;border-radius:50%;background:var(--parchment);display:flex;align-items:center;justify-content:center;border:1px solid var(--border-lt);color:var(--text-l)}
 .r-avatar svg{width:18px;height:18px}
+
+/* ── セクション区切り（斜めカット） ── */
+.feat-strip{position:relative;clip-path:polygon(0 0, 100% 0, 100% 88%, 0 100%);padding-bottom:40px}
+.feat-strip + section,.feat-strip + div + section{margin-top:-12px}
+
+/* ランキングセクション：上下斜め */
+.rank-section{
+  clip-path:polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+  padding-top:72px;
+  padding-bottom:72px;
+  margin-top:-2px;
+}
+
+/* キャンペーン：上下逆斜め */
+.campaign{
+  clip-path:polygon(0 0, 100% 4%, 100% 100%, 0 96%);
+  padding-top:80px;
+  padding-bottom:80px;
+  margin-top:-2px;
+}
+
+/* カテゴリー：上斜め */
+.cat-section{
+  clip-path:polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+  padding-top:80px;
+  margin-top:-2px;
+}
+
+/* ストーリー：上下斜め */
+.story-sec{
+  clip-path:polygon(0 0, 100% 4%, 100% 96%, 0 100%);
+  padding-top:90px;
+  padding-bottom:90px;
+  margin-top:-2px;
+}
+
+/* レビュー：上斜め */
+.review-sec{
+  clip-path:polygon(0 4%, 100% 0, 100% 100%, 0 100%);
+  padding-top:80px;
+  margin-top:-2px;
+}
+
+@media(max-width:640px){
+  .feat-strip{clip-path:polygon(0 0, 100% 0, 100% 92%, 0 100%);padding-bottom:32px}
+  .rank-section{clip-path:polygon(0 2%, 100% 0, 100% 98%, 0 100%);padding-top:56px;padding-bottom:56px}
+  .campaign{clip-path:polygon(0 0, 100% 2%, 100% 100%, 0 98%);padding-top:64px;padding-bottom:64px}
+  .cat-section{clip-path:polygon(0 2%, 100% 0, 100% 100%, 0 100%);padding-top:60px}
+  .story-sec{clip-path:polygon(0 0, 100% 2%, 100% 98%, 0 100%);padding-top:70px;padding-bottom:70px}
+  .review-sec{clip-path:polygon(0 2%, 100% 0, 100% 100%, 0 100%);padding-top:60px}
+}
+
 </style>
 </head>
 <!-- SVG Icon Sprite -->
@@ -770,10 +821,6 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div class="scroll-arrow"></div>
     </div>
 
-    <!-- Wave at bottom -->
-    <svg class="hero-wave" viewBox="0 0 1440 70" preserveAspectRatio="none" height="70">
-      <path d="M0,40 C360,0 720,70 1080,30 C1200,12 1350,60 1440,20 L1440,70 L0,70 Z" fill="#5C3317"/>
-    </svg>
   </section>
 
   <!-- Feature Strip -->
@@ -786,11 +833,9 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     </div>
   </div>
 
-  <!-- Wave -->
-  <svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50" style="display:block"><path d="M0,0 C480,50 960,0 1440,40 L1440,0 Z" fill="#5C3317"/></svg>
 
   <!-- New Arrivals -->
-  <section style="background:var(--warm-white);padding:58px 0 20px">
+  <section style="background:var(--ivory);padding:68px 0 28px">
     <div class="container">
       <p class="sec-title">人気・おすすめ商品</p>
       <p class="sec-sub">Popular Items — お客様に愛されているこだわりの品々</p>
@@ -798,9 +843,6 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div style="text-align:center;margin-top:36px"><button class="btn-o" onclick="filterCat('all')">すべての商品を見る →</button></div>
     </div>
   </section>
-
-  <!-- Wave -->
-  <svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50" style="display:block"><path d="M0,50 C360,0 1080,60 1440,10 L1440,50 Z" fill="#F2E4D0"/></svg>
 
   <!-- Ranking -->
   <section class="rank-section">
@@ -810,9 +852,6 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div class="rank-list" id="rankList"></div>
     </div>
   </section>
-
-  <!-- Wave -->
-  <svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50" style="display:block"><path d="M0,10 C480,60 960,0 1440,50 L1440,0 Z" fill="#F2E4D0"/></svg>
 
   <!-- Campaign -->
   <section class="campaign">
@@ -824,26 +863,20 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     </div>
   </section>
 
-  <!-- Wave -->
-  <svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50" style="display:block"><path d="M0,0 C360,60 1080,0 1440,50 L1440,50 L0,50 Z" fill="#EBF4E4"/></svg>
-
   <!-- Categories -->
   <section class="cat-section">
     <div class="container">
       <p class="sec-title">カテゴリーから選ぶ</p>
       <p class="sec-sub">Category — お好みで選んでください</p>
       <div class="cat-grid">
-        <div class="cat-card" onclick="filterCat('soft')"><div class="cat-ico">🍮</div><div class="cat-name">プレーン（ソフト）</div><div class="cat-cnt">ふんわり食感</div></div>
-        <div class="cat-card" onclick="filterCat('hard')"><div class="cat-ico">🥮</div><div class="cat-name">プレーン（ハード）</div><div class="cat-cnt">もっちり食感</div></div>
-        <div class="cat-card" onclick="filterCat('flavor')"><div class="cat-ico">🍠</div><div class="cat-name">フレーバー</div><div class="cat-cnt">おから豆乳・さつまいも</div></div>
-        <div class="cat-card" onclick="filterCat('gift')"><div class="cat-ico">🎁</div><div class="cat-name">ギフトセット</div><div class="cat-cnt">のし・包装無料対応</div></div>
-        <div class="cat-card" onclick="filterCat('other')"><div class="cat-ico">🍪</div><div class="cat-name">その他</div><div class="cat-cnt">バウムクッキー等</div></div>
+        <div class="cat-card" onclick="filterCat('soft')"><div class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="10" r="6"/><path d="M12 16v4M8 20h8"/></svg></div><div class="cat-name">プレーン（ソフト）</div><div class="cat-cnt">ふんわり食感</div></div>
+        <div class="cat-card" onclick="filterCat('hard')"><div class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="4" y="8" width="16" height="10" rx="2"/><path d="M4 12h16M8 8V6a4 4 0 0 1 8 0v2"/></svg></div><div class="cat-name">プレーン（ハード）</div><div class="cat-cnt">もっちり食感</div></div>
+        <div class="cat-card" onclick="filterCat('flavor')"><div class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><use href="#ic-leaf"/></svg></div><div class="cat-name">フレーバー</div><div class="cat-cnt">おから豆乳・さつまいも</div></div>
+        <div class="cat-card" onclick="filterCat('gift')"><div class="cat-ico"><svg width="32" height="32"><use href="#ic-gift"/></svg></div><div class="cat-name">ギフトセット</div><div class="cat-cnt">のし・包装無料対応</div></div>
+        <div class="cat-card" onclick="filterCat('other')"><div class="cat-ico"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="10" r="1" fill="currentColor"/><circle cx="14" cy="14" r="1" fill="currentColor"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg></div><div class="cat-name">その他</div><div class="cat-cnt">バウムクッキー等</div></div>
       </div>
     </div>
   </section>
-
-  <!-- Wave -->
-  <svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50" style="display:block"><path d="M0,50 C480,0 960,60 1440,20 L1440,50 Z" fill="#EBF4E4"/></svg>
 
   <!-- Story -->
   <section class="story-sec">
@@ -859,16 +892,13 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
           <p class="story-text">農業×ITの経験をもとに、生産者の所得向上と消費者の健康を両立させたいという想いから未来図は生まれました。日本人の食生活が多様化しコメの消費が落ち込む一方で、小麦アレルギーの代替食品として注目される"米粉"に着目。グルテンフリーのバウムクーヘンで、皆様の食卓に笑顔をお届けします。</p>
           <p class="story-text">佐賀県産の無農薬米粉・種子島のきび砂糖・九州産卵・国産バターを使い、福岡市城南区の工房でひとつひとつ手作りしています。</p>
           <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:8px;font-size:.85rem;color:var(--text-l)">
-            <span>📍 福岡市城南区長尾1-15-21</span>
-            <span>🕐 11:00〜17:00（水・日定休）</span>
+            <span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" style="color:var(--caramel);flex-shrink:0"><use href="#ic-map-pin"/></svg>福岡市城南区長尾1-15-21</span>
+            <span style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" style="color:var(--caramel);flex-shrink:0"><use href="#ic-clock"/></svg>11:00〜17:00（水・日定休）</span>
           </div>
         </div>
       </div>
     </div>
   </section>
-
-  <!-- Wave -->
-  <svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50" style="display:block"><path d="M0,20 C360,60 1080,0 1440,40 L1440,50 L0,50 Z" fill="#FDF7EE"/></svg>
 
   <!-- Reviews -->
   <section class="review-sec">
