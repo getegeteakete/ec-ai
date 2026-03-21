@@ -305,13 +305,13 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 .ship-bar{background:var(--sage-pale);border:1px solid var(--sage-lt);border-radius:9px;padding:11px 14px;font-size:.82rem;color:var(--sage);display:flex;align-items:center;gap:7px;margin-bottom:18px}
 .d-acts{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
 .btn-add-cart{flex:1;min-width:200px;padding:15px;background:var(--espresso);color:rgba(255,248,235,.95);border:none;border-radius:2px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.06em}
-.btn-add-cart:hover{background:var(--caramel);transform:translateY(-2px);box-shadow:0 8px 22px rgba(28,14,6,.18)}
+.btn-add-cart:hover{background:var(--caramel);transform:translateY(-2px);box-shadow:0 8px 22px rgba(28,14,6,.18)} .btn-add-cart:hover svg{color:rgba(255,248,235,.8)}
 .btn-fav{padding:14px 16px;background:#fff;color:var(--text-m);border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:all .22s;display:flex;align-items:center;justify-content:center}
 .btn-fav:hover,.btn-fav.act{border-color:var(--terracotta);color:var(--terracotta)}
 /* tabs */
 .tabs-hd{display:flex;border-bottom:2px solid var(--border);margin-bottom:22px}
 .tab-hd{padding:11px 22px;font-size:.87rem;font-weight:500;color:var(--text-l);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
-.tab-hd.act{color:var(--honey);border-bottom-color:var(--honey)}
+.tab-hd.act{color:var(--caramel);border-bottom-color:var(--caramel)}
 .tab-c{display:none;font-size:.88rem;color:var(--text-m);line-height:1.9}
 .tab-c.act{display:block}
 .ingredients-table{width:100%;border-collapse:collapse;margin-top:12px}
@@ -475,7 +475,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 
 /* 2ステップ用 co-steps幅調整 */
 .co-steps{display:flex;justify-content:center;gap:0;margin-bottom:44px;position:relative}
-.co-steps::before{content:'';position:absolute;top:19px;left:35%;right:35%;height:2px;background:var(--border);z-index:0}
+.co-steps::before{content:'';position:absolute;top:19px;left:35%;right:35%;height:1px;background:var(--border-lt);z-index:0}
 
 /* 入力エラー */
 .form-input.error{border-color:var(--peach);background:rgba(229,135,110,.04)}
@@ -740,7 +740,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 <body>
 
 <!-- Announce -->
-<div class="announce"><svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> <span>グルテンフリー</span>・佐賀県産無農薬米粉100%使用 &nbsp;｜&nbsp; <svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> <span>ギフト包装・のし</span>無料対応 &nbsp;｜&nbsp; <svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> 全国配送 <span>¥5,000以上送料無料</span></div>
+<div class="announce"><svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> <span>グルテンフリー</span>・主に九州産の米粉を使用 &nbsp;｜&nbsp; <svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> <span>ギフト包装・のし</span>無料対応 &nbsp;｜&nbsp; <svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> 全国配送 <span>¥5,000以上送料無料</span></div>
 
 <!-- Header -->
 <header>
@@ -936,7 +936,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div>
         <div class="d-badge" id="dBadge"></div>
         <h1 class="d-title" id="dTitle"></h1>
-        <div class="d-rating"><span class="d-stars" id="dStars"></span><span class="d-rev-cnt" id="dRevCnt"></span></div>
+        <div class="d-rating"><span class="d-stars" id="dStars" aria-label="評価"></span><span class="d-rev-cnt" id="dRevCnt"></span></div>
         <div class="d-price" id="dPrice"></div>
         <div class="d-price-note">税込価格 / 送料660円（全国一律）</div>
         <hr class="d-divider">
@@ -945,9 +945,9 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         <div class="qty-row">
           <span class="opt-lbl" style="margin:0">数量</span>
           <div class="qty-ctrl">
-            <button class="qty-btn" onclick="changeQty(-1)">－</button>
+            <button class="qty-btn" onclick="changeQty(-1)" style="display:flex;align-items:center;justify-content:center"><svg width="14" height="14"><use href="#ic-minus"/></svg></button>
             <input class="qty-num" type="number" id="qtyInput" value="1" min="1" max="10">
-            <button class="qty-btn" onclick="changeQty(1)">＋</button>
+            <button class="qty-btn" onclick="changeQty(1)" style="display:flex;align-items:center;justify-content:center"><svg width="14" height="14"><use href="#ic-plus"/></svg></button>
           </div>
         </div>
         <div class="ship-bar" id="shipBar">🚚 あと <strong id="shipNeeded">--</strong> 円で5,000円！</div>
@@ -2022,7 +2022,7 @@ function showDetail(id){
   badge.textContent = p.badgeText;
   badge.style.display = p.badgeText ? 'inline-block' : 'none';
   document.getElementById('dTitle').textContent = p.name;
-  document.getElementById('dStars').textContent = stars(p.stars);
+  document.getElementById('dStars').innerHTML = stars(p.stars);
   document.getElementById('dRevCnt').textContent = `${p.reviews}件のレビュー`;
 
   const price = p.price === 0 ? 'お問い合わせください' : `¥${(p.salePrice||p.price).toLocaleString()}`;
@@ -2059,7 +2059,7 @@ function showDetail(id){
   const favBtn = document.getElementById('favBtn');
   if(favBtn){
     const isFav = favorites.includes(p.id);
-    favBtn.textContent = isFav ? '<svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-heart"/></svg>お気に入り登録済み' : '🤍 お気に入りに追加';
+    favBtn.innerHTML = isFav ? '<svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-heart"/></svg>お気に入り登録済み' : '🤍 お気に入りに追加';
     favBtn.style.background   = isFav ? 'rgba(229,135,110,.12)' : '';
     favBtn.style.borderColor  = isFav ? 'var(--peach)' : '';
     favBtn.style.color        = isFav ? 'var(--peach)' : '';
@@ -2108,7 +2108,7 @@ function toggleFav(btn){
   const idx = favorites.indexOf(id);
   if(idx === -1){
     favorites.push(id);
-    btn.textContent = '<svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-heart"/></svg>お気に入り登録済み';
+    btn.innerHTML = '<svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-heart"/></svg>お気に入り登録済み';
     btn.style.background = 'rgba(229,135,110,.12)';
     btn.style.borderColor = 'var(--peach)';
     btn.style.color = 'var(--peach)';
@@ -2193,9 +2193,9 @@ function renderCart(){
         <div class="c-item-var">サイズ: ${item.size}</div>
         <div class="c-item-price">¥${(item.price*item.qty).toLocaleString()}</div>
         <div class="c-qty-row">
-          <button class="c-qty-btn" onclick="updQty(${i},-1)">－</button>
+          <button class="c-qty-btn" onclick="updQty(${i},-1)" style="display:flex;align-items:center;justify-content:center"><svg width="12" height="12"><use href="#ic-minus"/></svg></button>
           <span class="c-qty-num">${item.qty}</span>
-          <button class="c-qty-btn" onclick="updQty(${i},1)">＋</button>
+          <button class="c-qty-btn" onclick="updQty(${i},1)" style="display:flex;align-items:center;justify-content:center"><svg width="12" height="12"><use href="#ic-plus"/></svg></button>
         </div>
       </div>
       <button class="c-del" onclick="removeItem(${i})" title="削除" style="display:flex;align-items:center;justify-content:center"><svg width="16" height="16"><use href="#ic-trash"/></svg></button>
@@ -2425,7 +2425,7 @@ async function placeOrder(){
       showToast(`❌ ${e.message}`);
     }
     btn.disabled = false;
-    btn.textContent = '<svg width="16" height="16" style="vertical-align:middle;margin-right:6px"><use href="#ic-lock"/></svg>注文を確定して決済ページへ';
+    btn.innerHTML = '<svg width="16" height="16" style="vertical-align:middle;margin-right:6px"><use href="#ic-lock"/></svg>注文を確定して決済ページへ';
   }
 }
 
@@ -3203,7 +3203,7 @@ function showPage(name){
     s2.className = 'step-it';     s2.querySelector('.step-num').textContent = '2';
     document.querySelectorAll('.form-input.error').forEach(el=>el.classList.remove('error'));
     const btn = document.getElementById('placeBtn');
-    if(btn){ btn.disabled=false; btn.textContent='<svg width="16" height="16" style="vertical-align:middle;margin-right:6px"><use href="#ic-lock"/></svg>注文を確定して決済ページへ'; }
+    if(btn){ btn.disabled=false; btn.innerHTML='<svg width="16" height="16" style="vertical-align:middle;margin-right:6px"><use href="#ic-lock"/></svg>注文を確定して決済ページへ'; }
   }
   window.scrollTo(0,0);
 }
