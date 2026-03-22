@@ -2170,10 +2170,12 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 // https://www.emailjs.com/ でアカウント作成後に設定
 // ══════════════════════════════════════════════
 const EMAILJS_CONFIG = {
-  publicKey:  'YOUR_PUBLIC_KEY',       // EmailJS Public Key
-  serviceId:  'YOUR_SERVICE_ID',       // EmailJSサービスID (Gmail等)
-  receiptTpl: 'template_receipt',      // 領収書テンプレートID
-  trackingTpl:'template_tracking',     // 追跡番号テンプレートID
+  publicKey:   'YOUR_PUBLIC_KEY',          // EmailJS Public Key（要設定）
+  serviceId:   'YOUR_SERVICE_ID',          // EmailJSサービスID（要設定）
+  receiptTpl:  'template_receipt',         // ①注文確認メール
+  trackingTpl: 'template_tracking',        // ②発送通知メール
+  shopTpl:     'template_shop_notify',     // ③店舗新規注文通知メール
+  shopEmail:   'info@fukuoka-mirais.com',  // 店舗メール（注文通知先）
 };
 // ★ 管理パネルのパスワード（本番前に必ず変更）
 const ADMIN_PASSWORD = 'mirais2024';
@@ -2951,43 +2953,77 @@ async function handleKomojuReturn(){
 // ══════════════════════════════════════════════
 // ① EmailJS：領収書メール送信
 // ══════════════════════════════════════════════
+// メール送信共通：注文情報からパラメータ生成
+function buildEmailParams(order){
+  const name   = `${order.customer.last||''} ${order.customer.first||''}`.trim();
+  const addr   = `〒${order.customer.zip||''} ${order.customer.pref||''}${order.customer.addr1||''}${order.customer.addr2 ? ' '+order.customer.addr2 : ''}`;
+  const items  = order.items || [];
+  const itemListText = items.map(c =>
+    `・${c.name}（${c.size}）× ${c.qty}個　¥${(c.price * c.qty).toLocaleString()}`
+  ).join('\n');
+  const itemListHtml = items.map(c => `
+    <tr>
+      <td style="padding:8px 12px;border-bottom:1px solid #f0e8d8;color:#342010">${c.name}（${c.size}）</td>
+      <td style="padding:8px 12px;border-bottom:1px solid #f0e8d8;text-align:center;color:#6B4A28">${c.qty}個</td>
+      <td style="padding:8px 12px;border-bottom:1px solid #f0e8d8;text-align:right;font-weight:600;color:#A8660E">¥${(c.price * c.qty).toLocaleString()}</td>
+    </tr>`
+  ).join('');
+  const now        = new Date();
+  const shipFrom   = new Date(now); shipFrom.setDate(shipFrom.getDate()+7);
+  const shipTo     = new Date(now); shipTo.setDate(shipTo.getDate()+10);
+  const fmt = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  return {
+    to_name:        name,
+    to_email:       order.customer.email || '',
+    order_id:       order.id,
+    order_date:     order.date,
+    item_list:      itemListText,
+    item_list_html: itemListHtml,
+    item_count:     items.reduce((s,c)=>s+c.qty,0) + '個',
+    subtotal:       `¥${(order.sub||0).toLocaleString()}`,
+    shipping_fee:   (order.ship===0) ? '無料（5,000円以上送料無料）' : `¥${(order.ship||0).toLocaleString()}`,
+    discount:       (order.discount||0)>0 ? `-¥${order.discount.toLocaleString()}` : 'なし',
+    total:          `¥${(order.total||0).toLocaleString()}`,
+    address:        addr,
+    customer_tel:   order.customer.tel || '',
+    customer_email: order.customer.email || '',
+    customer_note:  order.customer.note || 'なし',
+    ship_estimate:  `${fmt(shipFrom)}〜${fmt(shipTo)}`,
+    shop_name:      '米粉バウムクーヘン工房 未来図',
+    shop_address:   '〒814-0123 福岡県福岡市城南区長尾1-15-21-103 フローレス長尾',
+    shop_tel:       '092-834-9856',
+    shop_email:     'info@fukuoka-mirais.com',
+    shop_hours:     '11:00〜17:00（水・日定休）',
+    shop_instagram: '@fukuoka_mirais',
+    year:           now.getFullYear() + '年',
+  };
+}
+
+// ① 注文確認メール（顧客宛）＋ ③ 店舗通知メール
 async function sendReceiptEmail(order){
   const overlay = document.getElementById('mailOverlay');
   const msg     = document.getElementById('mailMsg');
   overlay.classList.add('show');
-  msg.textContent = '領収書メールを送信中...';
-
-  // 商品明細テキスト生成
-  const itemLines = order.items.map(c=>
-    `・${c.name}（${c.size}）× ${c.qty}　¥${(c.price*c.qty).toLocaleString()}`
-  ).join('\n');
-  const addr = `〒${order.customer.zip} ${order.customer.pref}${order.customer.addr1}${order.customer.addr2 ? ' '+order.customer.addr2 : ''}`;
-
-  const params = {
-    to_name:    `${order.customer.last} ${order.customer.first}`,
-    to_email:   order.customer.email,
-    order_id:   order.id,
-    order_date: order.date,
-    item_list:  itemLines,
-    subtotal:   `¥${order.sub.toLocaleString()}`,
-    shipping:   order.ship === 0 ? '無料' : `¥${order.ship.toLocaleString()}`,
-    discount:   order.discount > 0 ? `-¥${order.discount.toLocaleString()}` : '−',
-    total:      `¥${order.total.toLocaleString()}`,
-    address:    addr,
-    tel:        order.customer.tel,
-    note:       order.customer.note || 'なし',
-    shop_name:  '米粉バウムクーヘン工房 未来図',
-    shop_tel:   '092-834-9856',
-  };
-
+  msg.textContent = '📧 注文確認メールを送信中...';
+  const params = buildEmailParams(order);
   try {
     if(EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY'){
       emailjs.init(EMAILJS_CONFIG.publicKey);
+      // 顧客へ注文確認メール
       await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.receiptTpl, params);
       order.receiptSent = true;
       localStorage.setItem('mirais_orders', JSON.stringify(orders));
+      // 店舗へ新規注文通知（失敗しても処理継続）
+      try {
+        await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.shopTpl, {
+          ...params,
+          to_email:   EMAILJS_CONFIG.shopEmail,
+          to_name:    '未来図 スタッフ',
+          admin_url:  window.location.origin + '/',
+        });
+      } catch(e2){ console.warn('店舗通知失敗:', e2); }
     }
-    msg.textContent = '✅ 領収書メールを送信しました！';
+    msg.textContent = '✅ 注文確認メールを送信しました！';
     await new Promise(r => setTimeout(r, 1200));
   } catch(e) {
     console.error('EmailJS error:', e);
@@ -3021,24 +3057,23 @@ async function saveTracking(orderId){
   showToast('✓ 追跡番号を登録しました');
 }
 
+// ② 発送通知メール（顧客宛）
 async function sendTrackingEmail(order){
   const overlay = document.getElementById('mailOverlay');
   const msg     = document.getElementById('mailMsg');
   overlay.classList.add('show');
-  msg.textContent = '発送通知メールを送信中...';
-
+  msg.textContent = '📦 発送通知メールを送信中...';
+  const base = buildEmailParams(order);
+  const d1 = new Date(); d1.setDate(d1.getDate()+2);
+  const d2 = new Date(); d2.setDate(d2.getDate()+5);
   const params = {
-    to_name:      `${order.customer.last} ${order.customer.first}`,
-    to_email:     order.customer.email,
-    order_id:     order.id,
-    order_date:   order.date,
-    tracking_no:  order.trackingNo,
-    tracking_url: order.trackingUrl,
-    total:        `¥${order.total.toLocaleString()}`,
-    shop_name:    '米粉バウムクーヘン工房 未来図',
-    shop_tel:     '092-834-9856',
+    ...base,
+    tracking_no:   order.trackingNo  || '',
+    tracking_url:  order.trackingUrl || '',
+    carrier:       'ヤマト運輸',
+    deliver_from:  `${d1.getMonth()+1}月${d1.getDate()}日`,
+    deliver_to:    `${d2.getMonth()+1}月${d2.getDate()}日`,
   };
-
   try {
     if(EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY'){
       emailjs.init(EMAILJS_CONFIG.publicKey);

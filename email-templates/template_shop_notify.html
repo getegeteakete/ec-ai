@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新規注文通知</title>
+</head>
+<body style="margin:0;padding:0;background:#e8e0d8;font-family:'Hiragino Sans','Noto Sans JP',sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#e8e0d8;padding:32px 16px;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+  <!-- ヘッダー（目立つオレンジ） -->
+  <tr>
+    <td style="background:linear-gradient(135deg,#A8660E 0%,#D4913A 100%);border-radius:14px 14px 0 0;padding:28px 40px;text-align:center;">
+      <p style="margin:0 0 8px;font-size:28px;">🔔</p>
+      <h1 style="margin:0;color:#fff;font-size:22px;font-weight:700;">新規注文が入りました！</h1>
+      <p style="margin:8px 0 0;color:rgba(255,255,255,.85);font-size:13px;">このメールは店舗スタッフ向けの注文通知です</p>
+    </td>
+  </tr>
+
+  <!-- メイン -->
+  <tr>
+    <td style="background:#fff;padding:36px 40px;">
+
+      <!-- 注文番号 -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#FDF7EE;border:2px solid #D4913A;border-radius:10px;margin-bottom:24px;">
+        <tr>
+          <td style="padding:16px 24px;text-align:center;">
+            <p style="margin:0 0 4px;font-size:11px;color:#9C7A58;letter-spacing:.1em;">注文番号</p>
+            <p style="margin:0;font-size:24px;font-weight:700;color:#5C3317;letter-spacing:.05em;">{{order_id}}</p>
+            <p style="margin:6px 0 0;font-size:12px;color:#9C7A58;">{{order_date}}</p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- 顧客情報 -->
+      <h3 style="margin:0 0 12px;font-size:14px;color:#5C3317;border-bottom:2px solid #EAD5B8;padding-bottom:8px;">👤 注文者情報</h3>
+      <table width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;margin-bottom:24px;background:#f9f9f9;border-radius:8px;">
+        <tr>
+          <td style="padding:10px 16px;color:#6B4A28;width:120px;font-weight:600;border-bottom:1px solid #eee;">お名前</td>
+          <td style="padding:10px 16px;color:#342010;border-bottom:1px solid #eee;font-weight:700;">{{to_name}} 様</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 16px;color:#6B4A28;font-weight:600;border-bottom:1px solid #eee;">メール</td>
+          <td style="padding:10px 16px;color:#342010;border-bottom:1px solid #eee;">{{customer_email}}</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 16px;color:#6B4A28;font-weight:600;border-bottom:1px solid #eee;">電話番号</td>
+          <td style="padding:10px 16px;color:#342010;border-bottom:1px solid #eee;">{{customer_tel}}</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 16px;color:#6B4A28;font-weight:600;border-bottom:1px solid #eee;">お届け先</td>
+          <td style="padding:10px 16px;color:#342010;border-bottom:1px solid #eee;">{{address}}</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 16px;color:#6B4A28;font-weight:600;">備考</td>
+          <td style="padding:10px 16px;color:#342010;">{{customer_note}}</td>
+        </tr>
+      </table>
+
+      <!-- 注文商品 -->
+      <h3 style="margin:0 0 12px;font-size:14px;color:#5C3317;border-bottom:2px solid #EAD5B8;padding-bottom:8px;">🛒 注文商品</h3>
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:16px;font-size:13px;">
+        <tr style="background:#FDF7EE;">
+          <th style="padding:9px 12px;text-align:left;color:#6B4A28;font-size:12px;">商品名</th>
+          <th style="padding:9px 12px;text-align:center;color:#6B4A28;font-size:12px;width:50px;">数量</th>
+          <th style="padding:9px 12px;text-align:right;color:#6B4A28;font-size:12px;width:90px;">金額</th>
+        </tr>
+        {{item_list_html}}
+      </table>
+
+      <!-- 金額サマリー -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#FDF7EE;border-radius:8px;margin-bottom:24px;">
+        <tr><td style="padding:10px 16px;font-size:13px;color:#6B4A28;">小計</td><td style="padding:10px 16px;text-align:right;font-size:13px;color:#342010;">{{subtotal}}</td></tr>
+        <tr><td style="padding:10px 16px;font-size:13px;color:#6B4A28;">送料</td><td style="padding:10px 16px;text-align:right;font-size:13px;color:#342010;">{{shipping_fee}}</td></tr>
+        <tr style="border-top:2px solid #EAD5B8;">
+          <td style="padding:13px 16px;font-size:15px;font-weight:700;color:#5C3317;">合計（税込）</td>
+          <td style="padding:13px 16px;text-align:right;font-size:19px;font-weight:700;color:#A8660E;">{{total}}</td>
+        </tr>
+      </table>
+
+      <!-- アクションボタン -->
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="padding:4px 6px;">
+            <a href="{{admin_url}}" style="display:block;background:#5C3317;color:#fff;text-decoration:none;padding:14px 0;border-radius:8px;font-size:14px;font-weight:700;text-align:center;">
+              ⚙️ 管理パネルで確認・追跡番号を登録
+            </a>
+          </td>
+        </tr>
+      </table>
+
+      <p style="margin:20px 0 0;font-size:11px;color:#9C7A58;text-align:center;line-height:1.8;">
+        このメールは自動送信されています。<br>
+        追跡番号の登録は管理パネルから行ってください。
+      </p>
+
+    </td>
+  </tr>
+
+  <!-- フッター -->
+  <tr>
+    <td style="background:#5C3317;border-radius:0 0 14px 14px;padding:20px 40px;text-align:center;">
+      <p style="margin:0;font-size:13px;color:#EFB96A;font-weight:700;">米粉バウムクーヘン工房 未来図 — 管理システム</p>
+      <p style="margin:4px 0 0;font-size:11px;color:rgba(255,255,255,.5);">このメールは店舗スタッフ専用の自動通知です</p>
+    </td>
+  </tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>

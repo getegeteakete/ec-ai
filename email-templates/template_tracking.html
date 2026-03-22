@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>発送のご案内</title>
+</head>
+<body style="margin:0;padding:0;background:#f5ede0;font-family:'Hiragino Sans','Noto Sans JP',sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f5ede0;padding:32px 16px;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+  <!-- ヘッダー -->
+  <tr>
+    <td style="background:linear-gradient(135deg,#3a6b3a 0%,#7A9E6A 100%);border-radius:14px 14px 0 0;padding:36px 40px;text-align:center;">
+      <p style="margin:0 0 6px;color:rgba(255,255,255,.7);font-size:11px;letter-spacing:.2em;text-transform:uppercase;">SHIPPING NOTIFICATION</p>
+      <h1 style="margin:0;color:#fff;font-size:24px;font-weight:700;">米粉バウムクーヘン工房 未来図</h1>
+      <div style="margin:20px 0 0;display:inline-block;background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.5);border-radius:50px;padding:10px 28px;">
+        <p style="margin:0;font-size:20px;font-weight:700;color:#fff;">📦 商品を発送しました！</p>
+      </div>
+    </td>
+  </tr>
+
+  <!-- メイン -->
+  <tr>
+    <td style="background:#fff;padding:40px;">
+
+      <p style="margin:0 0 28px;font-size:16px;color:#342010;line-height:1.8;">
+        <strong>{{to_name}} 様</strong><br><br>
+        いつもご利用いただきありがとうございます。<br>
+        ご注文の商品を本日発送いたしましたのでご連絡申し上げます。
+      </p>
+
+      <!-- 追跡情報メイン -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#EBF4E4,#d4edda);border-radius:12px;margin-bottom:28px;overflow:hidden;">
+        <tr>
+          <td style="padding:28px;text-align:center;">
+            <p style="margin:0 0 6px;font-size:12px;color:#5C8040;letter-spacing:.1em;font-weight:600;">TRACKING NUMBER</p>
+            <p style="margin:0 0 20px;font-size:28px;font-weight:700;color:#3a6b3a;letter-spacing:.12em;font-family:monospace;">{{tracking_no}}</p>
+            <a href="{{tracking_url}}" style="display:inline-block;background:#7A9E6A;color:#fff;text-decoration:none;padding:13px 32px;border-radius:50px;font-size:15px;font-weight:700;">
+              🔍 荷物の追跡はこちら
+            </a>
+            <p style="margin:12px 0 0;font-size:11px;color:#5C8040;">ヤマト運輸（クロネコヤマト）</p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- 受取予定 -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#FDF7EE;border-radius:10px;margin-bottom:28px;">
+        <tr>
+          <td style="padding:20px 24px;">
+            <p style="margin:0 0 10px;font-size:14px;font-weight:700;color:#5C3317;">🗓️ お届け予定</p>
+            <p style="margin:0;font-size:22px;font-weight:700;color:#A8660E;">{{deliver_from}}〜{{deliver_to}}頃</p>
+            <p style="margin:6px 0 0;font-size:12px;color:#9C7A58;">※ 配送状況により前後する場合があります</p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- 注文情報 -->
+      <h3 style="margin:0 0 14px;font-size:15px;color:#5C3317;padding-bottom:10px;border-bottom:2px solid #EAD5B8;">📋 ご注文情報</h3>
+      <table width="100%" cellpadding="0" cellspacing="0" style="font-size:13px;margin-bottom:24px;">
+        <tr><td style="padding:8px 0;color:#6B4A28;border-bottom:1px solid #f0e8d8;">注文番号</td><td style="padding:8px 0;text-align:right;font-weight:600;color:#342010;border-bottom:1px solid #f0e8d8;">{{order_id}}</td></tr>
+        <tr><td style="padding:8px 0;color:#6B4A28;border-bottom:1px solid #f0e8d8;">注文日時</td><td style="padding:8px 0;text-align:right;color:#342010;border-bottom:1px solid #f0e8d8;">{{order_date}}</td></tr>
+        <tr><td style="padding:8px 0;color:#6B4A28;border-bottom:1px solid #f0e8d8;">ご注文商品</td><td style="padding:8px 0;text-align:right;color:#342010;border-bottom:1px solid #f0e8d8;">{{item_count}}</td></tr>
+        <tr><td style="padding:8px 0;color:#6B4A28;">ご請求金額</td><td style="padding:8px 0;text-align:right;font-weight:700;color:#A8660E;font-size:16px;">{{total}}</td></tr>
+      </table>
+
+      <!-- お届け先 -->
+      <h3 style="margin:0 0 14px;font-size:15px;color:#5C3317;padding-bottom:10px;border-bottom:2px solid #EAD5B8;">📍 お届け先</h3>
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9f5ef;border-radius:8px;margin-bottom:28px;">
+        <tr><td style="padding:16px 20px;font-size:13px;color:#342010;line-height:2;">
+          <strong>{{to_name}} 様</strong><br>
+          {{address}}<br>
+          TEL：{{customer_tel}}
+        </td></tr>
+      </table>
+
+      <!-- お願い -->
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#fff8f0;border-left:4px solid #D4913A;border-radius:0 8px 8px 0;margin-bottom:16px;">
+        <tr><td style="padding:16px 20px;">
+          <p style="margin:0 0 8px;font-size:13px;font-weight:700;color:#5C3317;">🍰 商品到着後のお願い</p>
+          <ul style="margin:0;padding-left:18px;font-size:12px;color:#6B4A28;line-height:2.2;">
+            <li>商品到着後、必ず状態をご確認ください</li>
+            <li>万が一問題がございましたら到着後<strong>7日以内</strong>にご連絡ください</li>
+            <li>グルテンフリー商品のため、アレルギーをお持ちの方は原材料をご確認ください</li>
+          </ul>
+        </td></tr>
+      </table>
+
+      <p style="margin:24px 0 0;font-size:13px;color:#6B4A28;line-height:1.9;text-align:center;">
+        ご不明な点がございましたら、お気軽にお問い合わせください。<br>
+        またのご利用を心よりお待ちしております。🌾
+      </p>
+
+    </td>
+  </tr>
+
+  <!-- フッター -->
+  <tr>
+    <td style="background:#5C3317;border-radius:0 0 14px 14px;padding:28px 40px;text-align:center;">
+      <p style="margin:0 0 4px;font-size:18px;font-weight:700;color:#EFB96A;letter-spacing:.1em;">米粉バウムクーヘン工房 未来図</p>
+      <p style="margin:0 0 12px;font-size:11px;color:rgba(255,255,255,.6);">KOMEFUN BAUMKUCHEN KOBO MIRAIS</p>
+      <p style="margin:0 0 4px;font-size:12px;color:rgba(255,255,255,.8);">📍 {{shop_address}}</p>
+      <p style="margin:0 0 4px;font-size:12px;color:rgba(255,255,255,.8);">📞 {{shop_tel}}　⏰ {{shop_hours}}</p>
+      <p style="margin:0 0 16px;font-size:12px;color:rgba(255,255,255,.8);">📧 {{shop_email}}　📸 Instagram: {{shop_instagram}}</p>
+      <p style="margin:0;font-size:11px;color:rgba(255,255,255,.4);">© {{year}} 米粉バウムクーヘン工房 未来図. All rights reserved.</p>
+    </td>
+  </tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>
