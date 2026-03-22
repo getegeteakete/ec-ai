@@ -2046,12 +2046,39 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 
   <!-- ダッシュボード -->
   <div id="adminDash" class="admin-wrap" style="display:none">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
       <div>
         <div class="admin-ttl">🏢 未来図 管理パネル</div>
         <div class="admin-sub">米粉バウムクーヘン工房 未来図</div>
       </div>
       <button class="btn-o" onclick="adminLogout()" style="font-size:.78rem;padding:7px 16px;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13"><use href="#ic-chevron-down"/></svg>ログアウト</button>
+    </div>
+
+    <!-- ── AI使用料ダッシュボード（常時表示） ── -->
+    <div id="adminAiCostBar" style="background:linear-gradient(135deg,#fff8ee,#fff);border:1.5px solid rgba(212,145,58,.25);border-radius:12px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:7px;flex-shrink:0">
+        <svg width="16" height="16" style="color:var(--honey-dk)"><use href="#ic-sparkle"/></svg>
+        <span style="font-size:.82rem;font-weight:700;color:var(--brown)">AI使用料</span>
+        <span style="font-size:.72rem;color:var(--text-l)">（本セッション）</span>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;flex:1">
+        <div style="text-align:center">
+          <div style="font-size:1.35rem;font-weight:700;font-family:'Cormorant Garamond',serif;color:var(--caramel)" id="costBarTotal">¥0.00</div>
+          <div style="font-size:.7rem;color:var(--text-l)">累計コスト</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:1.35rem;font-weight:700;font-family:'Cormorant Garamond',serif;color:var(--caramel)" id="costBarCount">0回</div>
+          <div style="font-size:.7rem;color:var(--text-l)">生成回数</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-size:1.1rem;font-weight:600;color:var(--text-m)" id="costBarAvg">-</div>
+          <div style="font-size:.7rem;color:var(--text-l)">平均/回</div>
+        </div>
+        <div id="costBarHistory" style="font-size:.72rem;color:var(--text-l);align-self:center;min-width:160px"></div>
+      </div>
+      <div style="font-size:.7rem;color:var(--text-l);flex-shrink:0;text-align:right">
+        Claude Sonnet 4<br>$3/$15 per 1M tok
+      </div>
     </div>
 
     <!-- タブナビ -->
@@ -2982,14 +3009,32 @@ function addCostRecord(name, usd){
   updateCostDashboard();
 }
 function updateCostDashboard(){
-  const log  = JSON.parse(sessionStorage.getItem(AI_COST_KEY) || '[]');
+  const log   = JSON.parse(sessionStorage.getItem(AI_COST_KEY) || '[]');
   const total = log.reduce((s,e)=>s+e.usd,0);
-  const el   = document.getElementById('aiCostDashboard');
+  const avg   = log.length > 0 ? total/log.length : 0;
+  const jpy   = total * 150;
+
+  // ── 管理パネル常時表示バー ──
+  const barTotal = document.getElementById('costBarTotal');
+  const barCount = document.getElementById('costBarCount');
+  const barAvg   = document.getElementById('costBarAvg');
+  const barHist  = document.getElementById('costBarHistory');
+  if(barTotal) barTotal.textContent = `¥${jpy.toFixed(2)}`;
+  if(barCount) barCount.textContent = `${log.length}回`;
+  if(barAvg)   barAvg.textContent   = log.length>0 ? `¥${(avg*150).toFixed(2)}/回` : '-';
+  if(barHist && log.length>0){
+    barHist.innerHTML = log.slice(-3).reverse()
+      .map(e=>`<span style="display:inline-block;background:rgba(212,145,58,.1);border-radius:4px;padding:1px 6px;margin:1px;white-space:nowrap">${esc(e.name)} <strong>¥${(e.usd*150).toFixed(3)}</strong></span>`)
+      .join('');
+  }
+
+  // ── コンテンツ生成タブ内パネル ──
+  const el = document.getElementById('aiCostDashboard');
   if(!el) return;
   el.innerHTML = `
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
       <div style="text-align:center">
-        <div style="font-size:1.2rem;font-weight:700;color:var(--brown)">¥${(total*150).toFixed(2)}</div>
+        <div style="font-size:1.2rem;font-weight:700;color:var(--brown)">¥${jpy.toFixed(2)}</div>
         <div style="font-size:.72rem;color:var(--text-l)">セッション累計</div>
       </div>
       <div style="text-align:center">
@@ -2997,12 +3042,12 @@ function updateCostDashboard(){
         <div style="font-size:.72rem;color:var(--text-l)">生成回数</div>
       </div>
       <div style="text-align:center">
-        <div style="font-size:1rem;font-weight:600;color:var(--text-m)">¥${log.length>0?(total*150/log.length).toFixed(2):'0.00'}</div>
+        <div style="font-size:1rem;font-weight:600;color:var(--text-m)">¥${log.length>0?(avg*150).toFixed(2):'0.00'}</div>
         <div style="font-size:.72rem;color:var(--text-l)">平均/回</div>
       </div>
     </div>
     ${log.length>0?`<div style="margin-top:10px;font-size:.75rem;color:var(--text-l)">
-      最近: ${log.slice(-3).reverse().map(e=>`${e.name}(¥${(e.usd*150).toFixed(3)})`).join(' / ')}
+      最近: ${log.slice(-3).reverse().map(e=>`${esc(e.name)}(¥${(e.usd*150).toFixed(3)})`).join(' / ')}
     </div>`:''}`;
 }
 
@@ -3983,6 +4028,7 @@ async function adminLogin(){
       document.getElementById('adminLogin').style.display = 'none';
       document.getElementById('adminDash').style.display = 'block';
       renderAdminOrders('all');
+      updateCostDashboard(); // ログイン時にコスト表示を初期化
     } else {
       document.getElementById('adminPwErr').style.display = 'block';
       document.getElementById('adminPw').classList.add('error');
