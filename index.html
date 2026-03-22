@@ -2901,7 +2901,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 // ★ 管理パネルのパスワード（本番前に必ず変更）
 // 管理者パスワードはVercel環境変数 ADMIN_PASSWORD で管理
 // フロントには保持しない（APIリクエスト時にパスワードをユーザーが入力）
-let ADMIN_PASSWORD = ''; // adminLogin()で設定
+let ADMIN_PASSWORD = sessionStorage.getItem('mirais_admin_pw') || '';
 
 // ══════════════════════════════════════════════
 // Supabase設定（フロントエンド用 anon key）
@@ -3268,7 +3268,7 @@ function calcShipping(cartItems, prefecture) {
 let cart      = JSON.parse(localStorage.getItem('mirais_cart') || '[]');
 let favorites = JSON.parse(localStorage.getItem('mirais_fav')  || '[]');
 let orders    = []; // Supabaseから取得（localStorageは使わない）
-let adminLoggedIn = false;
+let adminLoggedIn = !!sessionStorage.getItem('mirais_admin_pw');
 let currentProduct = null;
 let selectedSize = '';
 let selectedShipPrice = 660;
@@ -4185,12 +4185,13 @@ async function adminLogin(){
       headers: { 'x-admin-token': pw }
     });
     if(res.ok){
-      ADMIN_PASSWORD = pw; // セッションメモリにのみ保持（localStorageに保存しない）
+      ADMIN_PASSWORD = pw;
       adminLoggedIn = true;
+      sessionStorage.setItem('mirais_admin_pw', pw); // リロード後も維持
       document.getElementById('adminLogin').style.display = 'none';
       document.getElementById('adminDash').style.display = 'block';
       initAdminDash();
-      updateCostDashboard(); // ログイン時にコスト表示を初期化
+      updateCostDashboard();
     } else {
       document.getElementById('adminPwErr').style.display = 'block';
       document.getElementById('adminPw').classList.add('error');
@@ -4209,6 +4210,7 @@ async function adminLogin(){
 function adminLogout(){
   adminLoggedIn = false;
   ADMIN_PASSWORD = '';
+  sessionStorage.removeItem('mirais_admin_pw'); // ログアウト時にクリア
   document.getElementById('adminLogin').style.display = 'block';
   document.getElementById('adminDash').style.display  = 'none';
   // ヘッダー・フッター・モバイルナビを復元
@@ -5552,7 +5554,10 @@ function showPage(name){
     if(!adminLoggedIn){
       document.getElementById('adminLogin').style.display = 'block';
       document.getElementById('adminDash').style.display  = 'none';
+      ADMIN_PASSWORD = '';
     } else {
+      document.getElementById('adminLogin').style.display = 'none';
+      document.getElementById('adminDash').style.display  = 'block';
       initAdminDash();
     }
   }
@@ -6003,6 +6008,20 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // 自動ログイン（トークンがあれば）
   tryAutoLogin();
+
+  // ─── 管理者セッション復元（リロード・ブックマーク対応）───
+  const savedAdminPw = sessionStorage.getItem('mirais_admin_pw');
+  if(savedAdminPw){
+    ADMIN_PASSWORD  = savedAdminPw;
+    adminLoggedIn   = true;
+    // すべてのページを非表示にして管理画面を表示
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('act'));
+    document.getElementById('page-admin').classList.add('act');
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminDash').style.display  = 'block';
+    initAdminDash();
+    updateCostDashboard();
+  }
 
   // Supabaseから商品データを取得してマージ（在庫・価格を最新に）
   loadProductsFromDB();
