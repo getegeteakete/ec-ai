@@ -52,9 +52,9 @@ export default async function handler(req, res) {
     const itemTotal = itemPrice * itemQty;
 
     // 商品名：name優先。なければdescriptionを使用
-    // （）内の補足説明（グラム数・サイズ説明等）は全て除去してシンプルに
+    // 最初の（ 以降を全てカット → グラム数・サイズ補足を除去してシンプルに
     const rawName = it.name || it.description || '';
-    const displayName = rawName.replace(/（[^）]*）/g, '').trim();
+    const displayName = rawName.split('（')[0].trim();
 
     // オプション表示（紙袋・ギフト包装）
     const opts = [
