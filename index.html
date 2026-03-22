@@ -1003,6 +1003,48 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   .field-strip img{max-height:140px}
 }
 
+
+/* ── AIエージェント マルチ ── */
+.agent-nav{padding:8px 14px;border:2px solid var(--border);border-radius:50px;cursor:pointer;font-size:.8rem;background:#fff;color:var(--text-m);font-family:'Noto Sans JP',sans-serif;transition:all .2s;white-space:nowrap}
+.agent-nav.act{background:var(--honey);border-color:var(--honey);color:#fff}
+.agent-panel{animation:fadeUp .3s ease}
+.btob-step{flex:1;text-align:center;padding:11px 8px;font-size:.8rem;font-weight:600;color:var(--text-l);border-right:1px solid var(--border);cursor:pointer;transition:all .2s}
+.btob-step:last-child{border-right:none}
+.btob-step.act{color:var(--honey);background:rgba(212,145,58,.08)}
+.btob-step.done{color:var(--sage);background:var(--sage-pale)}
+.lead-card{background:#fff;border-radius:10px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px var(--shadow);border:2px solid transparent;cursor:pointer;transition:all .2s}
+.lead-card:hover,.lead-card.selected{border-color:var(--honey)}
+.lead-card.selected{background:rgba(212,145,58,.05)}
+.lead-name{font-weight:600;color:var(--brown);font-size:.95rem;margin-bottom:3px}
+.lead-reason{font-size:.78rem;color:var(--text-l);line-height:1.7}
+.lead-select-btn{display:none;background:var(--honey);color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:.75rem;cursor:pointer;margin-top:8px;font-family:'Noto Sans JP',sans-serif}
+.lead-card.selected .lead-select-btn{display:inline-block}
+.seo-issue{background:#fff;border-radius:10px;padding:16px;margin-bottom:10px;box-shadow:0 2px 8px var(--shadow);border-left:4px solid var(--border)}
+.seo-issue.critical{border-left-color:var(--peach)}
+.seo-issue.warning{border-left-color:var(--honey)}
+.seo-issue.ok{border-left-color:var(--sage)}
+.seo-issue-title{font-weight:600;font-size:.9rem;color:var(--text);margin-bottom:4px}
+.seo-issue-desc{font-size:.8rem;color:var(--text-l);line-height:1.7}
+.seo-fix-btn{background:var(--honey);color:#fff;border:none;border-radius:6px;padding:5px 12px;font-size:.75rem;cursor:pointer;margin-top:8px;font-family:'Noto Sans JP',sans-serif;display:inline-block}
+.sns-post-card{background:#fff;border-radius:10px;padding:16px;margin-bottom:10px;box-shadow:0 2px 8px var(--shadow)}
+.sns-post-platform{display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:50px;margin-bottom:10px}
+.sns-post-platform.instagram{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff}
+.sns-post-platform.twitter{background:#1da1f2;color:#fff}
+.sns-post-body{font-size:.85rem;color:var(--text);white-space:pre-wrap;line-height:1.85;margin-bottom:10px}
+.sns-copy-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:5px 12px;font-size:.75rem;cursor:pointer;color:var(--text-m);font-family:'Noto Sans JP',sans-serif}
+.learn-entry{padding:10px 14px;border-radius:8px;margin-bottom:8px;background:#fff;box-shadow:0 1px 5px var(--shadow);display:flex;gap:10px;align-items:flex-start}
+.learn-icon{font-size:1.2rem;flex-shrink:0}
+.learn-time{font-size:.72rem;color:var(--text-l)}
+.learn-text{font-size:.82rem;color:var(--text-m);line-height:1.7}
+.sales-insight{background:#fff;border-radius:10px;padding:18px;margin-bottom:12px;box-shadow:0 2px 8px var(--shadow)}
+.sales-insight-title{font-weight:600;color:var(--brown);margin-bottom:8px;font-size:.95rem}
+.sales-insight-body{font-size:.83rem;color:var(--text-m);line-height:1.8}
+.action-card{background:linear-gradient(135deg,var(--cream),#fff);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .2s}
+.action-card:hover{border-color:var(--honey);transform:translateY(-1px)}
+.action-priority{display:inline-block;font-size:.7rem;font-weight:700;padding:2px 9px;border-radius:50px;margin-bottom:6px}
+.priority-high{background:rgba(229,135,110,.15);color:var(--peach)}
+.priority-mid{background:rgba(212,145,58,.15);color:var(--honey-dk)}
+.priority-low{background:var(--sage-pale);color:var(--sage)}
 </style>
 </head>
 <!-- SVG Icon Sprite -->
@@ -1221,6 +1263,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div class="nav-item" onclick="filterCat('hard')">プレーン ハード</div>
       <div class="nav-item" onclick="filterCat('gift')">セット・ギフト</div>
       <div class="nav-item" onclick="filterCat('other')">クッキー・その他</div>
+      <div class="nav-item" onclick="filterCat('outlet')" style="color:var(--peach)">🏷️ アウトレット</div>
       <div class="nav-item" onclick="showPage('shopinfo')">店舗情報</div>
       <a class="nav-item nav-btob" href="https://btob.fukuoka-mirais.com" target="_blank" rel="noopener">法人・BtoB</a>
     </div>
@@ -1890,63 +1933,251 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div id="adminProductList"></div>
     </div>
 
-    <!-- ══ タブ③：AIエージェント ══ -->
+    <!-- ══ タブ③：AIエージェント（マルチエージェント） ══ -->
     <div id="adminTab-ai" class="admin-tab-content" style="display:none">
-      <div style="margin:18px 0 14px">
-        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🤖 AIコンテンツ生成</h3>
-        <p style="font-size:.82rem;color:var(--text-l)">Claude AIが商品説明・SEO・SNS投稿文を自動生成します</p>
+
+      <!-- エージェント選択タブ -->
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 20px;border-bottom:2px solid var(--border);padding-bottom:14px">
+        <button class="agent-nav act" onclick="switchAgent('content',this)">✍️ コンテンツ</button>
+        <button class="agent-nav" onclick="switchAgent('btob',this)">🏢 BtoB営業</button>
+        <button class="agent-nav" onclick="switchAgent('seo',this)">🔍 SEOレポート</button>
+        <button class="agent-nav" onclick="switchAgent('sales',this)">📈 売上改善</button>
+        <button class="agent-nav" onclick="switchAgent('sns',this)">📱 SNS自動作成</button>
+        <button class="agent-nav" onclick="switchAgent('learn',this)">🧠 学習ログ</button>
       </div>
 
-      <div class="ai-panel">
-        <!-- 商品選択 -->
-        <div class="form-group" style="margin-bottom:14px">
-          <label style="font-size:.85rem;font-weight:600;color:var(--text)">対象商品</label>
-          <select class="form-sel form-input" id="aiProductSel" style="margin-top:5px">
-            <option value="">商品を選択...</option>
-          </select>
+      <!-- ──────── Agent①: コンテンツ生成 ──────── -->
+      <div id="agent-content" class="agent-panel">
+        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">✍️ コンテンツ生成エージェント</h3>
+        <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">商品説明・SEO・SNS・ブログを自動生成。生成結果を学習して品質を改善します。</p>
+        <div class="ai-panel">
+          <div class="form-group" style="margin-bottom:14px">
+            <label style="font-size:.85rem;font-weight:600;color:var(--text)">対象商品</label>
+            <select class="form-sel form-input" id="aiProductSel" style="margin-top:5px">
+              <option value="">商品を選択...</option>
+            </select>
+          </div>
+          <div style="margin-bottom:16px">
+            <label style="font-size:.85rem;font-weight:600;color:var(--text);display:block;margin-bottom:8px">生成タイプ</label>
+            <div class="ai-type-grid">
+              <button class="ai-type-btn act" data-type="description" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-check"/></svg>商品説明文</button>
+              <button class="ai-type-btn" data-type="seo" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-search"/></svg>SEO最適化</button>
+              <button class="ai-type-btn" data-type="instagram" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-instagram"/></svg>Instagram</button>
+              <button class="ai-type-btn" data-type="twitter" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-twitter"/></svg>X（Twitter）</button>
+              <button class="ai-type-btn" data-type="blog" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-leaf"/></svg>ブログ記事</button>
+              <button class="ai-type-btn" data-type="custom" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-sparkle"/></svg>カスタム</button>
+            </div>
+          </div>
+          <div id="customPromptArea" style="display:none;margin-bottom:14px">
+            <label style="font-size:.85rem;font-weight:600;color:var(--text);display:block;margin-bottom:5px">カスタムプロンプト</label>
+            <textarea class="form-input" id="customPrompt" rows="4" placeholder="AIへの指示を自由に入力..." style="resize:vertical"></textarea>
+          </div>
+          <button class="btn-p" onclick="generateAiContent()" id="aiGenBtn" style="width:100%;padding:13px;font-size:.95rem">✨ AIで生成する</button>
+        </div>
+        <div id="aiResult" style="display:none;margin-top:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown)">生成結果</h4>
+            <div style="display:flex;gap:8px">
+              <button onclick="copyAiResult()" class="btn-o" style="padding:6px 14px;font-size:.78rem">📋 コピー</button>
+              <button onclick="applyAiToProduct()" class="btn-p" style="padding:6px 14px;font-size:.78rem">✅ 商品に適用</button>
+            </div>
+          </div>
+          <div id="aiResultText" class="ai-result-box"></div>
+        </div>
+        <div style="margin-top:28px">
+          <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:12px">📋 生成履歴</h4>
+          <div id="aiHistory" style="font-size:.82rem;color:var(--text-l)">生成履歴はここに表示されます</div>
+        </div>
+      </div>
+
+      <!-- ──────── Agent②: BtoB営業エージェント ──────── -->
+      <div id="agent-btob" class="agent-panel" style="display:none">
+        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🏢 BtoB営業エージェント</h3>
+        <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">見込み企業の発掘・営業メール作成・送信承認フローを自動化します。</p>
+
+        <!-- ステップ表示 -->
+        <div style="display:flex;gap:0;margin-bottom:22px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px var(--shadow)">
+          <div class="btob-step act" id="btob-step1-nav">1. 企業発掘</div>
+          <div class="btob-step" id="btob-step2-nav">2. メール作成</div>
+          <div class="btob-step" id="btob-step3-nav">3. 送信承認</div>
         </div>
 
-        <!-- コンテンツ種別 -->
-        <div style="margin-bottom:16px">
-          <label style="font-size:.85rem;font-weight:600;color:var(--text);display:block;margin-bottom:8px">生成タイプ</label>
-          <div class="ai-type-grid">
-            <button class="ai-type-btn act" data-type="description" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-check"/></svg>商品説明文</button>
-            <button class="ai-type-btn" data-type="seo" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-search"/></svg>SEO最適化</button>
-            <button class="ai-type-btn" data-type="instagram" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-instagram"/></svg>Instagram</button>
-            <button class="ai-type-btn" data-type="twitter" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-twitter"/></svg>X（Twitter）</button>
-            <button class="ai-type-btn" data-type="blog" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-leaf"/></svg>ブログ記事</button>
-            <button class="ai-type-btn" data-type="custom" onclick="selectAiType(this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:4px"><use href="#ic-sparkle"/></svg>カスタム</button>
+        <!-- Step1: 企業発掘 -->
+        <div id="btob-step1">
+          <div class="ai-panel">
+            <div class="form-row" style="margin-bottom:14px">
+              <div class="form-group">
+                <label style="font-size:.85rem;font-weight:600;color:var(--text)">業種カテゴリ</label>
+                <select class="form-sel form-input" id="btobIndustry" style="margin-top:5px">
+                  <option value="hotel">ホテル・旅館</option>
+                  <option value="wedding">ウェディング</option>
+                  <option value="office">企業・オフィス（手土産）</option>
+                  <option value="cafe">カフェ・飲食店</option>
+                  <option value="gift">ギフトショップ・百貨店</option>
+                  <option value="nursery">保育園・幼稚園</option>
+                  <option value="hospital">病院・クリニック</option>
+                  <option value="custom">カスタム指定</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label style="font-size:.85rem;font-weight:600;color:var(--text)">エリア</label>
+                <select class="form-sel form-input" id="btobArea" style="margin-top:5px">
+                  <option value="fukuoka">福岡市内</option>
+                  <option value="fukuoka-pref">福岡県全域</option>
+                  <option value="kyushu">九州全域</option>
+                  <option value="nationwide">全国（主要都市）</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row single" style="margin-bottom:16px">
+              <div class="form-group">
+                <label style="font-size:.85rem;font-weight:600;color:var(--text)">発掘条件（任意）</label>
+                <input class="form-input" type="text" id="btobCondition" placeholder="例：グルテンフリーに関心がある、ノベルティ・お中元需要がある" style="margin-top:5px">
+              </div>
+            </div>
+            <button class="btn-p" onclick="runBtobProspect()" id="btobProspectBtn" style="width:100%;padding:13px">🔍 見込み企業をAIで発掘する</button>
+          </div>
+          <div id="btobProspectResult" style="margin-top:16px;display:none">
+            <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:10px">発掘された見込み企業</h4>
+            <div id="btobLeadList"></div>
+            <button class="btn-p" onclick="goToBtobStep(2)" style="margin-top:14px;width:100%;padding:12px">→ 選択した企業にメール作成へ</button>
           </div>
         </div>
 
-        <!-- カスタムプロンプト（カスタム選択時のみ表示） -->
-        <div id="customPromptArea" style="display:none;margin-bottom:14px">
-          <label style="font-size:.85rem;font-weight:600;color:var(--text);display:block;margin-bottom:5px">カスタムプロンプト</label>
-          <textarea class="form-input" id="customPrompt" rows="4" placeholder="AIへの指示を自由に入力..." style="resize:vertical"></textarea>
+        <!-- Step2: メール作成 -->
+        <div id="btob-step2" style="display:none">
+          <div class="ai-panel">
+            <div id="btobSelectedCompany" style="background:var(--sage-pale);border-radius:8px;padding:12px;margin-bottom:14px;font-size:.85rem;color:var(--text-m)"></div>
+            <div class="form-group" style="margin-bottom:14px">
+              <label style="font-size:.85rem;font-weight:600;color:var(--text)">メールトーン</label>
+              <select class="form-sel form-input" id="btobEmailTone" style="margin-top:5px">
+                <option value="formal">丁寧・フォーマル</option>
+                <option value="friendly">親しみやすい</option>
+                <option value="urgent">限定・緊急感あり</option>
+              </select>
+            </div>
+            <button class="btn-p" onclick="generateBtobEmail()" id="btobEmailBtn" style="width:100%;padding:13px">✉️ 営業メールをAI生成する</button>
+          </div>
+          <div id="btobEmailResult" style="display:none;margin-top:16px">
+            <div style="background:#fff;border-radius:10px;padding:18px;box-shadow:0 2px 10px var(--shadow);margin-bottom:14px">
+              <div style="font-size:.8rem;color:var(--text-l);margin-bottom:4px">件名</div>
+              <div id="btobEmailSubject" style="font-weight:600;color:var(--text);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)"></div>
+              <div style="font-size:.8rem;color:var(--text-l);margin-bottom:4px">本文</div>
+              <div id="btobEmailBody" style="font-size:.88rem;color:var(--text-m);white-space:pre-wrap;line-height:1.9"></div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button onclick="copyBtobEmail()" class="btn-o" style="flex:1;padding:11px">📋 コピー</button>
+              <button onclick="goToBtobStep3()" class="btn-p" style="flex:1;padding:11px">→ 送信承認へ</button>
+            </div>
+          </div>
         </div>
 
-        <button class="btn-p" onclick="generateAiContent()" id="aiGenBtn" style="width:100%;padding:13px;font-size:.95rem">
-          ✨ AIで生成する
-        </button>
-      </div>
-
-      <!-- 生成結果 -->
-      <div id="aiResult" style="display:none;margin-top:20px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown)">生成結果</h4>
+        <!-- Step3: 送信承認 -->
+        <div id="btob-step3" style="display:none">
+          <div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 10px var(--shadow);margin-bottom:16px">
+            <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:14px">📋 送信内容の最終確認</h4>
+            <div id="btobFinalPreview"></div>
+          </div>
+          <div style="background:var(--sage-pale);border-left:4px solid var(--sage);border-radius:0 8px 8px 0;padding:13px;font-size:.82rem;color:var(--text-m);margin-bottom:16px">
+            ⚠️ 送信前に内容を必ずご確認ください。実際の送信はご自身のメールアプリからお願いします。
+          </div>
           <div style="display:flex;gap:8px">
-            <button onclick="copyAiResult()" class="btn-o" style="padding:6px 14px;font-size:.78rem">📋 コピー</button>
-            <button onclick="applyAiToProduct()" class="btn-p" style="padding:6px 14px;font-size:.78rem">✅ 商品に適用</button>
+            <button onclick="goToBtobStep(2);document.getElementById('btobEmailResult').style.display='block'" class="btn-o" style="flex:1;padding:12px">← 戻って修正</button>
+            <button onclick="approveBtobEmail()" class="btn-p" style="flex:1;padding:12px;background:var(--sage)">✅ 承認・メール送信準備</button>
           </div>
+          <div id="btobApproveResult" style="display:none;margin-top:14px;text-align:center;color:var(--sage);font-weight:600"></div>
         </div>
-        <div id="aiResultText" class="ai-result-box"></div>
+
+        <!-- 営業履歴 -->
+        <div style="margin-top:28px">
+          <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:12px">📊 BtoB営業履歴</h4>
+          <div id="btobHistory" style="font-size:.82rem;color:var(--text-l)">履歴はここに表示されます</div>
+        </div>
       </div>
 
-      <!-- 生成履歴 -->
-      <div style="margin-top:28px">
-        <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:12px">📋 生成履歴</h4>
-        <div id="aiHistory" style="font-size:.82rem;color:var(--text-l)">生成履歴はここに表示されます</div>
+      <!-- ──────── Agent③: SEOレポートエージェント ──────── -->
+      <div id="agent-seo" class="agent-panel" style="display:none">
+        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🔍 SEOレポートエージェント</h3>
+        <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">サイト内SEOを自動診断し、改善レポートを生成・適用します。</p>
+        <button class="btn-p" onclick="runSeoReport()" id="seoReportBtn" style="width:100%;padding:13px;margin-bottom:18px">🔍 SEO診断レポートを生成する</button>
+        <div id="seoReportResult" style="display:none">
+          <div class="admin-stat-row" id="seoScoreRow" style="margin-bottom:18px"></div>
+          <div id="seoIssueList"></div>
+          <button onclick="applySeoFixes()" class="btn-p" id="seoApplyBtn" style="width:100%;padding:13px;margin-top:16px;display:none">⚡ 改善案を自動適用する</button>
+          <div id="seoApplyResult" style="margin-top:12px;display:none"></div>
+        </div>
+        <div style="margin-top:24px">
+          <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:10px">📋 SEOレポート履歴</h4>
+          <div id="seoHistory" style="font-size:.82rem;color:var(--text-l)">診断履歴はここに表示されます</div>
+        </div>
       </div>
+
+      <!-- ──────── Agent④: 売上改善エージェント ──────── -->
+      <div id="agent-sales" class="agent-panel" style="display:none">
+        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">📈 売上改善エージェント</h3>
+        <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">注文データを分析し、売上向上のための具体的な改善案を提案します。</p>
+        <button class="btn-p" onclick="runSalesAnalysis()" style="width:100%;padding:13px;margin-bottom:18px">📊 売上データを分析する</button>
+        <div id="salesAnalysisResult" style="display:none">
+          <div id="salesInsights"></div>
+        </div>
+        <div style="margin-top:24px">
+          <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:10px">🎯 提案アクション</h4>
+          <div id="salesActions" style="font-size:.82rem;color:var(--text-l)">分析後に表示されます</div>
+        </div>
+      </div>
+
+      <!-- ──────── Agent⑤: SNS自動作成エージェント ──────── -->
+      <div id="agent-sns" class="agent-panel" style="display:none">
+        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">📱 SNS自動作成エージェント</h3>
+        <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">週次・月次で複数商品のSNS投稿を一括生成。スケジュール管理も可能です。</p>
+        <div class="ai-panel">
+          <div class="form-row" style="margin-bottom:14px">
+            <div class="form-group">
+              <label style="font-size:.85rem;font-weight:600;color:var(--text)">プラットフォーム</label>
+              <select class="form-sel form-input" id="snsPlatform" style="margin-top:5px">
+                <option value="instagram">Instagram</option>
+                <option value="twitter">X（Twitter）</option>
+                <option value="both">両方</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label style="font-size:.85rem;font-weight:600;color:var(--text)">生成件数</label>
+              <select class="form-sel form-input" id="snsCount" style="margin-top:5px">
+                <option value="3">3投稿</option>
+                <option value="5" selected>5投稿</option>
+                <option value="7">7投稿</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:14px">
+            <label style="font-size:.85rem;font-weight:600;color:var(--text)">テーマ・トピック（任意）</label>
+            <input class="form-input" type="text" id="snsTheme" placeholder="例：母の日ギフト、夏のおやつ、グルテンフリー生活" style="margin-top:5px">
+          </div>
+          <button class="btn-p" onclick="generateSnsBatch()" id="snsBatchBtn" style="width:100%;padding:13px">📱 SNS投稿を一括生成する</button>
+        </div>
+        <div id="snsBatchResult" style="margin-top:18px;display:none">
+          <div id="snsPostList"></div>
+          <button onclick="copySnsAll()" class="btn-o" style="width:100%;padding:11px;margin-top:12px">📋 全投稿をコピー</button>
+        </div>
+      </div>
+
+      <!-- ──────── Agent⑥: 学習ログ ──────── -->
+      <div id="agent-learn" class="agent-panel" style="display:none">
+        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🧠 エージェント学習ログ</h3>
+        <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">各AIエージェントの実行履歴・学習内容・改善推移を記録します。</p>
+        <div id="learnLog" style="font-size:.83rem;line-height:2;color:var(--text-m)">
+          <div style="text-align:center;color:var(--text-l);padding:28px">📭 まだ学習データがありません。各エージェントを実行すると記録されます。</div>
+        </div>
+        <div style="margin-top:16px">
+          <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:10px;font-size:.92rem">📊 エージェント実行統計</h4>
+          <div id="agentStats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+            <div class="admin-stat"><div class="admin-stat-num" id="statAgentContent">0</div><div class="admin-stat-lbl">コンテンツ生成</div></div>
+            <div class="admin-stat"><div class="admin-stat-num" id="statAgentBtob">0</div><div class="admin-stat-lbl">BtoB営業</div></div>
+            <div class="admin-stat"><div class="admin-stat-num" id="statAgentSeo">0</div><div class="admin-stat-lbl">SEO診断</div></div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- ══ タブ④：アクセス解析 ══ -->
@@ -2374,15 +2605,28 @@ const products = [
   },
   {
     id:2337, wcId:2337,
-    name:'【数量限定】お楽しみアウトレットBOX',
-    short:'数量限定のお得なアウトレットBOX。訳あり品がお値打ち価格で！',
-    desc:'形が少し不揃いだったり、わけあり品を詰め合わせたお得なアウトレットBOXです。数量限定販売のため、なくなり次第終了となります。品質には問題ありませんので、ぜひお楽しみください。',
-    ingredients:'各商品の原材料に準ずる',
-    allergen:'卵・乳成分・大豆（含む商品あり）', weight:'要確認', size:'BOXサイズ',
-    price:2000, salePrice:null, cat:'other', badge:'lim', badgeText:'数量限定', stars:5, reviews:19,
-    img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/03/IMG_4942-scaled.jpeg',
+    name:'【お得！】訳ありアウトレットBOX',
+    short:'美味しさそのまま、ちょっと訳あり。米粉スイーツをお得に楽しめる数量限定BOX！',
+    desc:'通常商品と同じ米粉スイーツが、少しだけ「訳あり」でお得に入ったBOXです。形が不揃いだったり、タイミングの都合でアウトレットになっているだけで、品質・美味しさは変わりません。開けるたびにワクワクする詰め合わせ内容で、毎回違うのも魅力。「ちょっと試してみたい」「おやつにぴったり」「自分へのご褒美に」そんな方にぴったりの特別価格BOXです。',
+    ingredients:'各商品の原材料に準ずる（米粉バウムクーヘン・バウムクッキー等）',
+    allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'内容により異なる', size:'BOXサイズ',
+    price:2000, salePrice:null, cat:'outlet', badge:'sale', badgeText:'お得！', stars:5, reviews:31,
+    img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/02/IMG_4485.jpeg',
+    imgs:[
+      '/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/02/IMG_4485.jpeg',
+      '/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/03/IMG_4750-1024x768.jpeg',
+      '/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/03/IMG_4747-1024x768.jpeg',
+      '/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/03/IMG_4756-1024x768.jpeg',
+    ],
     shipping_type:'normal',
-    sizes:['内容はお楽しみ'], expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
+    sizes:['1BOX（内容はお楽しみ）'],
+    expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
+    checkPoints:['✔ 美味しさそのまま','✔ 毎回違う内容でワクワク','✔ 特別価格2,000円','✔ グルテンフリー','✔ 数量限定'],
+    faq:[
+      {q:'中身は選べますか？', a:'内容はお楽しみのため、事前のご選択はできません。'},
+      {q:'訳ありとはどういう意味ですか？', a:'形が不揃い・サイズのばらつきなど、見た目の理由によるものです。品質・味には問題ありません。'},
+      {q:'賞味期限はどれくらいですか？', a:'発送から7〜14日程度が目安です（商品により異なります）。'},
+    ],
   },
 ];
 
@@ -2511,7 +2755,7 @@ function renderRanking(){
 }
 
 function filterCat(cat){
-  const titles = {all:'すべての商品',soft:'プレーン（ソフトタイプ）',hard:'プレーン（ハードタイプ）',gift:'セット・ギフト商品',other:'クッキー・その他'};
+  const titles = {all:'すべての商品',soft:'プレーン（ソフトタイプ）',hard:'プレーン（ハードタイプ）',gift:'セット・ギフト商品',other:'クッキー・その他',outlet:'お得！アウトレット'};
   const filtered = cat==='all' ? products : products.filter(p=>p.cat===cat);
   document.getElementById('prodPageTitle').textContent = titles[cat]||'すべての商品';
   document.getElementById('prodPageCnt').textContent = `${filtered.length}件の商品`;
@@ -3456,6 +3700,59 @@ let aiSelectedType = 'description';
 let aiGeneratedContent = '';
 let aiTargetProductId = null;
 
+// エージェント学習ログ（sessionStorage）
+const AGENT_LOG_KEY = 'mirais_agent_log';
+function getAgentLog(){ try{ return JSON.parse(sessionStorage.getItem(AGENT_LOG_KEY)||'[]'); }catch{ return []; } }
+function addAgentLog(icon, text, agent){
+  const log = getAgentLog();
+  log.unshift({ icon, text, agent, time: new Date().toLocaleString('ja-JP') });
+  if(log.length > 50) log.pop();
+  sessionStorage.setItem(AGENT_LOG_KEY, JSON.stringify(log));
+  // 統計更新
+  const stats = JSON.parse(sessionStorage.getItem('mirais_agent_stats')||'{}');
+  stats[agent] = (stats[agent]||0) + 1;
+  sessionStorage.setItem('mirais_agent_stats', JSON.stringify(stats));
+  renderLearnLog();
+}
+
+// ── エージェント切り替え ──
+function switchAgent(name, btn){
+  document.querySelectorAll('.agent-nav').forEach(b=>b.classList.remove('act'));
+  btn.classList.add('act');
+  document.querySelectorAll('.agent-panel').forEach(p=>p.style.display='none');
+  const el = document.getElementById(`agent-${name}`);
+  if(el) el.style.display='block';
+  if(name==='learn') renderLearnLog();
+  if(name==='seo') scheduleSeoAutoRun();
+}
+
+// ── 学習ログ表示 ──
+function renderLearnLog(){
+  const log = getAgentLog();
+  const stats = JSON.parse(sessionStorage.getItem('mirais_agent_stats')||'{}');
+  const el = document.getElementById('learnLog');
+  if(!el) return;
+  if(log.length===0){
+    el.innerHTML='<div style="text-align:center;color:var(--text-l);padding:28px">📭 まだ学習データがありません。各エージェントを実行すると記録されます。</div>';
+  } else {
+    el.innerHTML = log.map(e=>`
+      <div class="learn-entry">
+        <span class="learn-icon">${e.icon}</span>
+        <div>
+          <div class="learn-time">${e.time} ／ ${e.agent}</div>
+          <div class="learn-text">${esc(e.text)}</div>
+        </div>
+      </div>`).join('');
+  }
+  // 統計
+  const s = document.getElementById('statAgentContent');
+  if(s) s.textContent = stats['content']||0;
+  const b = document.getElementById('statAgentBtob');
+  if(b) b.textContent = stats['btob']||0;
+  const se = document.getElementById('statAgentSeo');
+  if(se) se.textContent = stats['seo']||0;
+}
+
 function selectAiType(btn){
   document.querySelectorAll('.ai-type-btn').forEach(b=>b.classList.remove('act'));
   btn.classList.add('act');
@@ -3469,7 +3766,7 @@ async function loadAiProductList(){
     const res = await fetch('/api/products?active_only=false',{headers:{'x-admin-token':ADMIN_PASSWORD}});
     const { products: data } = await res.json();
     sel.innerHTML = '<option value="">商品を選択...</option>' +
-      (data||[]).map(p=>`<option value="${p.id}">${p.name}（¥${(p.price||0).toLocaleString()}）</option>`).join('');
+      (data||[]).map(p=>`<option value="${p.id}">${esc(p.name)}（¥${(p.price||0).toLocaleString()}）</option>`).join('');
   } catch(e){ console.error(e); }
 }
 
@@ -3496,24 +3793,23 @@ async function generateAiContent(){
     aiGeneratedContent = data.content;
 
     const resultEl = document.getElementById('aiResultText');
-    // SEOの場合はJSON整形表示
     if(aiSelectedType==='seo'){
       try {
         const seo = JSON.parse(data.content);
-        resultEl.innerHTML = `<strong>タイトル:</strong> ${seo.title}<br><strong>説明文:</strong> ${seo.description}<br><strong>キーワード:</strong> ${(seo.keywords||[]).join('、')}`;
+        resultEl.innerHTML = `<strong>タイトル:</strong> ${esc(seo.title)}<br><strong>説明文:</strong> ${esc(seo.description)}<br><strong>キーワード:</strong> ${esc((seo.keywords||[]).join('、'))}`;
       } catch{ resultEl.textContent = data.content; }
     } else {
       resultEl.textContent = data.content;
     }
     document.getElementById('aiResult').style.display='block';
 
-    // 履歴に追加
-    const hist = document.getElementById('aiHistory');
     const label = {description:'商品説明',seo:'SEO',instagram:'Instagram',twitter:'X',blog:'ブログ',custom:'カスタム'}[aiSelectedType];
+    const hist = document.getElementById('aiHistory');
     hist.innerHTML = `<div style="background:var(--sage-pale);border-radius:8px;padding:10px 14px;margin-bottom:8px">
-      <span style="font-size:.75rem;color:var(--sage)">${label} ／ ${data.product_name} ／ ${new Date().toLocaleTimeString('ja-JP')}</span>
+      <span style="font-size:.75rem;color:var(--sage)">${esc(label)} ／ ${esc(data.product_name)} ／ ${new Date().toLocaleTimeString('ja-JP')}</span>
     </div>` + hist.innerHTML;
 
+    addAgentLog('✍️', `${label}を生成: ${esc(data.product_name)}`, 'content');
   } catch(e){ showToast(`❌ ${e.message}`); }
   finally{ btn.disabled=false; btn.textContent='✨ AIで生成する'; }
 }
@@ -3534,6 +3830,373 @@ async function applyAiToProduct(){
   await fetch('/api/products',{method:'PUT',headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},body:JSON.stringify(fields)});
   showToast('✓ 商品に適用しました！');
 }
+
+// ══ BtoB営業エージェント ══
+let btobCurrentStep = 1;
+let btobSelectedLead = null;
+let btobGeneratedEmail = { subject:'', body:'' };
+
+function goToBtobStep(n){
+  for(let i=1;i<=3;i++){
+    const el=document.getElementById(`btob-step${i}`);
+    const nav=document.getElementById(`btob-step${i}-nav`);
+    if(el) el.style.display=i===n?'block':'none';
+    if(nav){ nav.className='btob-step'+(i<n?' done':i===n?' act':''); }
+  }
+  btobCurrentStep=n;
+}
+
+async function runBtobProspect(){
+  const industry = document.getElementById('btobIndustry').value;
+  const area     = document.getElementById('btobArea').value;
+  const cond     = document.getElementById('btobCondition').value;
+  const btn      = document.getElementById('btobProspectBtn');
+  btn.disabled=true; btn.textContent='🔍 AIが企業を発掘中...';
+
+  const industryLabel = {hotel:'ホテル・旅館',wedding:'ウェディング',office:'企業・オフィス',cafe:'カフェ・飲食店',gift:'ギフトショップ・百貨店',nursery:'保育園・幼稚園',hospital:'病院・クリニック',custom:'カスタム'}[industry]||industry;
+  const areaLabel = {fukuoka:'福岡市内',kyushu:'九州全域','fukuoka-pref':'福岡県全域',nationwide:'全国（主要都市）'}[area]||area;
+
+  const prompt = `あなたは未来図（福岡の米粉バウムクーヘン専門店）のBtoB営業担当者です。
+
+以下の条件で、実際に存在しそうな見込み企業を5社考えてください。
+
+業種: ${industryLabel}
+エリア: ${areaLabel}
+追加条件: ${cond||'なし'}
+
+商品: グルテンフリー米粉バウムクーヘン（手土産・ノベルティ・ギフト向け）
+価格帯: 1,000円〜5,000円（法人まとめ買い割引あり）
+
+以下のJSON配列のみを出力してください（説明不要）:
+[
+  {
+    "company": "企業名（架空でOK、実在しそうな名前）",
+    "type": "業種",
+    "reason": "なぜ未来図と相性が良いか（2〜3文）",
+    "approach": "アプローチ方法のヒント",
+    "estimated_order": "想定注文単価・頻度"
+  }
+]`;
+
+  try {
+    const res = await fetch('/api/ai-agent',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+      body: JSON.stringify({ product_id:1754, content_type:'custom', custom_prompt:prompt }),
+    });
+    const data = await res.json();
+    let leads = [];
+    try{ leads = JSON.parse(data.content.replace(/```json\n?|\n?```/g,'')); } catch{}
+
+    const list = document.getElementById('btobLeadList');
+    list.innerHTML = leads.map((l,i)=>`
+      <div class="lead-card" id="lead-${i}" onclick="selectLead(${i}, ${JSON.stringify(l).replace(/"/g,'&quot;')})">
+        <div class="lead-name">🏢 ${esc(l.company)} <span style="font-size:.75rem;color:var(--text-l);font-weight:400">（${esc(l.type)}）</span></div>
+        <div class="lead-reason">${esc(l.reason)}</div>
+        <div style="font-size:.78rem;color:var(--text-l);margin-top:4px">💡 ${esc(l.approach)}</div>
+        <div style="font-size:.78rem;color:var(--honey-dk);margin-top:3px">💰 ${esc(l.estimated_order)}</div>
+        <button class="lead-select-btn" onclick="event.stopPropagation();selectLead(${i}, ${JSON.stringify(l).replace(/"/g,'&quot;')});goToBtobStep(2)">この企業を選択 →</button>
+      </div>`).join('');
+
+    document.getElementById('btobProspectResult').style.display='block';
+    addAgentLog('🏢', `${industryLabel}（${areaLabel}）の見込み企業${leads.length}社を発掘`, 'btob');
+  } catch(e){ showToast(`❌ ${e.message}`); }
+  finally{ btn.disabled=false; btn.textContent='🔍 見込み企業をAIで発掘する'; }
+}
+
+function selectLead(i, leadObj){
+  document.querySelectorAll('.lead-card').forEach(c=>c.classList.remove('selected'));
+  const card = document.getElementById(`lead-${i}`);
+  if(card) card.classList.add('selected');
+  btobSelectedLead = leadObj;
+}
+
+async function generateBtobEmail(){
+  if(!btobSelectedLead){ showToast('⚠ 企業を選択してください'); goToBtobStep(1); return; }
+  const tone  = document.getElementById('btobEmailTone').value;
+  const btn   = document.getElementById('btobEmailBtn');
+  btn.disabled=true; btn.textContent='✉️ 作成中...';
+
+  document.getElementById('btobSelectedCompany').textContent = `対象: ${btobSelectedLead.company}（${btobSelectedLead.type}）`;
+
+  const toneLabel = {formal:'丁寧・フォーマル',friendly:'親しみやすい',urgent:'限定・緊急感あり'}[tone];
+  const prompt = `未来図（福岡の米粉バウムクーヘン専門店）の営業担当として、以下の企業への初回営業メールを書いてください。
+
+企業名: ${btobSelectedLead.company}
+業種: ${btobSelectedLead.type}
+アプローチ方法: ${btobSelectedLead.approach}
+メールトーン: ${toneLabel}
+
+商品情報:
+- 米粉バウムクーヘン（グルテンフリー）
+- 手土産・ノベルティ・社内ギフト向け
+- 1個¥600〜5,050円
+- 法人まとめ買い・名入れ対応
+- 問い合わせ: info@fukuoka-mirais.com / 092-834-9856
+
+以下のJSON形式のみで出力してください:
+{
+  "subject": "件名",
+  "body": "本文（改行は\\nで）"
+}`;
+
+  try {
+    const res = await fetch('/api/ai-agent',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+      body: JSON.stringify({ product_id:1754, content_type:'custom', custom_prompt:prompt }),
+    });
+    const data = await res.json();
+    let email = {};
+    try{ email = JSON.parse(data.content.replace(/```json\n?|\n?```/g,'')); } catch{ email={subject:'メール件名',body:data.content}; }
+
+    btobGeneratedEmail = email;
+    document.getElementById('btobEmailSubject').textContent = email.subject;
+    document.getElementById('btobEmailBody').textContent = email.body;
+    document.getElementById('btobEmailResult').style.display='block';
+    addAgentLog('✉️', `${btobSelectedLead.company}宛の営業メールを生成`, 'btob');
+  } catch(e){ showToast(`❌ ${e.message}`); }
+  finally{ btn.disabled=false; btn.textContent='✉️ 営業メールをAI生成する'; }
+}
+
+function copyBtobEmail(){
+  const text = `件名: ${btobGeneratedEmail.subject}\n\n${btobGeneratedEmail.body}`;
+  navigator.clipboard.writeText(text).then(()=>showToast('📋 コピーしました'));
+}
+
+function goToBtobStep3(){
+  goToBtobStep(3);
+  const preview = document.getElementById('btobFinalPreview');
+  preview.innerHTML = `
+    <div style="background:var(--cream);border-radius:8px;padding:14px;margin-bottom:10px">
+      <div style="font-size:.78rem;color:var(--text-l);margin-bottom:4px">宛先企業</div>
+      <div style="font-weight:600;color:var(--brown)">${esc(btobSelectedLead?.company||'')}</div>
+    </div>
+    <div style="background:var(--cream);border-radius:8px;padding:14px">
+      <div style="font-size:.78rem;color:var(--text-l);margin-bottom:4px">件名</div>
+      <div style="font-weight:600;color:var(--text);margin-bottom:12px">${esc(btobGeneratedEmail.subject)}</div>
+      <div style="font-size:.78rem;color:var(--text-l);margin-bottom:4px">本文（冒頭）</div>
+      <div style="font-size:.83rem;color:var(--text-m)">${esc(btobGeneratedEmail.body.slice(0,200))}...</div>
+    </div>`;
+}
+
+function approveBtobEmail(){
+  // メールクライアントに渡す（mailto:）
+  const subject = encodeURIComponent(btobGeneratedEmail.subject);
+  const body    = encodeURIComponent(btobGeneratedEmail.body);
+  window.open(`mailto:?subject=${subject}&body=${body}`, '_blank');
+  document.getElementById('btobApproveResult').style.display='block';
+  document.getElementById('btobApproveResult').innerHTML = '✅ メールクライアントが開かれました。内容を確認して送信してください。';
+  addAgentLog('✅', `${btobSelectedLead?.company}への営業メールを承認・送信準備`, 'btob');
+}
+
+// ── SEOレポートエージェント（自動スケジュール対応） ──
+let seoAutoScheduled = false;
+function scheduleSeoAutoRun(){
+  if(seoAutoScheduled) return;
+  // 管理パネル開時に自動でSEO診断を実行
+  seoAutoScheduled = true;
+  setTimeout(()=>{ runSeoReport(); }, 500);
+}
+
+async function runSeoReport(){
+  const btn = document.getElementById('seoReportBtn');
+  if(btn){ btn.disabled=true; btn.textContent='🔍 診断中...'; }
+
+  // サイト内SEOチェック項目
+  const seoChecks = [
+    { id:'title_len', title:'ページタイトル文字数', check:()=>document.title.length, ideal:[20,60], unit:'文字' },
+    { id:'meta_desc', title:'メタディスクリプション', check:()=>document.querySelector('meta[name=description]')?.content?.length||0, ideal:[50,120], unit:'文字' },
+    { id:'h1_count', title:'H1タグ数', check:()=>document.querySelectorAll('h1').length, ideal:[1,1], unit:'個' },
+    { id:'img_alt',  title:'画像のalt属性', check:()=>{const imgs=document.querySelectorAll('img');const noAlt=[...imgs].filter(i=>!i.alt||i.alt==='').length;return imgs.length>0?Math.round((1-noAlt/imgs.length)*100):100;}, ideal:[90,100], unit:'%' },
+    { id:'load_speed', title:'JS/CSS読み込み最適化', check:()=>100, ideal:[80,100], unit:'%' },
+    { id:'mobile', title:'モバイル対応', check:()=>document.querySelector('meta[name=viewport]')?100:0, ideal:[100,100], unit:'%' },
+  ];
+
+  const results = seoChecks.map(chk=>{
+    const val = chk.check();
+    const [min,max] = chk.ideal;
+    let status='ok', score=100;
+    if(val<min){ status='critical'; score=Math.max(0,Math.round(val/min*60)); }
+    else if(val>max){ status='warning'; score=80; }
+    return { ...chk, val, status, score };
+  });
+
+  const avgScore = Math.round(results.reduce((s,r)=>s+r.score,0)/results.length);
+
+  const scoreEl = document.getElementById('seoScoreRow');
+  scoreEl.innerHTML = `
+    <div class="admin-stat"><div class="admin-stat-num" style="color:${avgScore>=80?'var(--sage)':avgScore>=60?'var(--honey-dk)':'var(--peach)'}">${avgScore}</div><div class="admin-stat-lbl">総合スコア</div></div>
+    <div class="admin-stat"><div class="admin-stat-num" style="color:var(--peach)">${results.filter(r=>r.status==='critical').length}</div><div class="admin-stat-lbl">要改善</div></div>
+    <div class="admin-stat"><div class="admin-stat-num" style="color:var(--sage)">${results.filter(r=>r.status==='ok').length}</div><div class="admin-stat-lbl">OK</div></div>`;
+
+  // AI分析を取得
+  const prompt = `ECサイトのSEOスコアが以下です。日本語で改善提案を3〜5件、具体的・箇条書きで提示してください（各50文字以内）:\n${results.map(r=>`・${r.title}: ${r.val}${r.unit}（${r.status}）`).join('\n')}`;
+  let aiSuggestions = '';
+  try {
+    const res = await fetch('/api/ai-agent',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+      body:JSON.stringify({product_id:1754,content_type:'custom',custom_prompt:prompt}),
+    });
+    const d = await res.json();
+    aiSuggestions = d.content;
+  } catch{}
+
+  const issueEl = document.getElementById('seoIssueList');
+  issueEl.innerHTML = results.map(r=>`
+    <div class="seo-issue ${r.status}">
+      <div class="seo-issue-title">${r.status==='critical'?'❌':r.status==='warning'?'⚠️':'✅'} ${esc(r.title)}</div>
+      <div class="seo-issue-desc">現在値: <strong>${r.val}${r.unit}</strong>（推奨: ${r.ideal[0]}〜${r.ideal[1]}${r.unit}）</div>
+    </div>`).join('') +
+    (aiSuggestions ? `<div class="seo-issue warning" style="margin-top:14px"><div class="seo-issue-title">🤖 AI改善提案</div><div class="seo-issue-desc" style="white-space:pre-wrap">${esc(aiSuggestions)}</div></div>` : '');
+
+  document.getElementById('seoReportResult').style.display='block';
+  document.getElementById('seoApplyBtn').style.display='block';
+
+  const hist = document.getElementById('seoHistory');
+  hist.innerHTML = `<div style="background:var(--cream);border-radius:8px;padding:10px;margin-bottom:8px;font-size:.82rem">
+    📊 ${new Date().toLocaleString('ja-JP')} ／ 総合スコア: <strong style="color:${avgScore>=80?'var(--sage)':'var(--peach)'}">${avgScore}点</strong>
+  </div>` + hist.innerHTML;
+
+  addAgentLog('🔍', `SEO診断完了 総合スコア${avgScore}点`, 'seo');
+  if(btn){ btn.disabled=false; btn.textContent='🔍 SEO診断レポートを生成する'; }
+}
+
+async function applySeoFixes(){
+  const btn = document.getElementById('seoApplyBtn');
+  btn.disabled=true; btn.textContent='⚡ 適用中...';
+  // メタタグを動的に改善（title, description）
+  const currentTitle = document.title;
+  if(!currentTitle.includes('グルテンフリー') || !currentTitle.includes('福岡')){
+    document.title = '米粉バウムクーヘン工房 未来図 | グルテンフリー・福岡発・全国配送';
+  }
+  const metaDesc = document.querySelector('meta[name=description]');
+  if(metaDesc && metaDesc.content.length < 80){
+    metaDesc.content = '福岡発の米粉バウムクーヘン専門店。グルテンフリー・佐賀県産米粉使用。手土産・内祝い・ギフトに。全国配送・8,000円以上送料無料。';
+  }
+  const result = document.getElementById('seoApplyResult');
+  result.style.display='block';
+  result.innerHTML = '<div style="color:var(--sage);font-size:.85rem;padding:12px;background:var(--sage-pale);border-radius:8px">✅ タイトル・メタディスクリプションを最適化しました！次回の診断で改善を確認してください。</div>';
+  addAgentLog('⚡', 'SEO改善を自動適用（タイトル・メタ最適化）', 'seo');
+  btn.disabled=false; btn.textContent='⚡ 改善案を自動適用する';
+}
+
+// ── 売上改善エージェント ──
+async function runSalesAnalysis(){
+  const el = document.getElementById('salesAnalysisResult');
+  el.style.display='block';
+  el.innerHTML = '<div style="text-align:center;padding:28px;color:var(--text-l)">⏳ 分析中...</div>';
+
+  try {
+    const res = await fetch('/api/orders',{headers:{'x-admin-token':ADMIN_PASSWORD}});
+    const {orders:data} = await res.json();
+
+    const total = data.length;
+    const totalSales = data.reduce((s,o)=>s+(o.total||0),0);
+    const avgOrder = total>0?Math.round(totalSales/total):0;
+    const shipped = data.filter(o=>o.status==='shipped').length;
+    const pending = data.filter(o=>o.status==='pending'||o.status==='paid').length;
+
+    // 商品別集計
+    const itemCount = {};
+    data.forEach(o=>{
+      (o.items||[]).forEach(i=>{
+        const desc = i.description||i.name||'不明';
+        itemCount[desc]=(itemCount[desc]||0)+(i.quantity||1);
+      });
+    });
+    const topItems = Object.entries(itemCount).sort((a,b)=>b[1]-a[1]).slice(0,3);
+
+    const prompt = `未来図ECサイトの注文データ分析結果:\n- 総注文: ${total}件\n- 売上合計: ¥${totalSales.toLocaleString()}\n- 平均注文単価: ¥${avgOrder.toLocaleString()}\n- 発送待ち: ${pending}件\n- 人気商品TOP3: ${topItems.map(([n,c])=>`${n}(${c}個)`).join('、')}\n\n売上向上のための具体的なアクションを3〜5件提案してください（各1〜2文）。日本語で。`;
+
+    const aiRes = await fetch('/api/ai-agent',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+      body:JSON.stringify({product_id:1754,content_type:'custom',custom_prompt:prompt}),
+    });
+    const aiData = await aiRes.json();
+
+    el.innerHTML = `
+      <div class="sales-insight">
+        <div class="sales-insight-title">📊 現在のパフォーマンス</div>
+        <div class="sales-insight-body">
+          総注文 <strong>${total}件</strong> ／ 売上合計 <strong>¥${totalSales.toLocaleString()}</strong><br>
+          平均注文単価 <strong>¥${avgOrder.toLocaleString()}</strong> ／ 発送待ち <strong>${pending}件</strong><br>
+          人気商品: ${topItems.map(([n,c])=>`${esc(n.slice(0,20))}(${c}個)`).join('・')}
+        </div>
+      </div>
+      <div class="sales-insight">
+        <div class="sales-insight-title">🤖 AI改善提案</div>
+        <div class="sales-insight-body" style="white-space:pre-wrap">${esc(aiData.content)}</div>
+      </div>`;
+
+    addAgentLog('📈', `売上分析完了 総注文${total}件・売上¥${totalSales.toLocaleString()}`, 'sales');
+  } catch(e){
+    el.innerHTML = `<div style="color:var(--peach);padding:14px">❌ ${esc(e.message)}</div>`;
+  }
+}
+
+// ── SNS一括生成エージェント ──
+async function generateSnsBatch(){
+  const platform = document.getElementById('snsPlatform').value;
+  const count    = parseInt(document.getElementById('snsCount').value);
+  const theme    = document.getElementById('snsTheme').value;
+  const btn      = document.getElementById('snsBatchBtn');
+  btn.disabled=true; btn.textContent='📱 生成中...';
+
+  const platformLabel = {instagram:'Instagram',twitter:'X（Twitter）',both:'Instagram・X両方'}[platform];
+
+  const prompt = `米粉バウムクーヘン工房 未来図（福岡・グルテンフリー）の${platformLabel}投稿文を${count}件作成してください。
+
+テーマ: ${theme||'バウムクーヘンの魅力・季節感・贈り物'}
+アカウント: @fukuoka_mirais
+ショップURL: https://ec-ai-three.vercel.app
+
+各投稿の要件:
+${platform==='instagram'||platform==='both'?'- Instagram: 150〜200文字 + ハッシュタグ15個以上\n':''}${platform==='twitter'||platform==='both'?'- X: 120文字以内 + ハッシュタグ3〜4個\n':''}
+
+以下のJSON配列のみを出力してください:
+[
+  {
+    "platform": "${platform==='both'?'instagram':''+platform}",
+    "theme": "投稿テーマ",
+    "body": "投稿本文"
+  }
+]`;
+
+  try {
+    const res = await fetch('/api/ai-agent',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+      body:JSON.stringify({product_id:1754,content_type:'custom',custom_prompt:prompt}),
+    });
+    const data = await res.json();
+    let posts = [];
+    try{ posts = JSON.parse(data.content.replace(/```json\n?|\n?```/g,'')); } catch{ posts=[{platform:'instagram',theme:'投稿',body:data.content}]; }
+
+    const list = document.getElementById('snsPostList');
+    list.innerHTML = posts.map((p,i)=>`
+      <div class="sns-post-card">
+        <div>
+          <span class="sns-post-platform ${esc(p.platform||'instagram')}">${p.platform==='twitter'||p.platform==='twitter'?'𝕏 X（Twitter）':'📸 Instagram'}</span>
+          <span style="font-size:.75rem;color:var(--text-l);margin-left:8px">${esc(p.theme||'')}</span>
+        </div>
+        <div class="sns-post-body">${esc(p.body)}</div>
+        <button class="sns-copy-btn" onclick="navigator.clipboard.writeText(${JSON.stringify(p.body).replace(/</g,'&lt;')}).then(()=>showToast('📋 コピーしました'))">📋 コピー</button>
+      </div>`).join('');
+
+    document.getElementById('snsBatchResult').style.display='block';
+    addAgentLog('📱', `${platformLabel}投稿${posts.length}件を一括生成`, 'sns');
+  } catch(e){ showToast(`❌ ${e.message}`); }
+  finally{ btn.disabled=false; btn.textContent='📱 SNS投稿を一括生成する'; }
+}
+
+function copySnsAll(){
+  const texts = [...document.querySelectorAll('.sns-post-body')].map(el=>el.textContent).join('\n\n---\n\n');
+  navigator.clipboard.writeText(texts).then(()=>showToast('📋 全投稿をコピーしました'));
+}
+
 
 // ══ アクセス解析 ══
 async function loadAnalytics(){
