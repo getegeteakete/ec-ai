@@ -2059,6 +2059,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <button class="admin-tab act" onclick="switchAdminTab('orders',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-package"/></svg>注文管理</button>
       <button class="admin-tab" onclick="switchAdminTab('products',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-bag"/></svg>商品・在庫</button>
       <button class="admin-tab" onclick="switchAdminTab('ai',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-sparkle"/></svg>AIエージェント</button>
+      <button class="admin-tab" onclick="switchAdminTab('btob-approval',this)" id="btobApprovalTab">📬 BtoB承認 <span id="btobPendingBadge" style="display:none;background:var(--peach);color:#fff;border-radius:50px;padding:1px 7px;font-size:.7rem;margin-left:4px">0</span></button>
       <button class="admin-tab" onclick="switchAdminTab('analytics',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-star"/></svg>アクセス解析</button>
     </div>
 
@@ -2446,7 +2447,42 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 
     </div>
 
-    <!-- ══ タブ④：アクセス解析 ══ -->
+    <!-- ══ タブ④：BtoB承認管理 ══ -->
+    <div id="adminTab-btob-approval" class="admin-tab-content" style="display:none">
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 14px;flex-wrap:wrap;gap:10px">
+        <div>
+          <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin:0 0 3px">📬 BtoB営業メール 承認管理</h3>
+          <p style="font-size:.8rem;color:var(--text-l);margin:0">AIが自動生成した営業メールを確認・承認・送信します</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <select class="form-sel form-input" id="btobLeadFilter" onchange="loadBtobLeads()" style="font-size:.82rem;width:120px">
+            <option value="pending">承認待ち</option>
+            <option value="approved">承認済み</option>
+            <option value="sent">送信済み</option>
+            <option value="rejected">却下</option>
+            <option value="all">すべて</option>
+          </select>
+          <button class="btn-p" onclick="runDailyManual()" id="dailyManualBtn" style="padding:8px 16px;font-size:.82rem">
+            ▶ 今すぐ5件生成
+          </button>
+        </div>
+      </div>
+
+      <!-- 統計 -->
+      <div class="admin-stat-row" style="margin-bottom:18px">
+        <div class="admin-stat"><div class="admin-stat-num" id="btobStatPending">-</div><div class="admin-stat-lbl">承認待ち</div></div>
+        <div class="admin-stat"><div class="admin-stat-num" id="btobStatApproved">-</div><div class="admin-stat-lbl">承認済み</div></div>
+        <div class="admin-stat"><div class="admin-stat-num" id="btobStatSent">-</div><div class="admin-stat-lbl">送信済み</div></div>
+      </div>
+
+      <!-- リード一覧 -->
+      <div id="btobLeadsList">
+        <div style="text-align:center;padding:36px;color:var(--text-l)">⏳ 読み込み中...</div>
+      </div>
+    </div>
+
+    <!-- ══ タブ⑤：アクセス解析 ══ -->
     <div id="adminTab-analytics" class="admin-tab-content" style="display:none">
       <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 14px">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown)">アクセス解析</h3>
@@ -3905,6 +3941,7 @@ function switchAdminTab(tab, btn){
   if(tab==='orders')    renderAdminOrders('all');
   if(tab==='products')  renderAdminProducts();
   if(tab==='ai')        loadAiProductList();
+  if(tab==='btob-approval') loadBtobLeads();
   if(tab==='analytics') loadAnalytics();
 }
 
@@ -4673,6 +4710,155 @@ function copySnsAll(){
 }
 
 
+
+// ══ BtoB承認管理 ══════════════════════════════════════
+async function loadBtobLeads(){
+  const status = document.getElementById('btobLeadFilter')?.value || 'pending';
+  const el     = document.getElementById('btobLeadsList');
+  el.innerHTML = '<div style="text-align:center;padding:28px;color:var(--text-l)">⏳ 読み込み中...</div>';
+
+  try {
+    const res = await fetch(`/api/btob-leads?status=${status}&limit=50`,{
+      headers:{'x-admin-token':ADMIN_PASSWORD}
+    });
+    const { leads } = await res.json();
+
+    // 統計更新
+    const all = await fetch('/api/btob-leads?status=all&limit=200',{headers:{'x-admin-token':ADMIN_PASSWORD}});
+    const allData = await all.json();
+    const allLeads = allData.leads || [];
+    document.getElementById('btobStatPending').textContent  = allLeads.filter(l=>l.status==='pending').length;
+    document.getElementById('btobStatApproved').textContent = allLeads.filter(l=>l.status==='approved').length;
+    document.getElementById('btobStatSent').textContent     = allLeads.filter(l=>l.status==='sent').length;
+    const pCount = allLeads.filter(l=>l.status==='pending').length;
+    const badge  = document.getElementById('btobPendingBadge');
+    if(badge){ badge.style.display = pCount>0?'inline':'none'; badge.textContent=pCount; }
+
+    if(!leads || !leads.length){
+      el.innerHTML = '<div style="text-align:center;padding:36px;color:var(--text-l)">📭 該当する営業リードがありません</div>';
+      return;
+    }
+
+    el.innerHTML = leads.map(lead => {
+      const statusMap = {
+        pending:  '<span style="background:rgba(212,145,58,.15);color:var(--honey-dk);padding:3px 10px;border-radius:50px;font-size:.75rem">⏳ 承認待ち</span>',
+        approved: '<span style="background:var(--sage-pale);color:var(--sage);padding:3px 10px;border-radius:50px;font-size:.75rem">✅ 承認済み</span>',
+        sent:     '<span style="background:rgba(28,14,6,.08);color:var(--espresso);padding:3px 10px;border-radius:50px;font-size:.75rem">📨 送信済み</span>',
+        rejected: '<span style="background:rgba(229,135,110,.12);color:var(--peach);padding:3px 10px;border-radius:50px;font-size:.75rem">❌ 却下</span>',
+      }[lead.status] || lead.status;
+
+      const actionBtns = lead.status === 'pending' ? `
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button onclick="approveLead(${lead.id})" class="btn-p" style="padding:7px 16px;font-size:.8rem">✅ 承認</button>
+          <button onclick="rejectLead(${lead.id})"  class="btn-o" style="padding:7px 16px;font-size:.8rem;border-color:var(--peach);color:var(--peach)">❌ 却下</button>
+          <button onclick="editAndSendLead(${lead.id})" style="padding:7px 16px;font-size:.8rem;background:var(--sage);color:#fff;border:none;border-radius:var(--r);cursor:pointer;font-family:'Noto Sans JP',sans-serif">📨 編集して送信</button>
+        </div>` : lead.status === 'approved' ? `
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button onclick="editAndSendLead(${lead.id})" style="padding:7px 16px;font-size:.8rem;background:var(--sage);color:#fff;border:none;border-radius:var(--r);cursor:pointer;font-family:'Noto Sans JP',sans-serif">📨 送信する</button>
+        </div>` : '';
+
+      return `
+      <div class="order-card" style="margin-bottom:14px" id="lead-card-${lead.id}">
+        <div class="order-hd" style="align-items:flex-start">
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+              ${statusMap}
+              <span style="font-size:.72rem;color:var(--text-l)">${esc(lead.run_date||'')} 生成</span>
+              ${lead.score?`<span style="font-size:.72rem;background:rgba(122,158,106,.15);color:var(--sage);padding:2px 8px;border-radius:50px">スコア${lead.score}</span>`:''}
+            </div>
+            <div style="font-weight:700;color:var(--brown);font-size:1rem;margin-bottom:2px">🏢 ${esc(lead.company_name)}</div>
+            <div style="font-size:.78rem;color:var(--text-l);margin-bottom:6px">📍 ${esc(lead.address||'')} ／ ${esc(lead.industry||'')}</div>
+            ${lead.score_reason?`<div style="font-size:.78rem;color:var(--text-m);margin-bottom:6px">💡 ${esc(lead.score_reason)}</div>`:''}
+          </div>
+        </div>
+
+        <!-- メール内容 -->
+        <details style="margin-top:10px">
+          <summary style="cursor:pointer;font-size:.85rem;font-weight:600;color:var(--espresso);padding:8px 12px;background:var(--cream);border-radius:6px;list-style:none;display:flex;align-items:center;gap:6px">
+            <svg width="13" height="13" style="color:var(--honey-dk)"><use href="#ic-mail"/></svg>
+            生成メール内容を確認
+          </summary>
+          <div style="margin-top:8px;background:#fff;border-radius:8px;padding:16px;border:1px solid var(--border-lt)">
+            <div style="font-size:.78rem;color:var(--text-l);margin-bottom:3px">件名</div>
+            <div style="font-weight:600;color:var(--text);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border-lt)">${esc(lead.email_subject||'')}</div>
+            <div style="font-size:.78rem;color:var(--text-l);margin-bottom:3px">本文</div>
+            <div style="font-size:.83rem;color:var(--text-m);white-space:pre-wrap;line-height:1.9">${esc(lead.email_body||'')}</div>
+          </div>
+        </details>
+
+        ${actionBtns}
+        ${lead.note?`<div style="margin-top:8px;font-size:.78rem;color:var(--text-l)">📝 メモ: ${esc(lead.note)}</div>`:''}
+      </div>`;
+    }).join('');
+  } catch(e){
+    el.innerHTML = `<div style="color:var(--peach);padding:14px">❌ ${esc(e.message)}</div>`;
+  }
+}
+
+async function approveLead(id){
+  await fetch('/api/btob-leads',{
+    method:'PATCH',
+    headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+    body: JSON.stringify({ id, status:'approved' }),
+  });
+  showToast('✅ 承認しました');
+  loadBtobLeads();
+}
+
+async function rejectLead(id){
+  await fetch('/api/btob-leads',{
+    method:'PATCH',
+    headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+    body: JSON.stringify({ id, status:'rejected' }),
+  });
+  showToast('❌ 却下しました');
+  loadBtobLeads();
+}
+
+async function editAndSendLead(id){
+  // 送信先メールアドレスを入力してもらう
+  const toEmail = prompt('送信先メールアドレスを入力してください：');
+  if(!toEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(toEmail)){
+    showToast('⚠ 正しいメールアドレスを入力してください'); return;
+  }
+  if(!confirm(`${toEmail} に営業メールを送信しますか？`)) return;
+
+  const res = await fetch('/api/btob-leads',{
+    method:'PATCH',
+    headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+    body: JSON.stringify({ id, status:'sent', send_email:true, to_email:toEmail }),
+  });
+  const data = await res.json();
+  if(data.warning){
+    showToast(`⚠ ${data.warning}`);
+  } else {
+    showToast(`📨 ${toEmail} に送信しました！`);
+  }
+  loadBtobLeads();
+  addAgentLog('📨', `BtoB営業メール送信: ${toEmail}`, 'btob');
+}
+
+async function runDailyManual(){
+  const btn = document.getElementById('dailyManualBtn');
+  if(!confirm('今すぐ本日の営業メール5件を生成・保存しますか？（実際の送信は行いません）')) return;
+  btn.disabled=true; btn.textContent='⏳ 生成中...（1〜2分かかります）';
+  try {
+    const res = await fetch('/api/btob-daily',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
+    });
+    const data = await res.json();
+    if(data.success){
+      showToast(`✅ ${data.generated}件の営業メールを生成しました！`);
+      loadBtobLeads();
+      addAgentLog('🤖', `BtoB日次5件生成: ${data.target} → ${data.generated}件`, 'btob');
+    } else {
+      showToast(`⚠ ${data.message||'生成できませんでした'}`);
+    }
+  } catch(e){ showToast(`❌ ${e.message}`); }
+  finally{ btn.disabled=false; btn.textContent='▶ 今すぐ5件生成'; }
+}
+// ══════════════════════════════════════════════════════
 // ══ アクセス解析 ══
 async function loadAnalytics(){
   const days = document.getElementById('analyticsDays')?.value || '30';
