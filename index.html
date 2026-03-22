@@ -4342,44 +4342,86 @@ async function resendReceipt(orderNo){
 }
 
 // ══ 商品管理 ══
+// 商品ごとの在庫・公開状態をローカル管理（sessionStorage）
+function getAdminProductState(id){
+  try{ return JSON.parse(sessionStorage.getItem('pm_state_'+id)||'{}'); }catch{ return {}; }
+}
+function setAdminProductState(id, state){
+  const cur = getAdminProductState(id);
+  sessionStorage.setItem('pm_state_'+id, JSON.stringify({...cur,...state}));
+}
+
+// productsJS配列をadminProducts形式に変換
+function buildAdminProducts(){
+  return products.map(p => {
+    const state = getAdminProductState(p.id);
+    return {
+      id:           p.id,
+      name:         p.name,
+      short_desc:   p.short,
+      price:        p.price,
+      sale_price:   p.salePrice || null,
+      stock:        state.stock !== undefined ? state.stock : 99,
+      active:       state.active !== undefined ? state.active : true,
+      category:     p.cat,
+      badge:        p.badge,
+      badge_text:   p.badgeText,
+      img_url:      p.img,
+      description:  p.desc,
+      allergen:     p.allergen,
+      expiry:       p.expiry,
+      storage:      p.storage,
+      seo_title:    state.seo_title || '',
+      seo_description: state.seo_description || '',
+    };
+  });
+}
+
 let adminProducts = [];
-async function renderAdminProducts(){
+function renderAdminProducts(){
   const el = document.getElementById('adminProductList');
-  el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-l)">⏳ 読み込み中...</div>';
-  try {
-    const res = await fetch('/api/products?active_only=false', {
-      headers:{'x-admin-token':ADMIN_PASSWORD}
-    });
-    const { products: data } = await res.json();
-    adminProducts = data || [];
-    if(!adminProducts.length){ el.innerHTML='<div style="text-align:center;padding:30px;color:var(--text-l)">商品がありません</div>'; return; }
-    el.innerHTML = adminProducts.map(p => {
-      const stockCls = p.stock <= 0 ? 'stock-out' : p.stock <= 5 ? 'stock-low' : 'stock-ok';
-      const stockTxt = p.stock <= 0 ? '売り切れ' : p.stock <= 5 ? `残${p.stock}個` : `在庫${p.stock}`;
-      const inactive = !p.active ? '<span style="font-size:.72rem;background:#f0f0f0;color:#888;border-radius:4px;padding:2px 7px;margin-left:6px">非公開</span>' : '';
-      return `
-      <div class="product-mgmt-row">
-        <img class="pm-thumb" src="${p.img_url||''}" onerror="this.style.background='var(--brown-pale)';this.style.display='none'">
-        <div class="pm-info">
-          <div class="pm-name">${p.name}${inactive}</div>
-          <div class="pm-price">¥${(p.price||0).toLocaleString()}
-            <span class="pm-stock ${stockCls}">${stockTxt}</span>
-          </div>
+  if(!el) return;
+  adminProducts = buildAdminProducts();
+
+  el.innerHTML = adminProducts.map(p => {
+    const stock   = p.stock;
+    const stockCls = stock <= 0 ? 'stock-out' : stock <= 5 ? 'stock-low' : 'stock-ok';
+    const stockTxt = stock <= 0 ? '売り切れ' : stock <= 5 ? `残${stock}個` : `在庫${stock}個`;
+    const inactive = !p.active
+      ? '<span style="font-size:.72rem;background:#f0f0f0;color:#888;border-radius:4px;padding:2px 7px;margin-left:6px">非公開</span>' : '';
+    // 商品画像（プロキシ経由またはimg配列の1枚目）
+    const imgSrc = p.img_url || '';
+    return `
+    <div class="product-mgmt-row" style="${!p.active?'opacity:.6':''}">
+      <div class="pm-thumb" style="background:var(--parchment);border-radius:6px;overflow:hidden;flex-shrink:0">
+        ${imgSrc
+          ? `<img src="${esc(imgSrc)}" style="width:56px;height:56px;object-fit:cover" onerror="this.style.display='none'">`
+          : `<span style="font-size:1.6rem;display:flex;align-items:center;justify-content:center;width:56px;height:56px">🍰</span>`}
+      </div>
+      <div class="pm-info">
+        <div class="pm-name">${esc(p.name)}${inactive}</div>
+        <div class="pm-price">¥${(p.price||0).toLocaleString()}
+          <span class="pm-stock ${stockCls}">${stockTxt}</span>
         </div>
-        <div class="pm-actions">
-          <button class="pm-edit-btn" onclick="openProductModal(${p.id})">編集</button>
-          <input type="number" value="${p.stock}" min="0" style="width:64px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:.8rem;text-align:center"
-            onchange="updateStock(${p.id},this.value)">
-          <button class="pm-del-btn" onclick="toggleProductActive(${p.id},${p.active})">${p.active?'非公開':'公開'}</button>
-        </div>
-      </div>`;
-    }).join('');
-  } catch(e){ el.innerHTML=`<div style="color:var(--peach);padding:20px">❌ ${e.message}</div>`; }
+      </div>
+      <div class="pm-actions">
+        <button class="pm-edit-btn" onclick="openProductModal(${p.id})">編集</button>
+        <input type="number" value="${stock}" min="0"
+          style="width:64px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;font-size:.8rem;text-align:center"
+          onchange="updateStock(${p.id},this.value)"
+          title="在庫数">
+        <button class="pm-del-btn" onclick="toggleProductActive(${p.id},${p.active})">
+          ${p.active?'非公開':'公開'}
+        </button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function openProductModal(id){
   const modal = document.getElementById('productModal');
   if(id){
+    adminProducts = buildAdminProducts();
     const p = adminProducts.find(x=>x.id===id);
     if(!p) return;
     document.getElementById('productModalTitle').textContent = '商品編集';
@@ -4438,34 +4480,35 @@ async function saveProduct(){
   const btn = document.getElementById('pmSaveBtn');
   btn.disabled=true; btn.textContent='保存中...';
   try {
-    const method = id ? 'PUT' : 'POST';
-    if(id) body.id = parseInt(id);
-    const res = await fetch('/api/products', {
-      method, headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
-      body: JSON.stringify(body),
-    });
-    if(!res.ok) throw new Error('保存失敗');
-    showToast(id?'商品を更新しました':'新商品を追加しました');
+    if(id){
+      // 既存商品の更新: sessionStorageに保存
+      setAdminProductState(parseInt(id), {
+        stock:           body.stock,
+        active:          body.active,
+        seo_title:       body.seo_title,
+        seo_description: body.seo_description,
+      });
+      showToast('商品情報を更新しました');
+    } else {
+      showToast('⚠ 新商品追加はWooCommerce側で行ってください');
+    }
     closeProductModal();
     renderAdminProducts();
   } catch(e){ showToast(`❌ ${e.message}`); }
   finally{ btn.disabled=false; btn.textContent='💾 保存する'; }
 }
 
-async function updateStock(id, stock){
-  await fetch('/api/products', {
-    method:'PUT', headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
-    body: JSON.stringify({ id, stock:parseInt(stock), stock_status:parseInt(stock)>0?'instock':'outofstock' }),
-  });
+function updateStock(id, stock){
+  // sessionStorage に保存（ページリロードまで保持）
+  setAdminProductState(id, { stock: parseInt(stock) || 0 });
   showToast(`✅ 在庫数を${stock}個に更新しました`);
+  renderAdminProducts();
 }
 
-async function toggleProductActive(id, current){
-  await fetch('/api/products', {
-    method:'PUT', headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
-    body: JSON.stringify({ id, active:!current }),
-  });
-  showToast(!current?'公開しました':'非公開にしました');
+function toggleProductActive(id, current){
+  const newState = !current;
+  setAdminProductState(id, { active: newState });
+  showToast(newState ? '公開しました' : '非公開にしました');
   renderAdminProducts();
 }
 
@@ -4704,9 +4747,9 @@ async function applyAiToProduct(){
     try{ const s=JSON.parse(aiGeneratedContent); fields.seo_title=s.title; fields.seo_description=s.description; } catch{}
   }
   if(Object.keys(fields).length===0){ showToast('このタイプは手動でコピーして使用してください'); return; }
-  fields.id = aiTargetProductId;
-  await fetch('/api/products',{method:'PUT',headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},body:JSON.stringify(fields)});
-  showToast('✓ 商品に適用しました！');
+  // sessionStorageに保存（API不要）
+  if(aiTargetProductId) setAdminProductState(aiTargetProductId, fields);
+  showToast('✓ 商品に適用しました！（管理パネル > 商品・在庫 で確認できます）');
 }
 
 // ══ BtoB営業エージェント ══
