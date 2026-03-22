@@ -107,18 +107,25 @@ export default async function handler(req, res) {
   if (!AI_KEY)
     return res.status(500).json({ error: 'ANTHROPIC_API_KEY が未設定です' });
 
-  const { product_id, content_type, custom_prompt } = req.body;
-  if (!product_id || !content_type)
-    return res.status(400).json({ error: 'product_id, content_type 必須' });
+  const { product_id, content_type, custom_prompt, product_data } = req.body;
+  if (!content_type)
+    return res.status(400).json({ error: 'content_type 必須' });
 
-  // 商品情報をSupabaseから取得
-  const pRes = await fetch(`${SB_URL}/rest/v1/products?id=eq.${product_id}`, {
-    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` },
-  });
-  const products = await pRes.json();
-  if (!products || products.length === 0)
-    return res.status(404).json({ error: '商品が見つかりません' });
-  const product = products[0];
+  // 商品情報：リクエストボディのproduct_dataを優先、なければSupabaseから取得
+  let product;
+  if (product_data) {
+    // フロントから直接商品データを渡された場合（Supabase不要）
+    product = product_data;
+  } else {
+    if (!product_id) return res.status(400).json({ error: 'product_id 必須' });
+    const pRes = await fetch(`${SB_URL}/rest/v1/products?id=eq.${product_id}`, {
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` },
+    });
+    const prods = await pRes.json();
+    if (!prods || prods.length === 0)
+      return res.status(404).json({ error: '商品が見つかりません' });
+    product = prods[0];
+  }
 
   // プロンプト生成
   const promptFn = PROMPTS[content_type];

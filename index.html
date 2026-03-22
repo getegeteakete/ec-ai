@@ -4086,14 +4086,14 @@ function selectAiType(btn){
   document.getElementById('customPromptArea').style.display = aiSelectedType==='custom'?'block':'none';
 }
 
-async function loadAiProductList(){
+function loadAiProductList(){
+  // Supabase APIではなくJS内のproducts配列（16商品）を直接使用
   const sel = document.getElementById('aiProductSel');
-  try {
-    const res = await fetch('/api/products?active_only=false',{headers:{'x-admin-token':ADMIN_PASSWORD}});
-    const { products: data } = await res.json();
-    sel.innerHTML = '<option value="">商品を選択...</option>' +
-      (data||[]).map(p=>`<option value="${p.id}">${esc(p.name)}（¥${(p.price||0).toLocaleString()}）</option>`).join('');
-  } catch(e){ console.error(e); }
+  if(!sel) return;
+  sel.innerHTML = '<option value="">商品を選択...</option>' +
+    products.map(p =>
+      `<option value="${p.id}">${esc(p.name)}（¥${(p.price||0).toLocaleString()}）</option>`
+    ).join('');
 }
 
 async function generateAiContent(){
@@ -4101,6 +4101,10 @@ async function generateAiContent(){
   const customPrompt = document.getElementById('customPrompt').value;
   if(!productId){ showToast('⚠ 商品を選択してください'); return; }
   if(aiSelectedType==='custom' && !customPrompt){ showToast('⚠ プロンプトを入力してください'); return; }
+
+  // JS内のproducts配列から商品データを取得（Supabase不要）
+  const prod = products.find(p => String(p.id) === String(productId));
+  if(!prod){ showToast('⚠ 商品データが見つかりません'); return; }
 
   aiTargetProductId = parseInt(productId);
   const btn = document.getElementById('aiGenBtn');
@@ -4111,8 +4115,23 @@ async function generateAiContent(){
     const res = await fetch('/api/ai-agent', {
       method:'POST',
       headers:{'Content-Type':'application/json','x-admin-token':ADMIN_PASSWORD},
-      body: JSON.stringify({ product_id:parseInt(productId), content_type:aiSelectedType,
-        custom_prompt: aiSelectedType==='custom'?customPrompt:undefined }),
+      body: JSON.stringify({
+        product_id:   prod.id,
+        content_type: aiSelectedType,
+        custom_prompt: aiSelectedType==='custom' ? customPrompt : undefined,
+        // 商品データを直接送信（Supabase検索不要）
+        product_data: {
+          id:          prod.id,
+          name:        prod.name,
+          price:       prod.price,
+          short_desc:  prod.short,
+          category:    prod.cat,
+          allergen:    prod.allergen,
+          expiry:      prod.expiry,
+          ingredients: prod.ingredients,
+          weight:      prod.weight,
+        },
+      }),
     });
     if(!res.ok){ const e=await res.json(); throw new Error(e.error||'生成失敗'); }
     const data = await res.json();
