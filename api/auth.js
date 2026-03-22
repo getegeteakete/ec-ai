@@ -21,7 +21,10 @@ const hashPw = (pw) => crypto.createHmac('sha256', SECRET).update(pw).digest('he
 const makeToken = (email) => Buffer.from(`${email}:${Date.now()}:${SECRET}`).toString('base64');
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const _o=req.headers.origin||'';const _a=['https://ec-ai-three.vercel.app','https://miraizu.vercel.app','http://localhost:3000'];
+  res.setHeader('Access-Control-Allow-Origin',_a.includes(_o)?_o:_a[0]);
+  res.setHeader('Vary','Origin');
+  res.setHeader('X-Content-Type-Options','nosniff');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-auth-token');
   if (req.method === 'OPTIONS') return res.status(200).end();

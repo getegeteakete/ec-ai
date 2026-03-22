@@ -8,7 +8,11 @@ const SB_KEY = process.env.SUPABASE_SERVICE_KEY;
 const ADMIN  = process.env.ADMIN_PASSWORD || 'mirais2024';
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  const _origin = req.headers.origin || '';
+  const _allowed = ['https://ec-ai-three.vercel.app','https://miraizu.vercel.app','http://localhost:3000'];
+  res.setHeader('Access-Control-Allow-Origin', _allowed.includes(_origin) ? _origin : _allowed[0]);
+  res.setHeader('Vary', 'Origin');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-admin-token');
   if (req.method === 'OPTIONS') return res.status(200).end();
