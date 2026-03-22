@@ -1639,6 +1639,86 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         </div>
       </div>
 
+      <!-- 別住所へ発送 -->
+      <div class="delivery-opts-box" style="margin-top:20px">
+        <label style="display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none">
+          <input type="checkbox" id="diffShipCheck" onchange="toggleDiffShip()" style="width:18px;height:18px;accent-color:var(--caramel);cursor:pointer">
+          <span style="font-size:.9rem;font-weight:600;color:var(--espresso)">📦 届け先を別住所にする（贈り物・ギフト等）</span>
+        </label>
+        <p style="font-size:.78rem;color:var(--text-l);margin:6px 0 0 28px">上記と異なる住所に発送する場合にチェックしてください</p>
+      </div>
+
+      <!-- 別発送先フォーム（チェック時のみ表示） -->
+      <div id="diffShipForm" style="display:none;margin-top:4px">
+        <div style="background:rgba(212,145,58,.06);border:1.5px solid var(--honey);border-radius:12px;padding:20px 18px;margin-top:4px">
+          <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin:0 0 16px;font-size:.95rem;display:flex;align-items:center;gap:7px">
+            <svg width="16" height="16" style="color:var(--honey-dk)"><use href="#ic-gift"/></svg>
+            お届け先（発送先）
+          </h4>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>お届け先 姓<span class="req">*必須</span></label>
+              <input class="form-input" type="text" placeholder="鈴木" id="s-last" autocomplete="shipping family-name">
+            </div>
+            <div class="form-group">
+              <label>お届け先 名<span class="req">*必須</span></label>
+              <input class="form-input" type="text" placeholder="一郎" id="s-first" autocomplete="shipping given-name">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>郵便番号<span class="req">*必須</span></label>
+              <div class="zip-wrap">
+                <span class="zip-hyphen">〒</span>
+                <input class="form-input zip-input" type="text" id="s-zip" placeholder="例：1000001" maxlength="8"
+                  oninput="handleZipInputFor(this,'s-pref','s-addr1')" inputmode="numeric" autocomplete="shipping postal-code">
+                <button type="button" class="zip-search-btn" onclick="searchZipFor('s-zip','s-pref','s-addr1')">
+                  <span>住所検索</span>
+                </button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>都道府県<span class="req">*必須</span></label>
+              <select class="form-sel form-input" id="s-pref" autocomplete="shipping address-level1" onchange="updateShippingDisplayForDiff()">
+                <option value="">選択してください</option>
+                <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option><option>秋田県</option><option>山形県</option><option>福島県</option><option>茨城県</option><option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option><option>東京都</option><option>神奈川県</option><option>新潟県</option><option>富山県</option><option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option><option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option><option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option><option>奈良県</option><option>和歌山県</option><option>鳥取県</option><option>島根県</option><option>岡山県</option><option>広島県</option><option>山口県</option><option>徳島県</option><option>香川県</option><option>愛媛県</option><option>高知県</option><option>福岡県</option><option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option><option>宮崎県</option><option>鹿児島県</option><option>沖縄県</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row single">
+            <div class="form-group">
+              <label>住所（市区町村・番地）<span class="req">*必須</span></label>
+              <input class="form-input" type="text" id="s-addr1" placeholder="郵便番号検索で自動入力されます" autocomplete="shipping address-line1">
+            </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label>建物名・部屋番号（任意）</label>
+              <input class="form-input" type="text" id="s-addr2" placeholder="○○マンション101号室" autocomplete="shipping address-line2">
+            </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label>お届け先 電話番号（任意）</label>
+              <input class="form-input" type="tel" placeholder="03-0000-0000" id="s-tel" autocomplete="shipping tel">
+            </div>
+          </div>
+          <div class="form-row single">
+            <div class="form-group">
+              <label>のし・ギフトメッセージ（任意）</label>
+              <textarea class="form-input" rows="2" id="s-message" placeholder="例：母の日のし / 誕生日おめでとうございます！" style="resize:vertical"></textarea>
+            </div>
+          </div>
+
+          <div style="background:var(--sage-pale);border-left:3px solid var(--sage);border-radius:0 6px 6px 0;padding:10px 14px;margin-top:12px;font-size:.78rem;color:var(--text-m)">
+            🎁 のし・ギフト包装は無料で対応しています。備考欄にご要望をご記入ください。
+          </div>
+        </div>
+      </div>
+
       <div class="form-nav">
         <button class="btn-back" onclick="showPage('cart')">← カートに戻る</button>
         <button class="btn-next" onclick="goStep(2)">確認・お支払いへ →</button>
@@ -1656,8 +1736,12 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         <div id="confirmDelivery"></div>
       </div>
       <div class="confirm-card">
-        <div class="confirm-hd" style="display:flex;align-items:center;gap:7px"><svg width="16" height="16" style="color:var(--caramel)"><use href="#ic-map-pin"/></svg>お届け先</div>
+        <div class="confirm-hd" style="display:flex;align-items:center;gap:7px"><svg width="16" height="16" style="color:var(--caramel)"><use href="#ic-map-pin"/></svg>注文者情報</div>
         <div id="confirmAddr" style="font-size:.88rem;color:var(--text-m);line-height:2"></div>
+      </div>
+      <div class="confirm-card" id="confirmShipAddrCard" style="display:none">
+        <div class="confirm-hd" style="display:flex;align-items:center;gap:7px"><svg width="16" height="16" style="color:var(--honey-dk)"><use href="#ic-gift"/></svg>お届け先（別住所）</div>
+        <div id="confirmShipAddr" style="font-size:.88rem;color:var(--text-m);line-height:2"></div>
       </div>
       <div class="confirm-card">
         <div class="confirm-hd">💰 お支払い金額</div>
@@ -3049,8 +3133,8 @@ function removeItem(i){ cart.splice(i,1); saveCart(); renderCart() }
 
 function updateCartTotals(){
   const sub  = cart.reduce((s,c)=>s+c.price*c.qty,0);
-  const pref = document.getElementById('prefecture')?.value || '';
-  const baseShip = calcShipping(cart, pref);
+  const prefVal = document.getElementById('prefecture')?.value || '';
+  const baseShip = calcShipping(cart, prefVal);
   const ship = sub >= 8000 ? 0 : baseShip;
   const total = sub + ship - discountAmt;
   document.getElementById('subtotal').textContent = `¥${sub.toLocaleString()}`;
@@ -3068,10 +3152,10 @@ function updateCartTotals(){
 
 // 都道府県変更時に送料をリアルタイム更新
 function updateShippingDisplay(){
-  const pref = document.getElementById('prefecture')?.value || '';
+  const prefSD = document.getElementById('prefecture')?.value || '';
   const sub  = cart.reduce((s,c)=>s+c.price*c.qty,0);
-  if(!pref) return;
-  const baseShip = calcShipping(cart, pref);
+  if(!prefSD) return;
+  const baseShip = calcShipping(cart, prefSD);
   const ship = sub >= 8000 ? 0 : baseShip;
   // サマリー表示を更新
   const shippingEl = document.getElementById('shipping');
@@ -3087,8 +3171,8 @@ function updateShippingDisplay(){
     return p && p.shipping_type==='cool';
   });
   showToast(hasCool
-    ? `📦 クール便送料: ¥${ship.toLocaleString()}（${pref}）`
-    : `📮 日本郵便送料: ¥${ship.toLocaleString()}（${pref}）`);
+    ? `📦 クール便送料: ¥${ship.toLocaleString()}（${prefSD}）`
+    : `📮 日本郵便送料: ¥${ship.toLocaleString()}（${prefSD}）`);
 }
 function applyCoupon(){
   const code = document.getElementById('couponInput').value.trim().toUpperCase();
@@ -3113,6 +3197,75 @@ function goStep(n){
   window.scrollTo(0,100);
 }
 
+
+// ── 別住所発送 ──────────────────────────────────────────
+function toggleDiffShip(){
+  const checked = document.getElementById('diffShipCheck').checked;
+  const form    = document.getElementById('diffShipForm');
+  form.style.display = checked ? 'block' : 'none';
+  if(checked){
+    form.scrollIntoView({behavior:'smooth', block:'nearest'});
+    // 別住所の都道府県が選択されていれば送料を更新
+    updateShippingDisplayForDiff();
+  } else {
+    // 元の住所（注文者住所）の都道府県で送料を更新
+    updateShippingDisplay();
+  }
+}
+
+function getShippingPref(){
+  const diffCheck = document.getElementById('diffShipCheck')?.checked;
+  if(diffCheck){
+    return document.getElementById('s-pref')?.value || '';
+  }
+  return document.getElementById('prefecture')?.value || '';
+}
+
+function updateShippingDisplayForDiff(){
+  const pref = document.getElementById('s-pref')?.value || '';
+  if(!pref) return;
+  const sub      = cart.reduce((s,c)=>s+c.price*c.qty,0);
+  const baseShip = calcShipping(cart, pref);
+  const ship     = sub >= 8000 ? 0 : baseShip;
+  const shippingEl = document.getElementById('shipping');
+  if(shippingEl) shippingEl.textContent = ship === 0 ? '無料' : `¥${ship.toLocaleString()}`;
+  const totalEl = document.getElementById('cartTotal');
+  if(totalEl){
+    const disc = Number(document.getElementById('discAmt')?.textContent?.replace(/[^0-9]/g,'')) || 0;
+    totalEl.textContent = `¥${(sub + ship - disc).toLocaleString()}`;
+  }
+  showToast(`📮 ${pref}への送料: ${ship===0?'無料':'¥'+ship.toLocaleString()}`);
+}
+
+function handleZipInputFor(el, prefId, addr1Id){
+  let v = el.value.replace(/[^0-9]/g,'');
+  if(v.length > 7) v = v.slice(0,7);
+  el.value = v.length > 3 ? v.slice(0,3) + '-' + v.slice(3) : v;
+  if(v.length === 7) searchZipFor(el.id, prefId, addr1Id);
+}
+
+async function searchZipFor(zipId, prefId, addr1Id){
+  const zipEl  = document.getElementById(zipId);
+  const prefEl = document.getElementById(prefId);
+  const adrEl  = document.getElementById(addr1Id);
+  if(!zipEl) return;
+  const zip = zipEl.value.replace(/[^0-9]/g,'');
+  if(zip.length !== 7) return;
+  try {
+    const r = await fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zip}`);
+    const d = await r.json();
+    if(d.results){
+      const res = d.results[0];
+      if(prefEl) prefEl.value = res.address1;
+      if(adrEl)  adrEl.value  = res.address2 + res.address3;
+      // 別住所都道府県変更で送料更新
+      if(prefId === 's-pref') updateShippingDisplayForDiff();
+      else updateShippingDisplay();
+    }
+  } catch(e){ console.error(e); }
+}
+// ────────────────────────────────────────────────────────
+
 function validateStep1(){
   const fields = [
     {id:'f-last',   label:'姓'},
@@ -3124,12 +3277,12 @@ function validateStep1(){
   ];
   let ok = true;
   // 都道府県
-  const pref = document.getElementById('prefecture');
-  if(!pref.value){
-    pref.classList.add('error');
+  const prefEl = document.getElementById('prefecture');
+  if(!prefEl.value){
+    prefEl.classList.add('error');
     showToast('⚠ 都道府県を選択してください');
     ok = false;
-  } else { pref.classList.remove('error'); }
+  } else { prefEl.classList.remove('error'); }
 
   for(const f of fields){
     const el = document.getElementById(f.id);
@@ -3145,6 +3298,28 @@ function validateStep1(){
     email.classList.add('error');
     showToast('⚠ 正しいメールアドレスを入力してください');
     ok = false;
+  }
+  // 別住所バリデーション
+  if(document.getElementById('diffShipCheck')?.checked){
+    const shipFields = [
+      {id:'s-last',  label:'お届け先 姓'},
+      {id:'s-first', label:'お届け先 名'},
+      {id:'s-zip',   label:'お届け先 郵便番号'},
+      {id:'s-addr1', label:'お届け先 住所'},
+    ];
+    for(const f of shipFields){
+      const el = document.getElementById(f.id);
+      if(!el) continue;
+      if(!el.value.trim()){
+        el.classList.add('error');
+        if(ok){ showToast(`⚠️ ${f.label}を入力してください`); ok = false; }
+      } else { el.classList.remove('error'); }
+    }
+    const sPref = document.getElementById('s-pref');
+    if(sPref && !sPref.value){
+      sPref.classList.add('error');
+      if(ok){ showToast('⚠ お届け先の都道府県を選択してください'); ok = false; }
+    } else if(sPref) { sPref.classList.remove('error'); }
   }
   return ok;
 }
@@ -3197,6 +3372,27 @@ function renderConfirm(){
         ? `<br><span style="color:var(--sage)">📅 配達希望: ${esc(rcDeliveryDate2)||'日付指定なし'} ${esc(rcDeliveryTime2)||'時間指定なし'}</span>`
         : '');
 
+  // 別住所の確認表示
+  const rcDiffCheck = document.getElementById('diffShipCheck')?.checked;
+  const rcShipCard  = document.getElementById('confirmShipAddrCard');
+  if(rcDiffCheck && rcShipCard){
+    rcShipCard.style.display = 'block';
+    const sLast    = document.getElementById('s-last')?.value  || '';
+    const sFirst   = document.getElementById('s-first')?.value || '';
+    const sZip     = document.getElementById('s-zip')?.value   || '';
+    const sPref    = document.getElementById('s-pref')?.value  || '';
+    const sAddr1   = document.getElementById('s-addr1')?.value || '';
+    const sAddr2   = document.getElementById('s-addr2')?.value || '';
+    const sTel     = document.getElementById('s-tel')?.value   || '';
+    const sMsg     = document.getElementById('s-message')?.value || '';
+    document.getElementById('confirmShipAddr').innerHTML =
+      `${esc(sLast)} ${esc(sFirst)} 様<br>〒${esc(sZip)} ${esc(sPref)}${esc(sAddr1)}${sAddr2?' '+esc(sAddr2):''}`
+      + (sTel ? `<br>TEL: ${esc(sTel)}` : '')
+      + (sMsg ? `<br><span style="color:var(--honey-dk)">🎁 ${esc(sMsg)}</span>` : '');
+  } else if(rcShipCard){
+    rcShipCard.style.display = 'none';
+  }
+
   // 金額
   document.getElementById('confSub').textContent   = `¥${rcSub.toLocaleString()}`;
   document.getElementById('confShip').textContent  = rcShip === 0 ? '無料' : `¥${rcShip.toLocaleString()}`;
@@ -3246,12 +3442,16 @@ async function placeOrder(){
   btn.disabled = true;
   btn.textContent = '決済ページへ移動中...';
 
+  const useDiffShipPre = document.getElementById('diffShipCheck')?.checked || false;
   let sub    = cart.reduce((s,c) => s + c.price * c.qty, 0);
-  let poPref = document.getElementById('prefecture')?.value || '';
+  let poPref = useDiffShipPre
+    ? (document.getElementById('s-pref')?.value || document.getElementById('prefecture')?.value || '')
+    : (document.getElementById('prefecture')?.value || '');
   let poBase = calcShipping(cart, poPref);
   let ship   = sub >= 8000 ? 0 : poBase;
   let total  = sub + ship - discountAmt;
 
+  const useDiffShip = document.getElementById('diffShipCheck')?.checked || false;
   const customer = {
     last:  document.getElementById('f-last')?.value  || '',
     first: document.getElementById('f-first')?.value || '',
@@ -3264,6 +3464,16 @@ async function placeOrder(){
     note:  document.getElementById('f-note')?.value  || '',
     delivery_date: document.getElementById('f-delivery-date')?.value || '',
     delivery_time: document.getElementById('f-delivery-time')?.value || '',
+    // 別住所発送
+    use_diff_ship: useDiffShip,
+    ship_last:    useDiffShip ? (document.getElementById('s-last')?.value  || '') : '',
+    ship_first:   useDiffShip ? (document.getElementById('s-first')?.value || '') : '',
+    ship_zip:     useDiffShip ? (document.getElementById('s-zip')?.value   || '') : '',
+    ship_pref:    useDiffShip ? (document.getElementById('s-pref')?.value  || '') : '',
+    ship_addr1:   useDiffShip ? (document.getElementById('s-addr1')?.value || '') : '',
+    ship_addr2:   useDiffShip ? (document.getElementById('s-addr2')?.value || '') : '',
+    ship_tel:     useDiffShip ? (document.getElementById('s-tel')?.value   || '') : '',
+    ship_message: useDiffShip ? (document.getElementById('s-message')?.value || '') : '',
   };
   // 紙袋・包装はカートのアイテムごとに保持済み
 
@@ -3369,7 +3579,14 @@ async function handleKomojuReturn(){
 // メール送信共通：注文情報からパラメータ生成
 function buildEmailParams(order){
   const name   = `${order.customer.last||''} ${order.customer.first||''}`.trim();
-  const addr   = `〒${order.customer.zip||''} ${order.customer.pref||''}${order.customer.addr1||''}${order.customer.addr2 ? ' '+order.customer.addr2 : ''}`;
+  // 別住所発送の場合はship_*を使う
+  const c = order.customer || {};
+  const shipName = c.use_diff_ship && (c.ship_last||c.ship_first)
+    ? `${c.ship_last||''} ${c.ship_first||''}`.trim()
+    : name;
+  const addr   = c.use_diff_ship && c.ship_zip
+    ? `〒${c.ship_zip||''} ${c.ship_pref||''}${c.ship_addr1||''}${c.ship_addr2 ? ' '+c.ship_addr2 : ''}`
+    : `〒${c.zip||''} ${c.pref||''}${c.addr1||''}${c.addr2 ? ' '+c.addr2 : ''}`;
   const items  = order.items || [];
   const itemListText = items.map(c =>
     `・${c.name}（${c.size}）× ${c.qty}個　¥${(c.price * c.qty).toLocaleString()}`
@@ -3386,7 +3603,7 @@ function buildEmailParams(order){
   const shipTo     = new Date(now); shipTo.setDate(shipTo.getDate()+10);
   const fmt = d => `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
   return {
-    to_name:        name,
+    to_name:        shipName,
     to_email:       order.customer.email || '',
     order_id:       order.id,
     order_date:     order.date,
