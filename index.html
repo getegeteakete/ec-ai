@@ -731,7 +731,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 
 /* ── 管理パネル ── */
 /* ══ 管理画面 新レイアウト ══ */
-#page-admin{background:#f0ede8;min-height:100vh;display:flex;flex-direction:column}
+#page-admin{background:#f0ede8;min-height:100vh;position:relative}
 /* ── 管理ヘッダー ── */
 .adm-header{position:fixed;top:0;left:0;right:0;height:54px;background:#2c1a0e;display:flex;align-items:center;padding:0 16px;gap:12px;z-index:2000;box-shadow:0 2px 8px rgba(0,0,0,.3)}
 .adm-logo{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:700;color:#EFB96A;white-space:nowrap;flex:1}
@@ -804,7 +804,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 .breakdown-bar-fill{height:100%;background:linear-gradient(90deg,var(--caramel),var(--caramel-lt));border-radius:50px;transition:width .6s ease}
 .breakdown-lbl{font-size:.79rem;color:var(--text-m);min-width:90px}
 .breakdown-val{font-size:.79rem;color:var(--honey-dk);font-weight:600;min-width:36px;text-align:right}
-.admin-login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.admin-login{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f0ede8;z-index:3000;padding:20px}
 .admin-login-box{max-width:360px;width:100%;background:#fff;border-radius:var(--rl);padding:36px;box-shadow:0 8px 32px var(--shadow);text-align:center}
 .admin-login h2{font-family:'Noto Serif JP',serif;font-size:1.3rem;color:var(--brown);margin-bottom:22px}
 .order-card{background:#fff;border-radius:var(--r);padding:22px;margin-bottom:16px;box-shadow:0 3px 14px var(--shadow);border-left:4px solid var(--border)}
@@ -2148,7 +2148,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     <main class="adm-main">
 
       <!-- AI使用料バー -->
-      <div id="adminAiCostBar" style="margin-bottom:20px" style="background:linear-gradient(135deg,#fff8ee,#fff);border:1.5px solid rgba(212,145,58,.25);border-radius:12px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+      <div id="adminAiCostBar" style="background:linear-gradient(135deg,#fff8ee,#fff);border:1.5px solid rgba(212,145,58,.25);border-radius:12px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
       <div style="display:flex;align-items:center;gap:7px;flex-shrink:0">
         <svg width="16" height="16" style="color:var(--honey-dk)"><use href="#ic-sparkle"/></svg>
         <span style="font-size:.82rem;font-weight:700;color:var(--brown)">AI使用料</span>
@@ -2175,7 +2175,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     </div>
 
       <!-- 注文管理 -->
-      <div id="adminTab-orders" id="adm-orders" class="adm-content act" class="adm-content act">
+      <div id="adm-orders" class="adm-content act">
       <div class="admin-stat-row" style="margin-top:18px">
         <div class="admin-stat"><div class="admin-stat-num" id="statTotal">0</div><div class="admin-stat-lbl">総注文件数</div></div>
         <div class="admin-stat"><div class="admin-stat-num" id="statPending">0</div><div class="admin-stat-lbl">発送待ち</div></div>
@@ -2194,7 +2194,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     </div>
 
       <!-- 商品・在庫 -->
-      <div id="adminTab-products" class="adm-content" id="adm-products">
+      <div id="adm-products" class="adm-content">
       <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 14px">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown)">商品一覧・在庫管理</h3>
         <button class="btn-p" onclick="openProductModal(null)" style="padding:9px 18px;font-size:.85rem">＋ 新商品追加</button>
@@ -2203,7 +2203,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     </div>
 
       <!-- AIエージェント -->
-      <div id="adminTab-ai" class="adm-content" id="adm-ai">
+      <div id="adm-ai" class="adm-content">
 
       <!-- エージェント選択タブ -->
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 20px;border-bottom:2px solid var(--border);padding-bottom:14px">
@@ -2569,7 +2569,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     </div>
 
       <!-- BtoB承認 -->
-      <div id="adminTab-btob-approval" class="adm-content" id="adm-btob-approval">
+      <div id="adm-btob-approval" class="adm-content">
 
       <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 14px;flex-wrap:wrap;gap:10px">
         <div>
@@ -2604,7 +2604,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     </div>
 
       <!-- アクセス解析 -->
-      <div id="adminTab-analytics" class="adm-content" id="adm-analytics">
+      <div id="adm-analytics" class="adm-content">
       <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 14px">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown)">アクセス解析</h3>
         <select class="form-sel form-input" id="analyticsDays" onchange="loadAnalytics()" style="width:120px;font-size:.85rem">
@@ -4215,7 +4215,7 @@ function adminLogout(){
   const hdr = document.querySelector('header');
   const ftr = document.querySelector('footer');
   const mob = document.getElementById('mobNav');
-  const ann = document.querySelector('.announce-bar');
+  const ann = document.querySelector('.announce');
   if(hdr) hdr.style.display = '';
   if(ftr) ftr.style.display = '';
   if(mob) mob.style.display = '';
@@ -4574,15 +4574,11 @@ function closeAdmSidebar(){
 // 管理者ログイン後に呼び出す初期化
 function initAdminDash(){
   // 管理画面用にサイトUI非表示
-  const hdr = document.querySelector('header');
-  const ftr = document.querySelector('footer');
-  const mob = document.getElementById('mobNav');
-  const ann = document.querySelector('.announce-bar');
-  if(hdr) hdr.style.display = 'none';
-  if(ftr) ftr.style.display = 'none';
-  if(mob) mob.style.display = 'none';
-  if(ann) ann.style.display = 'none';
+  document.querySelectorAll('header, footer, #mobNav, .announce').forEach(el => {
+    if(el) el.style.display = 'none';
+  });
   switchAdmTab('orders');
+  updateCostDashboard(); // AI使用料バーを初期化
   // 承認待ちバッジ更新
   fetch('/api/btob-leads?status=pending&limit=100',{
     headers:{'x-admin-token':ADMIN_PASSWORD}
@@ -5536,7 +5532,7 @@ function showPage(name){
   const hdr = document.querySelector('header');
   const ftr = document.querySelector('footer');
   const mob = document.getElementById('mobNav');
-  const ann = document.querySelector('.announce-bar');
+  const ann = document.querySelector('.announce');
   if(hdr) hdr.style.display = isAdmin ? 'none' : '';
   if(ftr) ftr.style.display = isAdmin ? 'none' : '';
   if(mob) mob.style.display = isAdmin ? 'none' : '';
