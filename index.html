@@ -1047,6 +1047,23 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 .priority-high{background:rgba(229,135,110,.15);color:var(--peach)}
 .priority-mid{background:rgba(212,145,58,.15);color:var(--honey-dk)}
 .priority-low{background:var(--sage-pale);color:var(--sage)}
+
+/* ── 商品オプション（紙袋・包装） ── */
+.opt-section{margin:14px 0;padding:14px 16px;background:var(--parchment);border-radius:8px;border:1px solid var(--border-lt)}
+.opt-section-ttl{font-size:.83rem;font-weight:700;color:var(--espresso);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.radio-group{display:flex;gap:0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.radio-opt{flex:1;position:relative}
+.radio-opt input{position:absolute;opacity:0;width:0;height:0}
+.radio-opt label{display:block;text-align:center;padding:9px 6px;font-size:.82rem;color:var(--text-m);cursor:pointer;transition:all .18s;border-right:1px solid var(--border);user-select:none}
+.radio-opt:last-child label{border-right:none}
+.radio-opt input:checked + label{background:var(--espresso);color:#fff;font-weight:600}
+.radio-opt label:hover{background:var(--parchment-dk, #f0e8d8)}
+
+/* ── 配達希望（チェックアウト内） ── */
+.delivery-opts-box{background:var(--parchment);border:1px solid var(--border-lt);border-radius:10px;padding:18px 16px;margin:18px 0}
+.delivery-opts-ttl{font-size:.88rem;font-weight:700;color:var(--espresso);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.delivery-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.delivery-row{grid-template-columns:1fr}}
 </style>
 </head>
 <!-- SVG Icon Sprite -->
@@ -1418,6 +1435,37 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
           </div>
         </div>
         <div class="ship-bar" id="shipBar">🚚 あと <strong id="shipNeeded">--</strong> 円で5,000円！</div>
+
+        <!-- 紙袋オプション -->
+        <div class="opt-section">
+          <div class="opt-section-ttl">🛍️ 紙袋</div>
+          <div class="radio-group">
+            <div class="radio-opt">
+              <input type="radio" name="paperbag" id="pb-no" value="不要" checked>
+              <label for="pb-no">不要（無料）</label>
+            </div>
+            <div class="radio-opt">
+              <input type="radio" name="paperbag" id="pb-yes" value="あり">
+              <label for="pb-yes">あり（+0円）</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ギフト包装オプション -->
+        <div class="opt-section">
+          <div class="opt-section-ttl">🎁 ギフト包装</div>
+          <div class="radio-group">
+            <div class="radio-opt">
+              <input type="radio" name="wrapping" id="wr-no" value="不要" checked>
+              <label for="wr-no">不要（無料）</label>
+            </div>
+            <div class="radio-opt">
+              <input type="radio" name="wrapping" id="wr-yes" value="あり">
+              <label for="wr-yes">あり（+0円）</label>
+            </div>
+          </div>
+        </div>
+
         <div class="d-acts">
           <button class="btn-add-cart" onclick="addToCartFromDetail()"><svg width="18" height="18" style="vertical-align:middle;margin-right:6px"><use href="#ic-cart"/></svg>カートに追加</button>
           <button class="btn-fav" id="favBtn" onclick="toggleFav(this)"><svg width="20" height="20"><use href="#ic-heart"/></svg></button>
@@ -1561,7 +1609,33 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div class="form-row single">
         <div class="form-group">
           <label>備考・ご要望（任意）</label>
-          <textarea class="form-input" rows="2" id="f-note" placeholder="ご不在時の対応、ギフトラッピング希望など" style="resize:vertical"></textarea>
+          <textarea class="form-input" rows="2" id="f-note" placeholder="ご不在時の対応など" style="resize:vertical"></textarea>
+        </div>
+      </div>
+
+      <!-- 配達希望日・時間帯 -->
+      <div class="delivery-opts-box">
+        <div class="delivery-opts-ttl">📅 お届け希望（任意）</div>
+        <div class="delivery-row">
+          <div class="form-group">
+            <label style="font-size:.83rem;font-weight:600;color:var(--text)">配達希望日</label>
+            <select class="form-sel form-input" id="f-delivery-date" style="margin-top:5px">
+              <option value="">指定なし</option>
+            </select>
+            <p style="font-size:.73rem;color:var(--text-l);margin-top:4px">※注文日から4日以降の日付を選択できます</p>
+          </div>
+          <div class="form-group">
+            <label style="font-size:.83rem;font-weight:600;color:var(--text)">配達時間帯</label>
+            <select class="form-sel form-input" id="f-delivery-time" style="margin-top:5px">
+              <option value="">時間指定なし</option>
+              <option value="08:00-12:00">08:00〜12:00</option>
+              <option value="12:00-14:00">12:00〜14:00</option>
+              <option value="14:00-16:00">14:00〜16:00</option>
+              <option value="16:00-18:00">16:00〜18:00</option>
+              <option value="18:00-20:00">18:00〜20:00</option>
+              <option value="19:00-21:00">19:00〜21:00</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -1579,6 +1653,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div class="confirm-card">
         <div class="confirm-hd" style="display:flex;align-items:center;gap:7px"><svg width="16" height="16" style="color:var(--caramel)"><use href="#ic-bag"/></svg>注文商品</div>
         <div id="confirmItems"></div>
+        <div id="confirmDelivery"></div>
       </div>
       <div class="confirm-card">
         <div class="confirm-hd" style="display:flex;align-items:center;gap:7px"><svg width="16" height="16" style="color:var(--caramel)"><use href="#ic-map-pin"/></svg>お届け先</div>
@@ -2909,13 +2984,28 @@ function addToCartFromDetail(){
     showToast('📞 092-834-9856 にお問い合わせください');
     return;
   }
-  const price = currentProduct.salePrice||currentProduct.price;
-  const qty = parseInt(document.getElementById('qtyInput').value);
-  const ex = cart.find(c=>c.id===currentProduct.id && c.size===selectedSize);
+  const price   = currentProduct.salePrice||currentProduct.price;
+  const qty     = parseInt(document.getElementById('qtyInput').value);
+  const paperbag  = document.querySelector('input[name="paperbag"]:checked')?.value  || '不要';
+  const wrapping  = document.querySelector('input[name="wrapping"]:checked')?.value  || '不要';
+  const key = `${currentProduct.id}_${selectedSize}_${paperbag}_${wrapping}`;
+  const ex = cart.find(c=> c.id===currentProduct.id && c.size===selectedSize
+                          && c.paperbag===paperbag && c.wrapping===wrapping);
   if(ex) ex.qty += qty;
-  else cart.push({id:currentProduct.id, name:currentProduct.name, price, size:selectedSize, img:currentProduct.img||'', qty});
+  else   cart.push({
+    id:       currentProduct.id,
+    name:     currentProduct.name,
+    price, size: selectedSize,
+    img:      currentProduct.img||'',
+    qty,
+    paperbag,
+    wrapping,
+  });
   saveCart();
-  showToast('カートに追加しました');
+  // オプションをデフォルトに戻す
+  document.getElementById('pb-no').checked = true;
+  document.getElementById('wr-no').checked = true;
+  showToast('🛒 カートに追加しました');
 }
 
 function saveCart(){ localStorage.setItem('mirais_cart',JSON.stringify(cart)); updateBadge(); }
@@ -2936,6 +3026,11 @@ function renderCart(){
       <div class="c-item-info">
         <div class="c-item-name">${item.name}</div>
         <div class="c-item-var">サイズ: ${item.size}</div>
+        ${(item.paperbag && item.paperbag!=='不要') || (item.wrapping && item.wrapping!=='不要')
+          ? `<div class="c-item-var" style="color:var(--sage)">
+              ${item.paperbag==='あり'?'🛍️ 紙袋あり':''}
+              ${item.wrapping==='あり'?'🎁 ギフト包装あり':''}
+             </div>` : ''}
         <div class="c-item-price">¥${(item.price*item.qty).toLocaleString()}</div>
         <div class="c-qty-row">
           <button class="c-qty-btn" onclick="updQty(${i},-1)" style="display:flex;align-items:center;justify-content:center"><svg width="12" height="12"><use href="#ic-minus"/></svg></button>
@@ -3062,13 +3157,29 @@ function renderConfirm(){
   const rcShip = rcSub >= 8000 ? 0 : rcBase;
   const rcTotal = rcSub + rcShip - discountAmt;
 
-  // 商品一覧
+  // 商品一覧（紙袋・包装含む）
   document.getElementById('confirmItems').innerHTML = cart.map(c=>
     `<div class="confirm-row">
-      <span>${c.name}（${c.size}）× ${c.qty}</span>
+      <div>
+        <div>${esc(c.name)}（${esc(c.size)}）× ${c.qty}</div>
+        ${c.paperbag==='あり'||c.wrapping==='あり'
+          ? `<div style="font-size:.78rem;color:var(--sage);margin-top:2px">
+              ${c.paperbag==='あり'?'🛍️ 紙袋あり　':''}${c.wrapping==='あり'?'🎁 ギフト包装あり':''}
+             </div>` : ''}
+      </div>
       <strong>¥${(c.price*c.qty).toLocaleString()}</strong>
     </div>`
   ).join('');
+
+  // 配達希望日・時間
+  const rcDeliveryDate = document.getElementById('f-delivery-date')?.value || '';
+  const rcDeliveryTime = document.getElementById('f-delivery-time')?.value || '';
+  const deliveryHtml = (rcDeliveryDate || rcDeliveryTime)
+    ? `<div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border-lt);font-size:.83rem;color:var(--text-m)">
+        📅 配達希望: ${rcDeliveryDate ? rcDeliveryDate + ' ' : '日付指定なし '}
+        ${rcDeliveryTime || '時間指定なし'}
+       </div>` : '';
+  document.getElementById('confirmDelivery').innerHTML = deliveryHtml;
 
   // お届け先
   const rcLast  = document.getElementById('f-last')?.value  || '';
@@ -3078,8 +3189,13 @@ function renderConfirm(){
   const rcAddr2 = document.getElementById('address2')?.value || '';
   const rcTel   = document.getElementById('f-tel')?.value   || '';
   const rcEmail = document.getElementById('f-email')?.value || '';
+  const rcDeliveryDate2 = document.getElementById('f-delivery-date')?.value || '';
+  const rcDeliveryTime2 = document.getElementById('f-delivery-time')?.value || '';
   document.getElementById('confirmAddr').innerHTML =
-    `${rcLast} ${rcFirst} 様<br>〒${rcZip} ${rcPref}${rcAddr1}${rcAddr2?' '+rcAddr2:''}<br>TEL: ${rcTel}<br>MAIL: ${rcEmail}`;
+    `${esc(rcLast)} ${esc(rcFirst)} 様<br>〒${esc(rcZip)} ${esc(rcPref)}${esc(rcAddr1)}${rcAddr2?' '+esc(rcAddr2):''}<br>TEL: ${esc(rcTel)}<br>MAIL: ${esc(rcEmail)}`
+    + (rcDeliveryDate2||rcDeliveryTime2
+        ? `<br><span style="color:var(--sage)">📅 配達希望: ${esc(rcDeliveryDate2)||'日付指定なし'} ${esc(rcDeliveryTime2)||'時間指定なし'}</span>`
+        : '');
 
   // 金額
   document.getElementById('confSub').textContent   = `¥${rcSub.toLocaleString()}`;
@@ -3130,9 +3246,11 @@ async function placeOrder(){
   btn.disabled = true;
   btn.textContent = '決済ページへ移動中...';
 
-  let sub   = cart.reduce((s,c) => s + c.price * c.qty, 0);
-  let pship  = sub >= 8000 ? 0 : baseShip;
-  let total = sub + ship - discountAmt;
+  let sub    = cart.reduce((s,c) => s + c.price * c.qty, 0);
+  let poPref = document.getElementById('prefecture')?.value || '';
+  let poBase = calcShipping(cart, poPref);
+  let ship   = sub >= 8000 ? 0 : poBase;
+  let total  = sub + ship - discountAmt;
 
   const customer = {
     last:  document.getElementById('f-last')?.value  || '',
@@ -3144,7 +3262,10 @@ async function placeOrder(){
     addr1: document.getElementById('address1')?.value || '',
     addr2: document.getElementById('address2')?.value || '',
     note:  document.getElementById('f-note')?.value  || '',
+    delivery_date: document.getElementById('f-delivery-date')?.value || '',
+    delivery_time: document.getElementById('f-delivery-time')?.value || '',
   };
+  // 紙袋・包装はカートのアイテムごとに保持済み
 
   const orderNo  = '#MIRAIS-' + Math.random().toString(36).substr(2,8).toUpperCase();
   const orderDate = new Date().toLocaleString('ja-JP',{
@@ -3281,6 +3402,14 @@ function buildEmailParams(order){
     customer_email: order.customer.email || '',
     customer_note:  order.customer.note || 'なし',
     ship_estimate:  `${fmt(shipFrom)}〜${fmt(shipTo)}`,
+    delivery_date:  order.customer?.delivery_date || '指定なし',
+    delivery_time:  order.customer?.delivery_time || '時間指定なし',
+    item_options:   (order.items||[]).map(c=>{
+      const opts = [];
+      if(c.paperbag==='あり')  opts.push('紙袋あり');
+      if(c.wrapping==='あり')  opts.push('ギフト包装あり');
+      return opts.length ? `${c.name}: ${opts.join('・')}` : '';
+    }).filter(Boolean).join('\n') || 'なし',
     shop_name:      '米粉バウムクーヘン工房 未来図',
     shop_address:   '〒814-0123 福岡県福岡市城南区長尾1-15-21-103 フローレス長尾',
     shop_tel:       '092-834-9856',
@@ -4429,6 +4558,7 @@ function showPage(name){
     }
   }
   if(name==='checkout'){
+    initDeliveryDateSelect();
     document.getElementById('coStep1').style.display = 'block';
     document.getElementById('coStep2').style.display = 'none';
     const s1 = document.getElementById('co-step1');
@@ -4837,6 +4967,31 @@ async function searchZip(){
   }
 }
 
+
+// ── 配達希望日セレクトを動的生成（注文日+4日〜+30日） ──
+function initDeliveryDateSelect(){
+  const sel = document.getElementById('f-delivery-date');
+  if(!sel) return;
+  const today = new Date();
+  sel.innerHTML = '<option value="">指定なし</option>';
+  const fmt = (d) => {
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,'0');
+    const dy = String(d.getDate()).padStart(2,'0');
+    const days = ['日','月','火','水','木','金','土'];
+    return `${y}年${m}月${dy}日（${days[d.getDay()]}）`;
+  };
+  for(let i = 4; i <= 30; i++){
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const val = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const label = fmt(d);
+    const opt = document.createElement('option');
+    opt.value = val;
+    opt.textContent = label;
+    sel.appendChild(opt);
+  }
+}
 // ═══ INIT ═══
 document.addEventListener('DOMContentLoaded',()=>{
   renderHome();

@@ -146,6 +146,26 @@ export default async function handler(req, res) {
       </td></tr>
     </table>
 
+    <!-- 配達希望日 -->
+    ${(order.customer?.delivery_date || order.customer?.delivery_time) ? `
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#FDF7EE;border:1px solid #EAD5B8;border-radius:8px;margin-bottom:14px">
+      <tr><td style="padding:12px 18px;font-size:13px;color:#342010">
+        <strong>📅 配達希望：</strong>
+        ${order.customer.delivery_date || '日付指定なし'} ${order.customer.delivery_time || '時間指定なし'}
+      </td></tr>
+    </table>` : ''}
+
+    <!-- 紙袋・包装オプション -->
+    ${(order.items||[]).some(i=>i.paperbag==='あり'||i.wrapping==='あり') ? `
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#EBF4E4;border-radius:8px;margin-bottom:14px">
+      <tr><td style="padding:12px 18px;font-size:13px;color:#342010">
+        <strong>🎁 ご指定オプション：</strong><br>
+        ${(order.items||[]).filter(i=>i.paperbag==='あり'||i.wrapping==='あり').map(i=>
+          `${i.name}: ${[i.paperbag==='あり'?'紙袋あり':'',i.wrapping==='あり'?'ギフト包装あり':''].filter(Boolean).join('・')}`
+        ).join('<br>')}
+      </td></tr>
+    </table>` : ''}
+
     <!-- 発送予定 -->
     <table width="100%" cellpadding="0" cellspacing="0" style="background:#EBF4E4;border-left:4px solid #7A9E6A;border-radius:0 8px 8px 0;margin-bottom:22px">
       <tr><td style="padding:14px 18px">
