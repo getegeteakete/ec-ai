@@ -43,14 +43,39 @@ export default async function handler(req, res) {
   // ── メール内容を組み立て ──
   let to, subject, html;
 
-  // 商品明細HTML（共通）
-  const itemsHtml = (order.items || []).map(c => `
+  // 商品明細HTML（カート形式 / Supabase形式 両対応）
+  const itemsHtml = (order.items || []).map(it => {
+    // カート形式: { name, size, qty, price }
+    // Supabase形式: { description, quantity, amount }
+    const itemName = it.name || it.description || '';
+    const itemSize = it.size || '';
+    const itemQty  = it.qty  || it.quantity || 1;
+    const itemPrice = it.price || it.amount || 0;
+    const itemTotal = itemPrice * itemQty;
+
+    // 商品名の表示：nameとsizeが別々にある場合はスッキリ表示
+    // description形式の場合はそのまま使用
+    let displayName = itemName;
+    if (it.name && it.size) {
+      displayName = `${it.name}（${it.size}）`;
+    }
+
+    // オプション表示（紙袋・ギフト包装）
+    const opts = [
+      it.paperbag  === 'あり' ? '🛍️ 紙袋あり' : '',
+      it.wrapping  === 'あり' ? '🎁 ギフト包装あり' : '',
+    ].filter(Boolean).join('　');
+
+    return `
     <tr>
-      <td style="padding:10px 14px;border-bottom:1px solid #f0e8d8;color:#342010;font-size:13px">${c.name}（${c.size}）</td>
-      <td style="padding:10px 14px;border-bottom:1px solid #f0e8d8;text-align:center;color:#6B4A28;font-size:13px">${c.qty}個</td>
-      <td style="padding:10px 14px;border-bottom:1px solid #f0e8d8;text-align:right;font-weight:600;color:#A8660E;font-size:13px">¥${(c.price * c.qty).toLocaleString('ja-JP')}</td>
-    </tr>`
-  ).join('');
+      <td style="padding:11px 14px;border-bottom:1px solid #f0e8d8;color:#342010;font-size:13px;line-height:1.6">
+        ${displayName}
+        ${opts ? `<br><span style="font-size:11px;color:#7A9E6A">${opts}</span>` : ''}
+      </td>
+      <td style="padding:11px 14px;border-bottom:1px solid #f0e8d8;text-align:center;color:#6B4A28;font-size:13px;white-space:nowrap">${itemQty}個</td>
+      <td style="padding:11px 14px;border-bottom:1px solid #f0e8d8;text-align:right;font-weight:600;color:#A8660E;font-size:13px;white-space:nowrap">¥${itemTotal.toLocaleString('ja-JP')}</td>
+    </tr>`;
+  }).join('');
 
   const name   = `${order.customer?.last || ''}${order.customer?.first || ''}`;
   const addr   = `〒${order.customer?.zip || ''} ${order.customer?.pref || ''}${order.customer?.addr1 || ''}${order.customer?.addr2 ? ' '+order.customer.addr2 : ''}`;
