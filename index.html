@@ -1064,6 +1064,27 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 .delivery-opts-ttl{font-size:.88rem;font-weight:700;color:var(--espresso);margin-bottom:14px;display:flex;align-items:center;gap:6px}
 .delivery-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:640px){.delivery-row{grid-template-columns:1fr}}
+
+/* ── 法人発掘エージェント ── */
+.prospect-card{background:#fff;border-radius:12px;padding:16px;margin-bottom:10px;box-shadow:0 2px 10px var(--shadow);border-left:4px solid var(--border);transition:all .2s;cursor:pointer}
+.prospect-card:hover{border-left-color:var(--honey);transform:translateX(3px)}
+.prospect-card.selected{border-left-color:var(--sage);background:var(--sage-pale)}
+.prospect-card.ai-pick{border-left-color:var(--honey)}
+.prospect-score{display:inline-flex;align-items:center;gap:4px;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:50px;margin-bottom:8px}
+.score-high{background:rgba(122,158,106,.15);color:var(--sage)}
+.score-mid{background:rgba(212,145,58,.15);color:var(--honey-dk)}
+.score-low{background:rgba(200,200,200,.3);color:var(--text-l)}
+.prospect-name{font-weight:700;color:var(--brown);font-size:.95rem;margin-bottom:3px}
+.prospect-addr{font-size:.78rem;color:var(--text-l);margin-bottom:6px}
+.prospect-approach{font-size:.8rem;color:var(--text-m);line-height:1.7;background:var(--cream);border-radius:6px;padding:8px 12px;margin-top:6px}
+.prospect-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.prospect-badge{font-size:.7rem;padding:2px 8px;border-radius:50px;background:var(--parchment);color:var(--text-m)}
+.api-badge{display:inline-flex;align-items:center;gap:5px;font-size:.75rem;font-weight:600;padding:4px 12px;border-radius:50px;border:1.5px solid}
+.api-badge.ok{border-color:var(--sage);color:var(--sage);background:var(--sage-pale)}
+.api-badge.ng{border-color:var(--peach);color:var(--peach);background:rgba(229,135,110,.1)}
+.api-badge.free{border-color:var(--honey);color:var(--honey-dk);background:rgba(212,145,58,.08)}
+.prospect-select-btn{background:none;border:1px solid var(--honey);color:var(--honey-dk);border-radius:6px;padding:4px 12px;font-size:.75rem;cursor:pointer;font-family:'Noto Sans JP',sans-serif;margin-top:8px}
+.prospect-select-btn.selected{background:var(--sage);border-color:var(--sage);color:#fff}
 </style>
 </head>
 <!-- SVG Icon Sprite -->
@@ -2075,6 +2096,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <!-- エージェント選択タブ -->
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 20px;border-bottom:2px solid var(--border);padding-bottom:14px">
         <button class="agent-nav act" onclick="switchAgent('content',this)">✍️ コンテンツ</button>
+        <button class="agent-nav" onclick="switchAgent('prospect',this)">🏭 法人発掘</button>
         <button class="agent-nav" onclick="switchAgent('btob',this)">🏢 BtoB営業</button>
         <button class="agent-nav" onclick="switchAgent('seo',this)">🔍 SEOレポート</button>
         <button class="agent-nav" onclick="switchAgent('sales',this)">📈 売上改善</button>
@@ -2126,7 +2148,115 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         </div>
       </div>
 
-      <!-- ──────── Agent②: BtoB営業エージェント ──────── -->
+      <!-- ──────── Agent②: 法人発掘エージェント（新設） ──────── -->
+      <div id="agent-prospect" class="agent-panel" style="display:none">
+        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🏭 法人発掘エージェント</h3>
+        <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">
+          <strong>国税庁 法人番号API</strong> + <strong>Google Maps API</strong> で<br>
+          実在する見込み法人をリアルタイム検索・AIスコアリングします。
+        </p>
+
+        <!-- API状態バッジ -->
+        <div id="prospectApiStatus" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"></div>
+
+        <div class="ai-panel">
+          <div class="form-row" style="margin-bottom:14px">
+            <div class="form-group">
+              <label style="font-size:.85rem;font-weight:600;color:var(--text)">業種</label>
+              <select class="form-sel form-input" id="prospectIndustry" style="margin-top:5px">
+                <option value="hotel">🏨 ホテル・旅館</option>
+                <option value="wedding">💍 ウェディング・結婚式場</option>
+                <option value="office">🏢 企業・オフィス（手土産需要）</option>
+                <option value="cafe">☕ カフェ・飲食店</option>
+                <option value="gift">🎁 ギフトショップ・百貨店</option>
+                <option value="nursery">🏫 保育園・幼稚園</option>
+                <option value="hospital">🏥 病院・クリニック</option>
+                <option value="beauty">💆 美容サロン・エステ</option>
+                <option value="sport">💪 スポーツジム・フィットネス</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label style="font-size:.85rem;font-weight:600;color:var(--text)">エリア</label>
+              <select class="form-sel form-input" id="prospectArea" style="margin-top:5px">
+                <option value="fukuoka">📍 福岡市内</option>
+                <option value="fukuoka-pref">🗾 福岡県全域</option>
+                <option value="kyushu">🌸 九州全域</option>
+                <option value="tokyo">🗼 東京都</option>
+                <option value="osaka">⛩️ 大阪府</option>
+                <option value="nagoya">🏯 愛知県（名古屋）</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row single" style="margin-bottom:16px">
+            <div class="form-group">
+              <label style="font-size:.85rem;font-weight:600;color:var(--text)">追加条件（任意）</label>
+              <input class="form-input" type="text" id="prospectCondition"
+                placeholder="例：グルテンフリーに関心がある、周年記念・ノベルティ需要"
+                style="margin-top:5px">
+            </div>
+          </div>
+          <button class="btn-p" onclick="runProspect()" id="prospectBtn"
+            style="width:100%;padding:13px;font-size:.95rem">
+            🔍 実在企業を検索する（法人番号API + Google Maps）
+          </button>
+        </div>
+
+        <!-- ローディング -->
+        <div id="prospectLoading" style="display:none;text-align:center;padding:28px;color:var(--text-l)">
+          <div style="font-size:1.5rem;margin-bottom:8px">🔍</div>
+          <p style="font-size:.88rem;margin-bottom:4px">法人番号API・Google Mapsを検索中...</p>
+          <p style="font-size:.78rem;color:var(--text-l)">AIが企業をスコアリングしています</p>
+        </div>
+
+        <!-- 検索結果 -->
+        <div id="prospectResult" style="display:none;margin-top:20px">
+
+          <!-- 検索サマリー -->
+          <div id="prospectSummary" style="background:var(--cream);border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:.84rem;color:var(--text-m)"></div>
+
+          <!-- AIスコアリング TOP5 -->
+          <div style="margin-bottom:20px">
+            <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:12px;font-size:.95rem">
+              🤖 AIが選ぶ有望企業 TOP5
+            </h4>
+            <div id="prospectAiLeads"></div>
+          </div>
+
+          <!-- Google Maps 検索結果 -->
+          <div id="prospectGoogleSection" style="margin-bottom:20px">
+            <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:10px;font-size:.9rem;display:flex;align-items:center;gap:7px">
+              <span style="background:#4285F4;color:#fff;padding:2px 9px;border-radius:50px;font-size:.72rem">Google Maps</span>
+              検索結果
+            </h4>
+            <div id="prospectGoogleList"></div>
+          </div>
+
+          <!-- 法人番号API 検索結果 -->
+          <div id="prospectHoujinSection" style="margin-bottom:20px">
+            <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:10px;font-size:.9rem;display:flex;align-items:center;gap:7px">
+              <span style="background:#e60033;color:#fff;padding:2px 9px;border-radius:50px;font-size:.72rem">法人番号API</span>
+              検索結果
+            </h4>
+            <div id="prospectHoujinList"></div>
+          </div>
+
+          <!-- 選択した企業でメール作成へ -->
+          <button onclick="sendTobtobAgent()" class="btn-p"
+            style="width:100%;padding:13px;margin-top:4px;display:none" id="prospectToBtobBtn">
+            ✉️ 選択した企業への営業メールを作成する →
+          </button>
+        </div>
+
+        <!-- 検索履歴 -->
+        <div style="margin-top:24px">
+          <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:10px;font-size:.9rem">📋 検索履歴</h4>
+          <div id="prospectHistory" style="font-size:.82rem;color:var(--text-l)">
+            検索履歴はここに表示されます
+          </div>
+        </div>
+      </div>
+
+            <!-- ──────── Agent②: BtoB営業エージェント ──────── -->
       <div id="agent-btob" class="agent-panel" style="display:none">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🏢 BtoB営業エージェント</h3>
         <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">見込み企業の発掘・営業メール作成・送信承認フローを自動化します。</p>
