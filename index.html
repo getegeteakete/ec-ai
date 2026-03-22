@@ -100,12 +100,12 @@ header::after{content:'';display:block;height:1px;background:linear-gradient(90d
 .page{display:none}.page.act{display:block}
 
 /* ── HERO ── */
-.hero{position:relative;min-height:95vh;overflow:hidden;display:flex;flex-direction:column}
+.hero{position:relative;min-height:56.25vw;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
 .hero-bg{position:absolute;inset:0;z-index:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center center;will-change:transform;transform:scale(1.0)}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(28,14,6,.15) 0%,rgba(28,14,6,.05) 60%,rgba(28,14,6,.35) 100%);z-index:1}
-.hero-overlay2{position:absolute;inset:0;background:linear-gradient(to top, rgba(28,14,6,.45) 0%, transparent 40%);z-index:1}
-.hero-overlay3{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(192,144,32,.12) 0%,transparent 50%);z-index:1}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 55%;transform:none;display:block}
+.hero-overlay{display:none}
+.hero-overlay2{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.28) 0%,transparent 30%);z-index:1}
+.hero-overlay3{display:none}
 .hero-in{max-width:1200px;margin:0 auto;padding:120px 28px 80px;position:relative;z-index:2;display:flex;align-items:center;min-height:80vh}
 .hero-content{max-width:620px}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(192,144,32,.2);color:rgba(255,248,235,.9);border:1px solid rgba(192,144,32,.4);padding:7px 18px;border-radius:1px;font-family:'Cormorant Garamond',serif;font-size:.82rem;font-weight:400;margin-bottom:26px;letter-spacing:.18em;backdrop-filter:blur(8px);text-transform:uppercase}
@@ -113,7 +113,7 @@ header::after{content:'';display:block;height:1px;background:linear-gradient(90d
 .hero-ttl em{font-style:normal;color:var(--gold-lt)}
 .hero-ttl-en{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,8vw,5.5rem);font-style:italic;font-weight:300;color:rgba(217,172,74,.35);display:block;line-height:1;margin-bottom:8px;letter-spacing:.04em;overflow:hidden}
 .hero-desc{font-size:.92rem;color:rgba(255,248,235,.75);margin-bottom:36px;line-height:2;text-shadow:0 1px 8px rgba(0,0,0,.2);letter-spacing:.04em}
-.hero-acts{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.hero-acts{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .hero-note{font-size:.74rem;color:rgba(255,255,255,.55);margin-top:18px;letter-spacing:.06em}
 .btn-p-hero{display:inline-flex;align-items:center;gap:9px;background:rgba(254,250,242,.97);color:var(--espresso);padding:15px 36px;border-radius:2px;border:none;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-size:.88rem;font-weight:600;text-decoration:none;transition:all .32s;letter-spacing:.07em;box-shadow:0 8px 28px rgba(0,0,0,.25)}
 .btn-p-hero:hover{background:#fff;transform:translateY(-3px);box-shadow:0 16px 38px rgba(0,0,0,.3)}
@@ -453,6 +453,12 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
    RESPONSIVE — 小タブレット (max 900px)
 ════════════════════════════════════════ */
 @media(max-width:900px){
+  /* ── ヒーロー（タブレット） ── */
+  .hero{height:calc(100vw * 971 / 1980);min-height:auto;max-height:none}
+  .hero-in{min-height:calc(100vw * 971 / 1980);max-height:none;padding:0 24px 28px;align-items:flex-end}
+  .hero-acts{gap:10px}
+  .btn-p-hero,.btn-o-hero{padding:12px 24px;font-size:.88rem}
+  /* ── レイアウト ── */
   .detail-grid{grid-template-columns:1fr}
   .cart-layout{grid-template-columns:1fr}
   .story-in{grid-template-columns:1fr}
@@ -494,17 +500,22 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   .main-nav{display:none} /* モバイルナビで代替 */
 
 
-  /* ── ヒーロー ── */
-  .hero{min-height:100svh}
-  .hero-in{padding:80px 16px 60px;min-height:100svh;align-items:flex-end}
-  .hero-content{max-width:100%;padding-bottom:20px}
-  .hero-ttl-en{font-size:2.6rem;margin-bottom:4px}
-  .hero-ttl{font-size:clamp(1.7rem,6.5vw,2.2rem);margin-bottom:14px}
-  .hero-badge{font-size:.68rem;padding:5px 12px;letter-spacing:.1em;margin-bottom:16px}
-  .hero-desc{font-size:.84rem;margin-bottom:24px;line-height:1.85}
-  .hero-acts{gap:10px;flex-direction:column;align-items:flex-start}
-  .btn-p-hero,.btn-o-hero{width:100%;justify-content:center;padding:14px 20px;font-size:.84rem}
+  /* ── ヒーロー（スマホ最適化）── */
+  .hero{min-height:auto;max-height:none;height:calc(100vw * 971 / 1980)}
+  .hero-bg img{object-position:center 50%}
+  .hero-in{
+    padding:0 16px 20px;
+    min-height:calc(100vw * 971 / 1980);
+    max-height:none;
+    align-items:flex-end;
+  }
+  .hero-content{max-width:100%;width:100%}
+  .hero-acts{gap:8px;flex-direction:row;justify-content:center;width:100%}
+  .btn-p-hero{flex:1;max-width:160px;justify-content:center;padding:11px 12px;font-size:.8rem;letter-spacing:.02em}
+  .btn-o-hero{flex:1;max-width:140px;justify-content:center;padding:10px 12px;font-size:.8rem}
   .scroll-indicator{display:none}
+  /* overlay も SP で最小化 */
+  .hero-overlay2{background:linear-gradient(to top,rgba(0,0,0,.35) 0%,transparent 25%)}
 
   /* ── フィーチャー ── */
   .feat-strip{clip-path:none;padding:20px 0}
@@ -1277,17 +1288,17 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   <section class="hero" id="heroSection">
     <!-- Background Image with Parallax -->
     <div class="hero-bg" id="heroBg">
-      <img src="/public/hero-bg.png" alt="ヒーロー背景" loading="eager">
+      <img src="/public/hero-bg.jpg" alt="米粉バウムクーヘン工房 未来図" loading="eager">
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-overlay2"></div>
 
     <!-- Content: キャッチコピーなし・ボタンのみ -->
-    <div class="hero-in" style="align-items:flex-end;padding-bottom:48px;min-height:80vh">
+    <div class="hero-in">
       <div class="hero-content">
-        <div class="hero-acts reveal" style="justify-content:center">
-          <button class="btn-p-hero" onclick="filterCat('all')" style="font-size:1rem;padding:15px 40px">商品を見る →</button>
-          <button class="btn-o-hero" onclick="showPage('shopinfo')" style="font-size:.95rem;padding:13px 30px">店舗情報</button>
+        <div class="hero-acts reveal">
+          <button class="btn-p-hero" onclick="filterCat('all')">商品を見る →</button>
+          <button class="btn-o-hero" onclick="showPage('shopinfo')">店舗情報</button>
         </div>
       </div>
     </div>
