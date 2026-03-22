@@ -5,7 +5,7 @@
 // 【Vercel環境変数 - 設定済み確認済み】
 //   RESEND_API_KEY      = re_8GqegZc2_KAd2rFqKzdtC59EvVbpwJcf5
 //   RESEND_FROM_EMAIL   = info@fukuoka-mirais.com
-//   RESEND_TO_EMAIL     = info@fukuoka-mirais.com
+//   RESEND_TO_EMAIL     = shop@fukuoka-mirais.com
 //   RESEND_USE_TEST_SENDER = true  ← テスト中はこのまま
 //
 // 【type の種類】
@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 
   const RESEND_API_KEY    = process.env.RESEND_API_KEY;
   const FROM_EMAIL        = process.env.RESEND_FROM_EMAIL || 'info@fukuoka-mirais.com';
-  const SHOP_EMAIL        = process.env.RESEND_TO_EMAIL   || 'info@fukuoka-mirais.com';
+  const SHOP_EMAIL        = process.env.RESEND_TO_EMAIL   || 'shop@fukuoka-mirais.com';
   const USE_TEST_SENDER   = process.env.RESEND_USE_TEST_SENDER === 'true';
 
   if (!RESEND_API_KEY) {
@@ -73,7 +73,7 @@ export default async function handler(req, res) {
         <p style="margin:0 0 10px;font-size:10px;color:rgba(255,255,255,.5)">KOMEFUN BAUMKUCHEN KOBO MIRAIS</p>
         <p style="margin:0 0 3px;font-size:12px;color:rgba(255,255,255,.8)">📍 〒814-0123 福岡県福岡市城南区長尾1-15-21-103 フローレス長尾</p>
         <p style="margin:0 0 3px;font-size:12px;color:rgba(255,255,255,.8)">📞 092-834-9856　⏰ 11:00〜17:00（水・日定休）</p>
-        <p style="margin:0 0 14px;font-size:12px;color:rgba(255,255,255,.8)">📧 info@fukuoka-mirais.com　📸 @fukuoka_mirais</p>
+        <p style="margin:0 0 14px;font-size:12px;color:rgba(255,255,255,.8)">📧 shop@fukuoka-mirais.com　📸 @fukuoka_mirais</p>
         <p style="margin:0;font-size:10px;color:rgba(255,255,255,.35)">© ${now.getFullYear()} 米粉バウムクーヘン工房 未来図. All rights reserved.</p>
       </td></tr>
     </table>`;
