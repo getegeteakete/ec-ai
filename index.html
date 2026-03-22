@@ -1245,7 +1245,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 
 
 <!-- Announce -->
-<div class="announce"><svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> <span>グルテンフリー</span>・主に九州産の米粉を使用 &nbsp;｜&nbsp; <svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> <span>ギフト包装・のし</span>無料対応 &nbsp;｜&nbsp; <svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> 全国配送 <span>¥5,000以上送料無料</span></div>
+<div class="announce"><svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> <span>グルテンフリー</span>・主に九州産の米粉を使用 &nbsp;｜&nbsp; <svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> <span>ギフト包装・のし</span>無料対応 &nbsp;｜&nbsp; <svg width="10" height="10" style="vertical-align:middle;color:var(--gold-lt)"><use href="#ic-sparkle"/></svg> 全国配送 <span>都道府県別送料</span></div>
 
 <!-- Header -->
 <header>
@@ -1434,7 +1434,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
             <button class="qty-btn" onclick="changeQty(1)" style="display:flex;align-items:center;justify-content:center"><svg width="14" height="14"><use href="#ic-plus"/></svg></button>
           </div>
         </div>
-        <div class="ship-bar" id="shipBar">🚚 あと <strong id="shipNeeded">--</strong> 円で5,000円！</div>
+        <div class="ship-bar" id="shipBar" style="display:none"></div>
 
         <!-- 紙袋オプション -->
         <div class="opt-section">
@@ -1864,7 +1864,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       </div>
       <div class="info-box">
         <div class="info-title" style="display:flex;align-items:center;gap:8px"><svg width="16" height="16" style="color:var(--caramel)"><use href="#ic-truck"/></svg>配送・特定商取引法</div>
-        <div class="info-row"><span class="info-lbl">送料</span><span class="info-val">都道府県別（日本郵便）<br>例：福岡県820円〜、東京都1,410円〜、北海道1,740円<br>8,000円以上送料無料</span></div>
+        <div class="info-row"><span class="info-lbl">送料</span><span class="info-val">都道府県別（日本郵便）<br>例：福岡県820円〜、東京都1,410円〜、北海道1,740円</span></div>
         <div class="info-row"><span class="info-lbl">発送日</span><span class="info-val">ご注文から1週間〜10日程度<br>（製造状況により前後あり）</span></div>
         <div class="info-row"><span class="info-lbl">決済方法</span><span class="info-val">KOMOJU対応<br>クレジットカード / コンビニ / 銀行振込 / PayPay / 代引</span></div>
         <div class="info-row"><span class="info-lbl">返品</span><span class="info-val">食品のため、お客様都合の返品は不可。商品に問題がある場合は到着後7日以内にご連絡ください。</span></div>
@@ -2811,7 +2811,7 @@ const SHIPPING_TABLE_COOL = {
  * 複数の送料タイプが混在する場合は最高額を採用
  */
 function calcShipping(cartItems, prefecture) {
-  if (!prefecture || cartItems.length === 0) return 820; // デフォルト福岡
+  if (!prefecture || cartItems.length === 0) return 820; // 都道府県未選択時は福岡県の送料をデフォルト
   const hasCool = cartItems.some(c => {
     const p = products.find(x => x.id === c.id);
     return p && p.shipping_type === 'cool';
@@ -3135,7 +3135,7 @@ function updateCartTotals(){
   const sub  = cart.reduce((s,c)=>s+c.price*c.qty,0);
   const prefVal = document.getElementById('prefecture')?.value || '';
   const baseShip = calcShipping(cart, prefVal);
-  const ship = sub >= 8000 ? 0 : baseShip;
+  const ship = baseShip; // 送料無料なし
   const total = sub + ship - discountAmt;
   document.getElementById('subtotal').textContent = `¥${sub.toLocaleString()}`;
   document.getElementById('shipping').textContent = ship===0 ? '無料' : `¥${ship}`;
@@ -3226,7 +3226,7 @@ function updateShippingDisplayForDiff(){
   if(!pref) return;
   const sub      = cart.reduce((s,c)=>s+c.price*c.qty,0);
   const baseShip = calcShipping(cart, pref);
-  const ship     = sub >= 8000 ? 0 : baseShip;
+  const ship     = baseShip; // 送料無料なし
   const shippingEl = document.getElementById('shipping');
   if(shippingEl) shippingEl.textContent = ship === 0 ? '無料' : `¥${ship.toLocaleString()}`;
   const totalEl = document.getElementById('cartTotal');
@@ -3329,7 +3329,7 @@ function renderConfirm(){
   const rcSub  = cart.reduce((s,c)=>s+c.price*c.qty,0);
   const rcPref = document.getElementById('prefecture')?.value || '';
   const rcBase = calcShipping(cart, rcPref);
-  const rcShip = rcSub >= 8000 ? 0 : rcBase;
+  const rcShip = rcBase; // 送料無料なし
   const rcTotal = rcSub + rcShip - discountAmt;
 
   // 商品一覧（紙袋・包装含む）
@@ -3448,7 +3448,7 @@ async function placeOrder(){
     ? (document.getElementById('s-pref')?.value || document.getElementById('prefecture')?.value || '')
     : (document.getElementById('prefecture')?.value || '');
   let poBase = calcShipping(cart, poPref);
-  let ship   = sub >= 8000 ? 0 : poBase;
+  let ship   = poBase; // 送料無料なし
   let total  = sub + ship - discountAmt;
 
   const useDiffShip = document.getElementById('diffShipCheck')?.checked || false;
@@ -3611,7 +3611,7 @@ function buildEmailParams(order){
     item_list_html: itemListHtml,
     item_count:     items.reduce((s,c)=>s+c.qty,0) + '個',
     subtotal:       `¥${(order.sub||0).toLocaleString()}`,
-    shipping_fee:   (order.ship===0) ? '無料（8,000円以上送料無料）' : `¥${(order.ship||0).toLocaleString()}`,
+    shipping_fee:   `¥${(order.ship||0).toLocaleString()}`,
     discount:       (order.discount||0)>0 ? `-¥${order.discount.toLocaleString()}` : 'なし',
     total:          `¥${(order.total||0).toLocaleString()}`,
     address:        addr,
@@ -4393,7 +4393,7 @@ async function applySeoFixes(){
   }
   const metaDesc = document.querySelector('meta[name=description]');
   if(metaDesc && metaDesc.content.length < 80){
-    metaDesc.content = '福岡発の米粉バウムクーヘン専門店。グルテンフリー・佐賀県産米粉使用。手土産・内祝い・ギフトに。全国配送・8,000円以上送料無料。';
+    metaDesc.content = '福岡発の米粉バウムクーヘン専門店。グルテンフリー・佐賀県産米粉使用。手土産・内祝い・ギフトに。全国配送。';
   }
   const result = document.getElementById('seoApplyResult');
   result.style.display='block';
