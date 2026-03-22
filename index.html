@@ -6,7 +6,7 @@
 <title>米粉バウムクーヘン工房 未来図 | グルテンフリー・福岡</title>
 <meta name="description" content="主に九州産の米粉使用。グルテンフリーの米粉バウムクーヘン専門店【未来図】。福岡市城南区より全国へお届けします。">
 <!-- EmailJS SDK（領収書・追跡メール送信） -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<!-- メール送信はVercel Function /api/send-email (Resend) を使用 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Serif+JP:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;600&family=Zen+Antique+Soft&display=swap" rel="stylesheet">
 
@@ -2165,18 +2165,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 
 
 <script>
-// ══════════════════════════════════════════════
-// ★ EmailJS設定（要設定）
-// https://www.emailjs.com/ でアカウント作成後に設定
-// ══════════════════════════════════════════════
-const EMAILJS_CONFIG = {
-  publicKey:   'YOUR_PUBLIC_KEY',          // EmailJS Public Key（要設定）
-  serviceId:   'YOUR_SERVICE_ID',          // EmailJSサービスID（要設定）
-  receiptTpl:  'template_receipt',         // ①注文確認メール
-  trackingTpl: 'template_tracking',        // ②発送通知メール
-  shopTpl:     'template_shop_notify',     // ③店舗新規注文通知メール
-  shopEmail:   'info@fukuoka-mirais.com',  // 店舗メール（注文通知先）
-};
+// メール送信: /api/send-email (Resend) を使用
 // ★ 管理パネルのパスワード（本番前に必ず変更）
 const ADMIN_PASSWORD = 'mirais2024';
 
@@ -2999,34 +2988,34 @@ function buildEmailParams(order){
   };
 }
 
-// ① 注文確認メール（顧客宛）＋ ③ 店舗通知メール
+// ① 注文確認メール（顧客宛）＋ ③ 店舗通知メール → Resend経由
 async function sendReceiptEmail(order){
   const overlay = document.getElementById('mailOverlay');
   const msg     = document.getElementById('mailMsg');
   overlay.classList.add('show');
   msg.textContent = '📧 注文確認メールを送信中...';
-  const params = buildEmailParams(order);
   try {
-    if(EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY'){
-      emailjs.init(EMAILJS_CONFIG.publicKey);
-      // 顧客へ注文確認メール
-      await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.receiptTpl, params);
+    // 顧客へ注文確認メール
+    const r1 = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ type: 'receipt', order }),
+    });
+    if(r1.ok){
       order.receiptSent = true;
       localStorage.setItem('mirais_orders', JSON.stringify(orders));
-      // 店舗へ新規注文通知（失敗しても処理継続）
-      try {
-        await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.shopTpl, {
-          ...params,
-          to_email:   EMAILJS_CONFIG.shopEmail,
-          to_name:    '未来図 スタッフ',
-          admin_url:  window.location.origin + '/',
-        });
-      } catch(e2){ console.warn('店舗通知失敗:', e2); }
     }
+    // 店舗へ新規注文通知（失敗しても処理継続）
+    fetch('/api/send-email', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ type: 'shop_notify', order }),
+    }).catch(e => console.warn('店舗通知失敗:', e));
+
     msg.textContent = '✅ 注文確認メールを送信しました！';
     await new Promise(r => setTimeout(r, 1200));
   } catch(e) {
-    console.error('EmailJS error:', e);
+    console.error('send-email error:', e);
     msg.textContent = '⚠️ メール送信に失敗しました（注文は完了しています）';
     await new Promise(r => setTimeout(r, 1500));
   } finally {
@@ -3057,32 +3046,24 @@ async function saveTracking(orderId){
   showToast('✓ 追跡番号を登録しました');
 }
 
-// ② 発送通知メール（顧客宛）
+// ② 発送通知メール（顧客宛）→ Resend経由
 async function sendTrackingEmail(order){
   const overlay = document.getElementById('mailOverlay');
   const msg     = document.getElementById('mailMsg');
   overlay.classList.add('show');
   msg.textContent = '📦 発送通知メールを送信中...';
-  const base = buildEmailParams(order);
-  const d1 = new Date(); d1.setDate(d1.getDate()+2);
-  const d2 = new Date(); d2.setDate(d2.getDate()+5);
-  const params = {
-    ...base,
-    tracking_no:   order.trackingNo  || '',
-    tracking_url:  order.trackingUrl || '',
-    carrier:       'ヤマト運輸',
-    deliver_from:  `${d1.getMonth()+1}月${d1.getDate()}日`,
-    deliver_to:    `${d2.getMonth()+1}月${d2.getDate()}日`,
-  };
   try {
-    if(EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY'){
-      emailjs.init(EMAILJS_CONFIG.publicKey);
-      await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.trackingTpl, params);
-    }
+    const r = await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ type: 'tracking', order }),
+    });
+    const data = await r.json();
+    if(!r.ok) throw new Error(data.error || 'APIエラー');
     msg.textContent = '✅ 発送通知メールを送信しました！';
     await new Promise(r => setTimeout(r, 1200));
   } catch(e) {
-    console.error('EmailJS error:', e);
+    console.error('send-email error:', e);
     msg.textContent = '⚠️ メール送信に失敗しました';
     await new Promise(r => setTimeout(r, 1500));
   } finally {
@@ -4122,11 +4103,6 @@ async function searchZip(){
 
 // ═══ INIT ═══
 document.addEventListener('DOMContentLoaded',()=>{
-  // EmailJS初期化
-  if(EMAILJS_CONFIG.publicKey !== 'YOUR_PUBLIC_KEY'){
-    emailjs.init(EMAILJS_CONFIG.publicKey);
-  }
-
   renderHome();
   renderRanking();
   updateBadge();
