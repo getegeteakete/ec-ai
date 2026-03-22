@@ -730,8 +730,39 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 #page-fav .products-grid{padding:32px 0 76px}
 
 /* ── 管理パネル ── */
-#page-admin{background:var(--cream)}
-.admin-wrap{max-width:900px;margin:0 auto;padding:40px 24px 80px}
+/* ══ 管理画面 新レイアウト ══ */
+#page-admin{background:#f0ede8;min-height:100vh;display:flex;flex-direction:column}
+/* ── 管理ヘッダー ── */
+.adm-header{position:fixed;top:0;left:0;right:0;height:54px;background:#2c1a0e;display:flex;align-items:center;padding:0 16px;gap:12px;z-index:2000;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.adm-logo{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:700;color:#EFB96A;white-space:nowrap;flex:1}
+.adm-logo span{font-size:.7rem;color:rgba(255,255,255,.45);display:block;font-family:'Noto Sans JP',sans-serif;font-weight:400}
+.adm-header-btn{background:none;border:1px solid rgba(255,255,255,.2);border-radius:6px;color:rgba(255,255,255,.75);padding:5px 12px;font-size:.75rem;cursor:pointer;font-family:'Noto Sans JP',sans-serif;white-space:nowrap;transition:all .2s}
+.adm-header-btn:hover{background:rgba(255,255,255,.1);color:#fff}
+.adm-burger{display:none;background:none;border:none;cursor:pointer;color:#fff;padding:6px}
+/* ── サイドバー（PC） ── */
+.adm-sidebar{position:fixed;top:54px;left:0;bottom:0;width:220px;background:#1e1108;overflow-y:auto;z-index:1500;transition:transform .3s ease}
+.adm-sidebar-inner{padding:12px 0 40px}
+.adm-nav-section{padding:8px 14px 4px;font-size:.65rem;color:rgba(255,255,255,.3);letter-spacing:.15em;text-transform:uppercase;margin-top:8px}
+.adm-nav-item{display:flex;align-items:center;gap:10px;padding:11px 20px;color:rgba(255,255,255,.65);cursor:pointer;font-size:.84rem;font-family:'Noto Sans JP',sans-serif;transition:all .2s;border:none;background:none;width:100%;text-align:left;position:relative}
+.adm-nav-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.adm-nav-item.act{background:rgba(212,145,58,.18);color:#EFB96A;font-weight:600}
+.adm-nav-item.act::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:#EFB96A;border-radius:0 2px 2px 0}
+.adm-nav-badge{background:var(--peach);color:#fff;border-radius:50px;padding:1px 7px;font-size:.65rem;margin-left:auto}
+/* ── メインコンテンツ（PC） ── */
+.adm-main{margin-left:220px;margin-top:54px;padding:28px 28px 60px;min-height:calc(100vh - 54px)}
+.adm-content{display:none;animation:fadeUp .22s ease}
+.adm-content.act{display:block}
+/* ── サイドバーオーバーレイ（モバイル） ── */
+.adm-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1400}
+.adm-overlay.show{display:block}
+/* ── レスポンシブ ── */
+@media(max-width:768px){
+  .adm-burger{display:flex;align-items:center;justify-content:center}
+  .adm-sidebar{transform:translateX(-100%)}
+  .adm-sidebar.open{transform:translateX(0)}
+  .adm-main{margin-left:0;padding:16px 14px 80px}
+}
+/* ── 管理ログイン画面 ── */
 
 /* ── 管理タブ ── */
 .admin-tabs{display:flex;gap:4px;background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:4px;margin-bottom:4px;flex-wrap:wrap}
@@ -773,7 +804,8 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 .breakdown-bar-fill{height:100%;background:linear-gradient(90deg,var(--caramel),var(--caramel-lt));border-radius:50px;transition:width .6s ease}
 .breakdown-lbl{font-size:.79rem;color:var(--text-m);min-width:90px}
 .breakdown-val{font-size:.79rem;color:var(--honey-dk);font-weight:600;min-width:36px;text-align:right}
-.admin-login{max-width:360px;margin:80px auto;background:#fff;border-radius:var(--rl);padding:36px;box-shadow:0 8px 32px var(--shadow);text-align:center}
+.admin-login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.admin-login-box{max-width:360px;width:100%;background:#fff;border-radius:var(--rl);padding:36px;box-shadow:0 8px 32px var(--shadow);text-align:center}
 .admin-login h2{font-family:'Noto Serif JP',serif;font-size:1.3rem;color:var(--brown);margin-bottom:22px}
 .order-card{background:#fff;border-radius:var(--r);padding:22px;margin-bottom:16px;box-shadow:0 3px 14px var(--shadow);border-left:4px solid var(--border)}
 .order-card.shipped{border-left-color:var(--sage)}
@@ -2035,27 +2067,88 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 
   <!-- ログイン画面 -->
   <div id="adminLogin" class="admin-login">
-    <div style="font-size:2.5rem;margin-bottom:14px">🔐</div>
-    <h2>管理者ログイン</h2>
-    <p style="font-size:.8rem;color:var(--text-l);margin-bottom:20px">未来図 管理パネル</p>
-    <input class="form-input" type="password" id="adminPw" placeholder="パスワードを入力" style="margin-bottom:12px;width:100%"
-      onkeydown="if(event.key==='Enter')adminLogin()">
-    <button class="btn-p" onclick="adminLogin()" style="width:100%;padding:13px">ログイン</button>
-    <p id="adminPwErr" style="color:var(--peach);font-size:.78rem;margin-top:10px;display:none">パスワードが違います</p>
+    <div class="admin-login-box">
+      <div style="font-size:2.5rem;margin-bottom:14px">🔐</div>
+      <h2 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">管理者ログイン</h2>
+      <p style="font-size:.8rem;color:var(--text-l);margin-bottom:24px">米粉バウムクーヘン工房 未来図 管理パネル</p>
+      <input class="form-input" type="password" id="adminPw" placeholder="パスワードを入力"
+        style="margin-bottom:12px;width:100%;font-size:1rem;padding:13px"
+        onkeydown="if(event.key==='Enter')adminLogin()">
+      <button class="btn-p" onclick="adminLogin()" style="width:100%;padding:13px;font-size:.95rem">ログイン</button>
+      <p id="adminPwErr" style="color:var(--peach);font-size:.78rem;margin-top:10px;display:none">パスワードが違います</p>
+    </div>
   </div>
 
   <!-- ダッシュボード -->
-  <div id="adminDash" class="admin-wrap" style="display:none">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-      <div>
-        <div class="admin-ttl">🏢 未来図 管理パネル</div>
-        <div class="admin-sub">米粉バウムクーヘン工房 未来図</div>
+  <div id="adminDash" style="display:none">
+
+    <!-- ── 管理ヘッダー ── -->
+    <div class="adm-header">
+      <button class="adm-burger" onclick="toggleAdmSidebar()" aria-label="メニュー">
+        <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <div class="adm-logo">
+        🍰 未来図 管理パネル
+        <span>米粉バウムクーヘン工房 未来図</span>
       </div>
-      <button class="btn-o" onclick="adminLogout()" style="font-size:.78rem;padding:7px 16px;display:inline-flex;align-items:center;gap:6px"><svg width="13" height="13"><use href="#ic-chevron-down"/></svg>ログアウト</button>
+      <button class="adm-header-btn" onclick="showPage('home')" title="サイトを見る">
+        🛒 サイトを見る
+      </button>
+      <button class="adm-header-btn" onclick="adminLogout()">
+        ログアウト
+      </button>
     </div>
 
-    <!-- ── AI使用料ダッシュボード（常時表示） ── -->
-    <div id="adminAiCostBar" style="background:linear-gradient(135deg,#fff8ee,#fff);border:1.5px solid rgba(212,145,58,.25);border-radius:12px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+    <!-- ── サイドバーオーバーレイ（モバイル） ── -->
+    <div class="adm-overlay" id="admOverlay" onclick="closeAdmSidebar()"></div>
+
+    <!-- ── サイドバー ── -->
+    <nav class="adm-sidebar" id="admSidebar">
+      <div class="adm-sidebar-inner">
+
+        <div class="adm-nav-section">受注・在庫</div>
+        <button class="adm-nav-item act" id="admNav-orders" onclick="switchAdmTab('orders')">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
+          注文管理
+        </button>
+        <button class="adm-nav-item" id="admNav-products" onclick="switchAdmTab('products')">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+          商品・在庫
+        </button>
+
+        <div class="adm-nav-section">BtoB営業</div>
+        <button class="adm-nav-item" id="admNav-btob-approval" onclick="switchAdmTab('btob-approval')">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          BtoB承認管理
+          <span class="adm-nav-badge" id="btobPendingBadge" style="display:none">0</span>
+        </button>
+        <button class="adm-nav-item" id="admNav-prospect" onclick="switchAdmTab('prospect')">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          法人発掘
+        </button>
+
+        <div class="adm-nav-section">AIエージェント</div>
+        <button class="adm-nav-item" id="admNav-ai" onclick="switchAdmTab('ai')">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          AIエージェント
+        </button>
+
+        <div class="adm-nav-section">分析</div>
+        <button class="adm-nav-item" id="admNav-analytics" onclick="switchAdmTab('analytics')">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          アクセス解析
+        </button>
+
+      </div>
+    </nav>
+
+    <!-- ── メインコンテンツ ── -->
+    <main class="adm-main">
+
+      <!-- AI使用料バー -->
+      <div id="adminAiCostBar" style="margin-bottom:20px" style="background:linear-gradient(135deg,#fff8ee,#fff);border:1.5px solid rgba(212,145,58,.25);border-radius:12px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
       <div style="display:flex;align-items:center;gap:7px;flex-shrink:0">
         <svg width="16" height="16" style="color:var(--honey-dk)"><use href="#ic-sparkle"/></svg>
         <span style="font-size:.82rem;font-weight:700;color:var(--brown)">AI使用料</span>
@@ -2081,17 +2174,8 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       </div>
     </div>
 
-    <!-- タブナビ -->
-    <div class="admin-tabs">
-      <button class="admin-tab act" onclick="switchAdminTab('orders',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-package"/></svg>注文管理</button>
-      <button class="admin-tab" onclick="switchAdminTab('products',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-bag"/></svg>商品・在庫</button>
-      <button class="admin-tab" onclick="switchAdminTab('ai',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-sparkle"/></svg>AIエージェント</button>
-      <button class="admin-tab" onclick="switchAdminTab('btob-approval',this)" id="btobApprovalTab">📬 BtoB承認 <span id="btobPendingBadge" style="display:none;background:var(--peach);color:#fff;border-radius:50px;padding:1px 7px;font-size:.7rem;margin-left:4px">0</span></button>
-      <button class="admin-tab" onclick="switchAdminTab('analytics',this)"><svg width="14" height="14" style="vertical-align:middle;margin-right:5px"><use href="#ic-star"/></svg>アクセス解析</button>
-    </div>
-
-    <!-- ══ タブ①：注文管理 ══ -->
-    <div id="adminTab-orders" class="admin-tab-content">
+      <!-- 注文管理 -->
+      <div id="adminTab-orders" id="adm-orders" class="adm-content act" class="adm-content act">
       <div class="admin-stat-row" style="margin-top:18px">
         <div class="admin-stat"><div class="admin-stat-num" id="statTotal">0</div><div class="admin-stat-lbl">総注文件数</div></div>
         <div class="admin-stat"><div class="admin-stat-num" id="statPending">0</div><div class="admin-stat-lbl">発送待ち</div></div>
@@ -2109,8 +2193,8 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       </div>
     </div>
 
-    <!-- ══ タブ②：商品・在庫管理 ══ -->
-    <div id="adminTab-products" class="admin-tab-content" style="display:none">
+      <!-- 商品・在庫 -->
+      <div id="adminTab-products" class="adm-content" id="adm-products">
       <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 14px">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown)">商品一覧・在庫管理</h3>
         <button class="btn-p" onclick="openProductModal(null)" style="padding:9px 18px;font-size:.85rem">＋ 新商品追加</button>
@@ -2118,8 +2202,8 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div id="adminProductList"></div>
     </div>
 
-    <!-- ══ タブ③：AIエージェント（マルチエージェント） ══ -->
-    <div id="adminTab-ai" class="admin-tab-content" style="display:none">
+      <!-- AIエージェント -->
+      <div id="adminTab-ai" class="adm-content" id="adm-ai">
 
       <!-- エージェント選択タブ -->
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 20px;border-bottom:2px solid var(--border);padding-bottom:14px">
@@ -2183,7 +2267,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       </div>
 
       <!-- ──────── Agent②: 法人発掘エージェント（新設） ──────── -->
-      <div id="agent-prospect" class="agent-panel" style="display:none">
+      <div id="agent-prospect" class="agent-panel">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🏭 法人発掘エージェント</h3>
         <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">
           <strong>国税庁 法人番号API</strong> + <strong>Google Maps API</strong> で<br>
@@ -2291,7 +2375,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       </div>
 
             <!-- ──────── Agent②: BtoB営業エージェント ──────── -->
-      <div id="agent-btob" class="agent-panel" style="display:none">
+      <div id="agent-btob" class="agent-panel">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🏢 BtoB営業エージェント</h3>
         <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">見込み企業の発掘・営業メール作成・送信承認フローを自動化します。</p>
 
@@ -2345,7 +2429,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         </div>
 
         <!-- Step2: メール作成 -->
-        <div id="btob-step2" style="display:none">
+        <div id="btob-step2">
           <div class="ai-panel">
             <div id="btobSelectedCompany" style="background:var(--sage-pale);border-radius:8px;padding:12px;margin-bottom:14px;font-size:.85rem;color:var(--text-m)"></div>
             <div class="form-group" style="margin-bottom:14px">
@@ -2373,7 +2457,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         </div>
 
         <!-- Step3: 送信承認 -->
-        <div id="btob-step3" style="display:none">
+        <div id="btob-step3">
           <div style="background:#fff;border-radius:12px;padding:20px;box-shadow:0 2px 10px var(--shadow);margin-bottom:16px">
             <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:14px">📋 送信内容の最終確認</h4>
             <div id="btobFinalPreview"></div>
@@ -2396,11 +2480,11 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       </div>
 
       <!-- ──────── Agent③: SEOレポートエージェント ──────── -->
-      <div id="agent-seo" class="agent-panel" style="display:none">
+      <div id="agent-seo" class="agent-panel">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🔍 SEOレポートエージェント</h3>
         <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">サイト内SEOを自動診断し、改善レポートを生成・適用します。</p>
         <button class="btn-p" onclick="runSeoReport()" id="seoReportBtn" style="width:100%;padding:13px;margin-bottom:18px">🔍 SEO診断レポートを生成する</button>
-        <div id="seoReportResult" style="display:none">
+        <div id="seoReportResult">
           <div class="admin-stat-row" id="seoScoreRow" style="margin-bottom:18px"></div>
           <div id="seoIssueList"></div>
           <button onclick="applySeoFixes()" class="btn-p" id="seoApplyBtn" style="width:100%;padding:13px;margin-top:16px;display:none">⚡ 改善案を自動適用する</button>
@@ -2413,11 +2497,11 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       </div>
 
       <!-- ──────── Agent④: 売上改善エージェント ──────── -->
-      <div id="agent-sales" class="agent-panel" style="display:none">
+      <div id="agent-sales" class="agent-panel">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">📈 売上改善エージェント</h3>
         <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">注文データを分析し、売上向上のための具体的な改善案を提案します。</p>
         <button class="btn-p" onclick="runSalesAnalysis()" style="width:100%;padding:13px;margin-bottom:18px">📊 売上データを分析する</button>
-        <div id="salesAnalysisResult" style="display:none">
+        <div id="salesAnalysisResult">
           <div id="salesInsights"></div>
         </div>
         <div style="margin-top:24px">
@@ -2427,7 +2511,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       </div>
 
       <!-- ──────── Agent⑤: SNS自動作成エージェント ──────── -->
-      <div id="agent-sns" class="agent-panel" style="display:none">
+      <div id="agent-sns" class="agent-panel">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">📱 SNS自動作成エージェント</h3>
         <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">週次・月次で複数商品のSNS投稿を一括生成。スケジュール管理も可能です。</p>
         <div class="ai-panel">
@@ -2462,7 +2546,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       </div>
 
       <!-- ──────── Agent⑥: 学習ログ ──────── -->
-      <div id="agent-learn" class="agent-panel" style="display:none">
+      <div id="agent-learn" class="agent-panel">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🧠 エージェント学習ログ</h3>
         <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">各AIエージェントの実行履歴・学習内容・改善推移を記録します。</p>
         <div id="learnLog" style="font-size:.83rem;line-height:2;color:var(--text-m)">
@@ -2484,8 +2568,8 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 
     </div>
 
-    <!-- ══ タブ④：BtoB承認管理 ══ -->
-    <div id="adminTab-btob-approval" class="admin-tab-content" style="display:none">
+      <!-- BtoB承認 -->
+      <div id="adminTab-btob-approval" class="adm-content" id="adm-btob-approval">
 
       <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 14px;flex-wrap:wrap;gap:10px">
         <div>
@@ -2519,8 +2603,8 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       </div>
     </div>
 
-    <!-- ══ タブ⑤：アクセス解析 ══ -->
-    <div id="adminTab-analytics" class="admin-tab-content" style="display:none">
+      <!-- アクセス解析 -->
+      <div id="adminTab-analytics" class="adm-content" id="adm-analytics">
       <div style="display:flex;justify-content:space-between;align-items:center;margin:18px 0 14px">
         <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown)">アクセス解析</h3>
         <select class="form-sel form-input" id="analyticsDays" onchange="loadAnalytics()" style="width:120px;font-size:.85rem">
@@ -2551,6 +2635,84 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       </div>
     </div>
 
+      <!-- 法人発掘（AIエージェント内から移植） -->
+      <div id="adm-prospect" class="adm-content">
+        <h3 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:4px">🏭 法人発掘エージェント</h3>
+        <p style="font-size:.82rem;color:var(--text-l);margin-bottom:16px">
+          <strong>国税庁 法人番号API</strong> + <strong>Google Maps API</strong> で実在する見込み法人をリアルタイム検索・AIスコアリングします。
+        </p>
+        <div id="prospectApiStatus" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px"></div>
+        <div class="ai-panel">
+          <div class="form-row" style="margin-bottom:14px">
+            <div class="form-group">
+              <label style="font-size:.85rem;font-weight:600;color:var(--text)">業種</label>
+              <select class="form-sel form-input" id="prospectIndustry" style="margin-top:5px">
+                <option value="hotel">🏨 ホテル・旅館</option>
+                <option value="wedding">💍 ウェディング・結婚式場</option>
+                <option value="office">🏢 企業・オフィス（手土産需要）</option>
+                <option value="cafe">☕ カフェ・飲食店</option>
+                <option value="gift">🎁 ギフトショップ・百貨店</option>
+                <option value="nursery">🏫 保育園・幼稚園</option>
+                <option value="hospital">🏥 病院・クリニック</option>
+                <option value="beauty">💆 美容サロン・エステ</option>
+                <option value="sport">💪 スポーツジム・フィットネス</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label style="font-size:.85rem;font-weight:600;color:var(--text)">エリア</label>
+              <select class="form-sel form-input" id="prospectArea" style="margin-top:5px">
+                <option value="fukuoka">📍 福岡市内</option>
+                <option value="fukuoka-pref">🗾 福岡県全域</option>
+                <option value="kyushu">🌸 九州全域</option>
+                <option value="tokyo">🗼 東京都</option>
+                <option value="osaka">⛩️ 大阪府</option>
+                <option value="nagoya">🏯 愛知県（名古屋）</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row single" style="margin-bottom:16px">
+            <div class="form-group">
+              <label style="font-size:.85rem;font-weight:600;color:var(--text)">追加条件（任意）</label>
+              <input class="form-input" type="text" id="prospectCondition" placeholder="例：グルテンフリーに関心がある、ノベルティ需要" style="margin-top:5px">
+            </div>
+          </div>
+          <button class="btn-p" onclick="runProspect()" id="prospectBtn" style="width:100%;padding:13px;font-size:.95rem">
+            🔍 実在企業を検索する（法人番号API + Google Maps）
+          </button>
+        </div>
+        <div id="prospectLoading" style="display:none;text-align:center;padding:28px;color:var(--text-l)">
+          <div style="font-size:1.5rem;margin-bottom:8px">🔍</div>
+          <p style="font-size:.88rem">法人番号API・Google Mapsを検索中...</p>
+        </div>
+        <div id="prospectResult" style="display:none;margin-top:20px">
+          <div id="prospectSummary" style="background:var(--cream);border-radius:10px;padding:14px 18px;margin-bottom:16px;font-size:.84rem;color:var(--text-m)"></div>
+          <div style="margin-bottom:20px">
+            <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:12px;font-size:.95rem">🤖 AIが選ぶ有望企業 TOP5</h4>
+            <div id="prospectAiLeads"></div>
+          </div>
+          <div id="prospectGoogleSection" style="margin-bottom:20px">
+            <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:10px;font-size:.9rem">
+              <span style="background:#4285F4;color:#fff;padding:2px 9px;border-radius:50px;font-size:.72rem">Google Maps</span> 検索結果
+            </h4>
+            <div id="prospectGoogleList"></div>
+          </div>
+          <div id="prospectHoujinSection" style="margin-bottom:20px">
+            <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:10px;font-size:.9rem">
+              <span style="background:#e60033;color:#fff;padding:2px 9px;border-radius:50px;font-size:.72rem">法人番号API</span> 検索結果
+            </h4>
+            <div id="prospectHoujinList"></div>
+          </div>
+          <button onclick="sendTobtobAgent()" class="btn-p" style="width:100%;padding:13px;display:none" id="prospectToBtobBtn">
+            ✉️ 選択した企業への営業メールを作成する →
+          </button>
+        </div>
+        <div style="margin-top:24px">
+          <h4 style="font-family:'Noto Serif JP',serif;color:var(--brown);margin-bottom:10px;font-size:.9rem">📋 検索履歴</h4>
+          <div id="prospectHistory" style="font-size:.82rem;color:var(--text-l)">検索履歴はここに表示されます</div>
+        </div>
+      </div>
+
+    </main>
   </div><!-- /adminDash -->
 </div><!-- /page-admin -->
 
@@ -4027,7 +4189,7 @@ async function adminLogin(){
       adminLoggedIn = true;
       document.getElementById('adminLogin').style.display = 'none';
       document.getElementById('adminDash').style.display = 'block';
-      renderAdminOrders('all');
+      initAdminDash();
       updateCostDashboard(); // ログイン時にコスト表示を初期化
     } else {
       document.getElementById('adminPwErr').style.display = 'block';
@@ -4306,6 +4468,69 @@ async function toggleProductActive(id, current){
   showToast(!current?'公開しました':'非公開にしました');
   renderAdminProducts();
 }
+
+
+// ══ 管理画面 新レイアウト制御 ══════════════════════════
+function switchAdmTab(name){
+  // コンテンツ切り替え
+  document.querySelectorAll('.adm-content').forEach(el => el.classList.remove('act'));
+  const target = document.getElementById('adm-' + name);
+  if(target) target.classList.add('act');
+
+  // ナビハイライト
+  document.querySelectorAll('.adm-nav-item').forEach(el => el.classList.remove('act'));
+  const nav = document.getElementById('admNav-' + name);
+  if(nav) nav.classList.add('act');
+
+  // モバイル：選択後サイドバーを閉じる
+  if(window.innerWidth <= 768) closeAdmSidebar();
+
+  // タブ固有の初期化
+  if(name === 'orders')        renderAdminOrders('all');
+  if(name === 'products')      renderAdminProducts();
+  if(name === 'ai')            loadAiProductList();
+  if(name === 'btob-approval') loadBtobLeads();
+  if(name === 'analytics')     loadAnalytics();
+  if(name === 'prospect')      checkProspectApiStatus();
+}
+
+// 旧 switchAdminTab との互換
+function switchAdminTab(name, btn){
+  // 旧タブ名→新タブ名マッピング
+  switchAdmTab(name);
+}
+
+function toggleAdmSidebar(){
+  const sb  = document.getElementById('admSidebar');
+  const ov  = document.getElementById('admOverlay');
+  const isOpen = sb.classList.contains('open');
+  if(isOpen){ closeAdmSidebar(); }
+  else {
+    sb.classList.add('open');
+    ov.classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeAdmSidebar(){
+  document.getElementById('admSidebar')?.classList.remove('open');
+  document.getElementById('admOverlay')?.classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// 管理者ログイン後に呼び出す初期化
+function initAdminDash(){
+  switchAdmTab('orders');
+  // 承認待ちバッジ更新
+  fetch('/api/btob-leads?status=pending&limit=100',{
+    headers:{'x-admin-token':ADMIN_PASSWORD}
+  }).then(r=>r.json()).then(d=>{
+    const cnt = d.leads?.length || 0;
+    const badge = document.getElementById('btobPendingBadge');
+    if(badge){ badge.style.display = cnt>0?'inline':'none'; badge.textContent=cnt; }
+  }).catch(()=>{});
+}
+// ════════════════════════════════════════════════════════
 
 // ══ AIエージェント ══
 let aiSelectedType = 'description';
@@ -5244,6 +5469,16 @@ function showPage(name){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('act'));
   document.getElementById('page-'+name).classList.add('act');
   document.querySelectorAll('.nav-item').forEach(e=>e.classList.remove('act'));
+  // 管理画面はサイトのheader/footer/mob-navを非表示
+  const isAdmin = name === 'admin';
+  const hdr = document.querySelector('header');
+  const ftr = document.querySelector('footer');
+  const mob = document.getElementById('mobNav');
+  const ann = document.querySelector('.announce-bar');
+  if(hdr) hdr.style.display = isAdmin ? 'none' : '';
+  if(ftr) ftr.style.display = isAdmin ? 'none' : '';
+  if(mob) mob.style.display = isAdmin ? 'none' : '';
+  if(ann) ann.style.display = isAdmin ? 'none' : '';
   if(name==='home')     { document.querySelector('.nav-item').classList.add('act'); trackPageView('home'); }
   if(name==='cart')     { renderCart(); trackPageView('cart'); }
   if(name==='fav')      renderFav();
@@ -5260,8 +5495,7 @@ function showPage(name){
       document.getElementById('adminLogin').style.display = 'block';
       document.getElementById('adminDash').style.display  = 'none';
     } else {
-      document.getElementById('adminTab-orders').style.display = 'block';
-      renderAdminOrders('all');
+      initAdminDash();
     }
   }
   if(name==='checkout'){
