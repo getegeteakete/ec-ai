@@ -177,7 +177,7 @@ header::after{content:'';display:block;height:1px;background:linear-gradient(90d
 .pcard-fav:hover{background:#fff;transform:scale(1.12);border-color:var(--terracotta)}
 .pcard-fav.act{color:var(--terracotta)}
 .pcard-body{padding:18px 20px 20px}
-.pcard-stars{font-size:.78rem;color:var(--gold-lt);margin-bottom:5px;letter-spacing:.04em}
+.pcard-stars{display:none}
 .pcard-name{font-family:'Noto Serif JP',serif;font-size:.95rem;font-weight:500;color:var(--espresso);margin-bottom:6px;line-height:1.45}
 .pcard-desc{font-size:.75rem;color:var(--text-l);margin-bottom:13px;line-height:1.65}
 .pcard-price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:14px}
@@ -234,13 +234,13 @@ header::after{content:'';display:block;height:1px;background:linear-gradient(90d
 .story-title{font-family:'Noto Serif JP',serif;font-size:clamp(1.4rem,2.5vw,1.85rem);font-weight:400;color:var(--espresso);margin-bottom:20px;line-height:1.6}
 .story-text{color:var(--text-m);line-height:2;font-size:.9rem;margin-bottom:16px}
 
-/* ── REVIEWS ── */
-.review-sec{background:var(--parchment);padding:68px 0;border-top:1px solid var(--border-lt)}
-.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:16px}
+
+
+
 .rcard{background:#fff;border-radius:2px;padding:28px;box-shadow:0 2px 16px rgba(28,14,6,.07);position:relative;border:1px solid var(--border-lt);transition:box-shadow .3s}
 .rcard:hover{box-shadow:0 8px 28px rgba(28,14,6,.12)}
 .rcard::before{content:'"';font-family:'Cormorant Garamond',serif;font-size:5rem;color:var(--gold-lt);position:absolute;top:-4px;left:20px;line-height:1;opacity:.35;font-style:italic}
-.r-stars{color:var(--gold-lt);font-size:.82rem;margin-bottom:12px;letter-spacing:.08em}
+
 .r-text{font-size:.85rem;color:var(--text-m);line-height:1.9;margin-bottom:16px}
 .r-author{display:flex;align-items:center;gap:10px}
 .r-avatar{width:38px;height:38px;border-radius:50%;background:var(--brown-pale);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
@@ -288,8 +288,8 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 .d-badge{display:inline-block;background:var(--sage-pale);color:var(--sage);padding:5px 14px;border-radius:1px;font-size:.73rem;font-weight:500;margin-bottom:12px;letter-spacing:.06em}
 .d-title{font-family:'Noto Serif JP',serif;font-size:1.65rem;font-weight:400;color:var(--espresso);margin-bottom:12px;line-height:1.5}
 .d-rating{display:flex;align-items:center;gap:8px;margin-bottom:16px}
-.d-stars{color:var(--gold-lt);font-size:.92rem;letter-spacing:.06em}
-.d-rev-cnt{font-size:.78rem;color:var(--text-l)}
+
+
 .d-price{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--caramel);margin-bottom:3px;letter-spacing:.02em}
 .d-price-note{font-size:.78rem;color:var(--text-l);margin-bottom:24px;letter-spacing:.04em}
 .d-divider{border:none;border-top:1px solid var(--border-lt);margin:22px 0}
@@ -569,9 +569,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   .story-title{font-size:1.2rem}
   .story-text{font-size:.84rem}
 
-  /* ── レビュー ── */
-  .review-sec{clip-path:none;padding:48px 0}
-  .reviews-grid{grid-template-columns:1fr;gap:14px}
+
   .rcard{padding:20px}
 
   /* ── フッター ── */
@@ -815,8 +813,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 .star-rating{display:inline-flex;gap:2px;align-items:center}
 .star-rating svg{width:13px;height:13px;color:var(--gold-lt)}
 .star-rating svg.empty{color:var(--border);opacity:.6}
-/* レビューアバター */
-.r-avatar{width:38px;height:38px;border-radius:50%;background:var(--parchment);display:flex;align-items:center;justify-content:center;border:1px solid var(--border-lt);color:var(--text-l)}
+
 .r-avatar svg{width:18px;height:18px}
 
 /* ── セクション区切り（斜めカット） ── */
@@ -854,12 +851,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   margin-top:-2px;
 }
 
-/* レビュー：上斜め */
-.review-sec{
-  clip-path:polygon(0 4%, 100% 0, 100% 100%, 0 100%);
-  padding-top:80px;
-  margin-top:-2px;
-}
+
 
 @media(max-width:640px){
   .feat-strip{clip-path:polygon(0 0, 100% 0, 100% 92%, 0 100%);padding-bottom:32px}
@@ -867,7 +859,6 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   .campaign{clip-path:polygon(0 0, 100% 2%, 100% 100%, 0 98%);padding-top:64px;padding-bottom:64px}
   .cat-section{clip-path:polygon(0 2%, 100% 0, 100% 100%, 0 100%);padding-top:60px}
   .story-sec{clip-path:polygon(0 0, 100% 2%, 100% 98%, 0 100%);padding-top:70px;padding-bottom:70px}
-  .review-sec{clip-path:polygon(0 2%, 100% 0, 100% 100%, 0 100%);padding-top:60px}
 }
 
 
@@ -1388,18 +1379,6 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     </div>
   </section>
 
-  <!-- Reviews -->
-  <section class="review-sec">
-    <div class="container">
-      <p class="sec-title">お客様の声</p>
-      <p class="sec-sub">Reviews — たくさんのお喜びの声をいただいています</p>
-      <div class="reviews-grid">
-        <div class="rcard"><div class="r-stars" style="display:flex;gap:2px"><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg></div><p class="r-text">グルテンアレルギーの子どもも安心して食べられます。ソフトタイプはふんわり口溶けがよく、普通のバウムクーヘンと全く遜色なし！毎月リピートしています。</p><div class="r-author"><div class="r-avatar"><svg width="18" height="18"><use href="#ic-user"/></svg></div><div><div class="r-name">M.T 様（40代）</div><div class="r-date">2024年2月ご購入</div></div></div></div>
-        <div class="rcard"><div class="r-stars" style="display:flex;gap:2px"><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg></div><p class="r-text">ハードタイプはモチっとした食感がクセになります。洋酒のほのかな風味も上品で、ワインのおつまみにもなりました。贈り物に毎回使っています。</p><div class="r-author"><div class="r-avatar"><svg width="18" height="18"><use href="#ic-user"/></svg></div><div><div class="r-name">K.Y 様（50代）</div><div class="r-date">2024年1月ご購入</div></div></div></div>
-        <div class="rcard"><div class="r-stars" style="display:flex;gap:2px"><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg><svg width="13" height="13" style="color:var(--gold-lt)"><use href="#ic-star"/></svg></div><p class="r-text">ハーフセットを試してから全種類のファンになりました。おから豆乳は想像以上においしく、さつまいも味は甘さ控えめで絶品。ご近所へのお土産にも喜ばれます。</p><div class="r-author"><div class="r-avatar"><svg width="18" height="18"><use href="#ic-user"/></svg></div><div><div class="r-name">S.F 様（60代）</div><div class="r-date">2024年2月ご購入</div></div></div></div>
-      </div>
-    </div>
-  </section>
 
 </div><!-- /home -->
 
@@ -1424,7 +1403,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <div>
         <div class="d-badge" id="dBadge"></div>
         <h1 class="d-title" id="dTitle"></h1>
-        <div class="d-rating"><span class="d-stars" id="dStars" aria-label="評価"></span><span class="d-rev-cnt" id="dRevCnt"></span></div>
+        
         <div class="d-price" id="dPrice"></div>
         <div class="d-price-note">税込価格 / 送料660円（全国一律）</div>
         <hr class="d-divider">
@@ -2428,7 +2407,7 @@ const products = [
     desc:'佐賀県産の無農薬の米粉、種子島のやさしい甘さのきび砂糖、国産バターを使って焼いた、ふんわり食感の「ソフトタイプ」バウムクーヘンです。グルテンフリーなので小麦アレルギーの方をはじめ健康を意識する方へもおすすめです。日頃のおやつにはもちろん手土産や大切な贈り物にも最適です。',
     ingredients:'鶏卵（九州産）、きび砂糖（種子島産）、バター（国産）、植物油脂、ホイップクリーム、米粉（佐賀県産・無農薬）、洋酒／加工澱粉、乳化剤、ベーキングパウダー、香料、リン酸塩（Na）、安定剤（増粘多糖類）、カロチン色素',
     allergen:'卵・乳成分・大豆', weight:'約330g', size:'直径約14cm×高さ4cm',
-    price:1600, salePrice:null, cat:'soft', badge:'pop', badgeText:'人気No.1', stars:5, reviews:156,
+    price:1600, salePrice:null, cat:'soft', badge:'pop', badgeText:'人気No.1',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2024/12/IMG_4247.png',
     shipping_type:'normal', // 日本郵便
     sizes:['1個（約330g）'], expiry:'発送日より28日', storage:'直射日光・高温多湿を避け常温保存',
@@ -2440,7 +2419,7 @@ const products = [
     desc:'佐賀県産の無農薬の米粉、種子島のきび砂糖、国産バターを使って焼いた、もっちりとした食感が癖になる「ハードタイプ」バウムクーヘンです。アーモンドパウダーが入っており、洋酒のほのかな風味と相まって大人な味わいに仕上がっています。グルテンフリーなので小麦アレルギーの方をはじめ健康を意識する方へもおすすめです。',
     ingredients:'鶏卵（九州産）、砂糖（きび砂糖）、米粉（佐賀県産・無農薬）、バター（国産）、植物油脂、アーモンドパウダー、水飴、粉糖、塩、洋酒、レモン汁／トレハロース、加工澱粉、カスタードパウダー、乳化剤、ベーキングパウダー、香料、安定剤（増粘多糖類）、リン酸塩（Na）、カロチン色素',
     allergen:'卵・乳成分・大豆・アーモンド・オレンジ', weight:'約300g', size:'直径約14cm×高さ4cm',
-    price:1600, salePrice:null, cat:'hard', badge:'pop', badgeText:'定番人気', stars:5, reviews:134,
+    price:1600, salePrice:null, cat:'hard', badge:'pop', badgeText:'定番人気',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2024/12/IMG_4249.jpeg',
     shipping_type:'normal',
     sizes:['1個（約300g）'], expiry:'発送日より28日（製造日より21日）', storage:'直射日光・高温多湿を避け常温保存',
@@ -2452,7 +2431,7 @@ const products = [
     desc:'米粉バウムクーヘン工房 未来図のお菓子を初めてご注文される方や、プチギフト・お配りものとしてご利用いただける特別なお試しセットです。本商品の詳細はショップまでお問い合わせください。',
     ingredients:'各商品の原材料に準ずる',
     allergen:'卵・乳成分・大豆（含む商品あり）', weight:'要確認', size:'要確認',
-    price:1000, salePrice:null, cat:'gift', badge:'sale', badgeText:'お試し', stars:5, reviews:42,
+    price:1000, salePrice:null, cat:'gift', badge:'sale', badgeText:'お試し',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/02/IMG_4951-scaled.jpeg',
     shipping_type:'normal',
     sizes:['セット内容は注文時に確認'], expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
@@ -2464,7 +2443,7 @@ const products = [
     desc:'米粉バウムクーヘンのハーフカットが2個入ったセットです。2種類の味をお楽しみいただけます（ソフトタイプ・ハードタイプ）。ちょっとしたプレゼントや自分へのご褒美にぴったりです。',
     ingredients:'各フレーバーの原材料に準ずる',
     allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'ハーフカット×2', size:'ハーフカットサイズ×2個',
-    price:1750, salePrice:null, cat:'gift', badge:null, badgeText:'', stars:5, reviews:67,
+    price:1750, salePrice:null, cat:'gift', badge:null, badgeText:'',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2024/12/IMG_4251.jpeg',
     shipping_type:'normal',
     sizes:['2個入りセット'], expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
@@ -2476,7 +2455,7 @@ const products = [
     desc:'4種類の味が楽しめるハーフカットサイズのお得なセットです。セット内容：①プレーン（ソフトタイプ）②プレーン（ハードタイプ）③おから豆乳④さつまいも。はじめてご注文の方のお試しにも、贈り物にも大変喜ばれています。',
     ingredients:'各フレーバーの原材料に準ずる',
     allergen:'卵・乳成分・大豆・アーモンド・オレンジ（含む商品あり）', weight:'ハーフカット×4', size:'ハーフカットサイズ×4個',
-    price:3400, salePrice:null, cat:'gift', badge:'pop', badgeText:'人気セット', stars:5, reviews:89,
+    price:3400, salePrice:null, cat:'gift', badge:'pop', badgeText:'人気セット',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2024/12/IMG_4256.jpeg',
     shipping_type:'normal',
     sizes:['4個入りセット'], expiry:'各商品に準ずる（製造日より21〜28日）', storage:'直射日光・高温多湿を避け常温保存',
@@ -2488,7 +2467,7 @@ const products = [
     desc:'6個のハーフカットバウムクーヘンが入ったセットです。様々なフレーバーをお楽しみいただけます。お中元・お歳暮・内祝いなどの贈り物にも大変喜ばれています。',
     ingredients:'各フレーバーの原材料に準ずる',
     allergen:'卵・乳成分・大豆・アーモンド・オレンジ（含む商品あり）', weight:'ハーフカット×6', size:'ハーフカットサイズ×6個',
-    price:5050, salePrice:null, cat:'gift', badge:'new', badgeText:'ギフト人気', stars:5, reviews:73,
+    price:5050, salePrice:null, cat:'gift', badge:'new', badgeText:'ギフト人気',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2024/12/IMG_4262.jpeg',
     shipping_type:'normal',
     sizes:['6個入りセット'], expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
@@ -2500,7 +2479,7 @@ const products = [
     desc:'ハードタイプのバウムクーヘンをもとにしたバウムクッキーです。サクサクとした食感の中に米粉の旨みが凝縮。個包装なので職場のおやつや小さなプレゼントにも最適です。',
     ingredients:'米粉（佐賀県産）、砂糖、バター、卵、アーモンドパウダー、洋酒',
     allergen:'卵・乳成分・アーモンド', weight:'約50g', size:'個包装',
-    price:600, salePrice:null, cat:'other', badge:null, badgeText:'', stars:4, reviews:31,
+    price:600, salePrice:null, cat:'other', badge:null, badgeText:'',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4318.jpeg',
     shipping_type:'normal',
     sizes:['1個（個包装）'], expiry:'製造日より30日', storage:'直射日光・高温多湿を避け常温保存',
@@ -2512,7 +2491,7 @@ const products = [
     desc:'バウムクーヘンを1/8にカットした食べきりサイズが15個入ったセットです。大人数へのプレゼントや会社への手土産にぴったり。個包装なので衛生的にお配りいただけます。',
     ingredients:'各フレーバーの原材料に準ずる',
     allergen:'卵・乳成分・大豆（含む商品あり）', weight:'1/8カット×15個', size:'1/8カットサイズ×15個',
-    price:3550, salePrice:null, cat:'gift', badge:null, badgeText:'', stars:5, reviews:55,
+    price:3550, salePrice:null, cat:'gift', badge:null, badgeText:'',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4321.jpeg',
     shipping_type:'normal',
     sizes:['15個入りセット'], expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
@@ -2524,7 +2503,7 @@ const products = [
     desc:'バウムクーヘンとバウムクッキーを組み合わせた贅沢な詰め合わせセットです（8個入）。見た目も華やかで、様々な食感をお楽しみいただけます。贈り物や手土産に大変喜ばれています。',
     ingredients:'バウムクーヘン・バウムクッキー各フレーバーの原材料に準ずる',
     allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'8個入', size:'詰め合わせボックス',
-    price:1880, salePrice:null, cat:'gift', badge:null, badgeText:'', stars:5, reviews:48,
+    price:1880, salePrice:null, cat:'gift', badge:null, badgeText:'',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4359.jpeg',
     shipping_type:'normal',
     sizes:['8個入りセット'], expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
@@ -2536,7 +2515,7 @@ const products = [
     desc:'バウムクーヘンとバウムクッキーを組み合わせた贅沢な詰め合わせセットです（12個入）。見た目も華やかで、様々な食感をお楽しみいただけます。お中元・お歳暮・内祝いなどの贈り物に最適です。',
     ingredients:'バウムクーヘン・バウムクッキー各フレーバーの原材料に準ずる',
     allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'12個入', size:'詰め合わせボックス',
-    price:2810, salePrice:null, cat:'gift', badge:'pop', badgeText:'ギフト人気', stars:5, reviews:61,
+    price:2810, salePrice:null, cat:'gift', badge:'pop', badgeText:'ギフト人気',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4354.jpeg',
     shipping_type:'normal',
     sizes:['12個入りセット'], expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
@@ -2548,7 +2527,7 @@ const products = [
     desc:'バウムクーヘンを1/8にカットした食べきりサイズが10個入ったセットです。職場や友人へのプレゼントとして手軽にお配りいただけます。個包装で衛生的です。',
     ingredients:'各フレーバーの原材料に準ずる',
     allergen:'卵・乳成分・大豆（含む商品あり）', weight:'1/8カット×10個', size:'1/8カットサイズ×10個',
-    price:2400, salePrice:null, cat:'gift', badge:null, badgeText:'', stars:5, reviews:44,
+    price:2400, salePrice:null, cat:'gift', badge:null, badgeText:'',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4365.jpeg',
     shipping_type:'normal',
     sizes:['10個入りセット'], expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
@@ -2560,7 +2539,7 @@ const products = [
     desc:'バウムクーヘンを1/4にカットしたサイズが3個入ったセットです。プレーン（ソフト）・プレーン（ハード）・おから豆乳・さつまいもの4種類のフレーバーからお選びいただけます。',
     ingredients:'各フレーバーの原材料に準ずる',
     allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'1/4カット×3個', size:'1/4カットサイズ×3個',
-    price:1350, salePrice:null, cat:'gift', badge:null, badgeText:'', stars:5, reviews:36,
+    price:1350, salePrice:null, cat:'gift', badge:null, badgeText:'',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4462.jpeg',
     shipping_type:'normal',
     sizes:['3個入りセット（フレーバー指定可）'], expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
@@ -2572,7 +2551,7 @@ const products = [
     desc:'バウムクーヘンを1/4にカットしたサイズが6個入ったセットです。プレーン（ソフト）・プレーン（ハード）・おから豆乳・さつまいもの4種類のフレーバーからお選びいただけます。誕生日・内祝いなどのプレゼントに大変喜ばれています。',
     ingredients:'各フレーバーの原材料に準ずる',
     allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'1/4カット×6個', size:'1/4カットサイズ×6個',
-    price:2600, salePrice:null, cat:'gift', badge:'pop', badgeText:'贈り物人気', stars:5, reviews:52,
+    price:2600, salePrice:null, cat:'gift', badge:'pop', badgeText:'贈り物人気',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4468.jpeg',
     shipping_type:'normal',
     sizes:['6個入りセット（フレーバー指定可）'], expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
@@ -2584,7 +2563,7 @@ const products = [
     desc:'バウムクーヘンを1/4にカットしたサイズが9個入ったセットです。プレーン（ソフト）・プレーン（ハード）・おから豆乳・さつまいもの4種類のフレーバーからお選びいただけます。お中元・お歳暮・お世話になった方への贈り物にぴったりです。',
     ingredients:'各フレーバーの原材料に準ずる',
     allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'1/4カット×9個', size:'1/4カットサイズ×9個',
-    price:3850, salePrice:null, cat:'gift', badge:'new', badgeText:'NEW', stars:5, reviews:28,
+    price:3850, salePrice:null, cat:'gift', badge:'new', badgeText:'NEW',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/01/IMG_4474.jpeg',
     shipping_type:'normal',
     sizes:['9個入りセット（フレーバー指定可）'], expiry:'各商品に準ずる', storage:'直射日光・高温多湿を避け常温保存',
@@ -2596,7 +2575,7 @@ const products = [
     desc:'春の陽気を感じさせる可愛いミモザ柄の缶に入ったクッキーセットです。見た目も可愛く、プレゼントや手土産に大変喜ばれています。お花見や春のギフトシーンにもぴったりです。',
     ingredients:'米粉（佐賀県産）、砂糖、バター、卵、アーモンドパウダー、洋酒',
     allergen:'卵・乳成分・アーモンド', weight:'要確認', size:'ミモザ缶入り',
-    price:700, salePrice:null, cat:'other', badge:'new', badgeText:'NEW', stars:5, reviews:24,
+    price:700, salePrice:null, cat:'other', badge:'new', badgeText:'NEW',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/02/AOI_2808-scaled.jpg',
     shipping_type:'normal',
     sizes:['ミモザ缶1缶'], expiry:'製造日より30日', storage:'直射日光・高温多湿を避け常温保存',
@@ -2608,7 +2587,7 @@ const products = [
     desc:'通常商品と同じ米粉スイーツが、少しだけ「訳あり」でお得に入ったBOXです。形が不揃いだったり、タイミングの都合でアウトレットになっているだけで、品質・美味しさは変わりません。開けるたびにワクワクする詰め合わせ内容で、毎回違うのも魅力。「ちょっと試してみたい」「おやつにぴったり」「自分へのご褒美に」そんな方にぴったりの特別価格BOXです。',
     ingredients:'各商品の原材料に準ずる（米粉バウムクーヘン・バウムクッキー等）',
     allergen:'卵・乳成分・大豆・アーモンド（含む商品あり）', weight:'内容により異なる', size:'BOXサイズ',
-    price:2000, salePrice:null, cat:'outlet', badge:'sale', badgeText:'お得！', stars:5, reviews:31,
+    price:2000, salePrice:null, cat:'outlet', badge:'sale', badgeText:'お得！',
     img:'/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/02/IMG_4485.jpeg',
     imgs:[
       '/api/img-proxy?url=https://xn--gcks1h8a0bzhrc.com/wp-content/uploads/2025/02/IMG_4485.jpeg',
@@ -2721,7 +2700,6 @@ function createCard(p){
         <button class="pcard-fav" onclick="event.stopPropagation();toggleFavCard(${p.id},this)">${favorites.includes(p.id)?'<svg width="16" height="16" style="color:var(--terracotta)"><use href="#ic-heart-filled"/></svg>':'<svg width="16" height="16"><use href="#ic-heart"/></svg>'}</button>
       </div>
       <div class="pcard-body">
-        <div class="pcard-stars">${stars(p.stars)}</div>
         <div class="pcard-name">${p.name}</div>
         <div class="pcard-desc">${p.short}</div>
         <div class="pcard-price-row">${priceHtml}</div>
@@ -2736,7 +2714,7 @@ function renderHome(){
 }
 
 function renderRanking(){
-  const ranked = [...products].sort((a,b)=>b.reviews-a.reviews).slice(0,5);
+  const ranked = [...products].slice(0,5);
   document.getElementById('rankList').innerHTML = ranked.map((p,i)=>{
     const cls=['rn1','rn2','rn3','rnx','rnx'][i];
     const price = p.price === 0 ? 'お問い合わせ' : `¥${(p.salePrice||p.price).toLocaleString()}`;
@@ -2746,7 +2724,7 @@ function renderRanking(){
     return `<div class="rank-item" onclick="showDetail(${p.id})">
       <div class="rank-num ${cls}">${i+1}</div>
       <div class="rank-img" style="overflow:hidden;border-radius:8px">${imgEl}</div>
-      <div class="rank-info"><div class="rank-name">${p.name}</div><div class="rank-star">${stars(p.stars)} ${p.reviews}件のレビュー</div></div>
+      <div class="rank-info"><div class="rank-name">${p.name}</div><div class="rank-star"></div></div>
       <div class="rank-price">${price}</div>
     </div>`;
   }).join('');
@@ -2791,8 +2769,6 @@ function showDetail(id){
   badge.textContent = p.badgeText;
   badge.style.display = p.badgeText ? 'inline-block' : 'none';
   document.getElementById('dTitle').textContent = p.name;
-  document.getElementById('dStars').innerHTML = stars(p.stars);
-  document.getElementById('dRevCnt').textContent = `${p.reviews}件のレビュー`;
 
   const price = p.price === 0 ? 'お問い合わせください' : `¥${(p.salePrice||p.price).toLocaleString()}`;
   document.getElementById('dPrice').textContent = price;
