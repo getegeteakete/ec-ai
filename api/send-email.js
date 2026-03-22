@@ -47,18 +47,14 @@ export default async function handler(req, res) {
   const itemsHtml = (order.items || []).map(it => {
     // カート形式: { name, size, qty, price }
     // Supabase形式: { description, quantity, amount }
-    const itemName = it.name || it.description || '';
-    const itemSize = it.size || '';
-    const itemQty  = it.qty  || it.quantity || 1;
+    const itemQty   = it.qty  || it.quantity || 1;
     const itemPrice = it.price || it.amount || 0;
     const itemTotal = itemPrice * itemQty;
 
-    // 商品名の表示：nameとsizeが別々にある場合はスッキリ表示
-    // description形式の場合はそのまま使用
-    let displayName = itemName;
-    if (it.name && it.size) {
-      displayName = `${it.name}（${it.size}）`;
-    }
+    // 商品名：name優先。なければdescriptionを使用
+    // （）内の補足説明（グラム数・サイズ説明等）は全て除去してシンプルに
+    const rawName = it.name || it.description || '';
+    const displayName = rawName.replace(/（[^）]*）/g, '').trim();
 
     // オプション表示（紙袋・ギフト包装）
     const opts = [
